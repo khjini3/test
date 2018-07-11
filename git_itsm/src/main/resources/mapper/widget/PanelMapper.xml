@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.widget.PanelMapper">
+ 	
+	<insert id="insertPanel" parameterType="com.yescnc.core.entity.db.PanelVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_panel
+		</selectKey>
+		INSERT INTO davis_panel
+			(`id`,`userId`,`panelName`,`widgetData`,`groupId`)
+		VALUES
+			(#{max_id},#{userId},#{panelName},#{widgetData},#{groupId})
+	</insert>
+	
+	<update id="updateByPanelId" parameterType="com.yescnc.core.entity.db.PanelVO">
+		<if test="id != 1">
+		UPDATE davis_panel
+		SET
+			`panelName` = #{panelName},
+			`widgetData` = #{widgetData},
+			`userId` = #{userId}
+		where id = #{id}
+		</if>
+	</update>
+	
+	<update id="updatePolling" parameterType="com.yescnc.core.entity.db.PanelVO">
+		UPDATE davis_panel
+		SET
+			`polling` = #{polling}
+		where 
+			groupId = #{groupId}
+	</update>
+	
+	<select id="selectPanelListAll" parameterType="Integer" resultType="com.yescnc.core.entity.db.PanelVO"> 
+		SELECT 
+			id, userId, panelName, widgetData, groupId
+		FROM davis_panel
+	</select>
+	
+	<select id="selectPanelList" parameterType="String" resultType="com.yescnc.core.entity.db.PanelVO"> 
+		SELECT 
+			id, userId, panelName, groupId
+		FROM davis_panel
+			where groupId = #{groupId}
+		UNION
+		    SELECT 
+				id, userId, panelName, groupId
+			FROM davis_panel
+				where id = 1 
+	</select>
+	
+	<select id="selectPanel" parameterType="com.yescnc.core.entity.db.PanelVO" resultType="com.yescnc.core.entity.db.PanelVO"> 
+		SELECT widgetData FROM davis_panel
+			where id = #{id}
+	</select>
+	
+	<delete id="deleteByPanelId" parameterType="com.yescnc.core.entity.db.PanelVO">
+		<if test="id != 1">
+		DELETE FROM davis_panel
+			where id = #{id}
+		</if>
+	</delete>
+</mapper>

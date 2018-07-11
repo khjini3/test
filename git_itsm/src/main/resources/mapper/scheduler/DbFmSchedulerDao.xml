@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.scheduler.DbFmSchedulerDao">
+
+	<select id="getCurrentHourlyAlarm" parameterType="map" resultType="String">
+		SELECT 
+			date_format(alarm_time, '%m') month
+		FROM
+			davis_fm_t_cur_alarms
+		WHERE level1_id >= -1 AND
+			alarm_time BETWEEN
+							date_format( #{time_format_from}, '%Y-%m-%d %H:%i:%S') AND
+							date_format( #{time_format_to}, '%Y-%m-%d %H:%i:%S')
+		GROUP BY
+		date_format(alarm_time, '%m')
+	</select>
+
+	<select id="getHistoryHourlyAlarm" parameterType="map" resultType="String">
+		SELECT 
+			date_format(alarm_time, '%m') month
+		FROM 
+			davis_fm_t_hist
+		WHERE 
+			level1_id >= -1 AND
+			alarm_time BETWEEN date_format( #{time_format_from}, '%Y-%m-%d %H:%i:%S') AND
+							   date_format( #{time_format_to}, '%Y-%m-%d %H:%i:%S')
+		GROUP BY
+			date_format(alarm_time, '%m')
+	</select>
+
+	<insert id="insFmHourlyAlarms" parameterType="map">
+		INSERT INTO
+				davis_fm_t_hourly_alarms
+			SELECT level1_id, level2_id, level3_id, level4_id, level5_id,
+					level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+					date_format(alarm_time, '%Y-%m-%d %H') alarm_time,
+					severity, alarm_group, alarm_id, sum(gen_count)
+			FROM 
+				davis_fm_t_cur_alarms
+			WHERE
+				level1_id >= -1 AND
+				alarm_time BETWEEN date_format(#{time_format_from}, '%Y-%m-%d %H:%i:%S') AND
+								date_format( #{time_format_to}, '%Y-%m-%d %H:%i:%S')
+			GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id,
+					level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+					date_format(alarm_time, '%Y-%m-%d %H'),
+					severity, alarm_group, alarm_id
+	</insert>
+
+	<insert id="insFmHourlyAlarmsFromHist" parameterType="map">
+		INSERT INTO
+				davis_fm_t_hourly_alarms
+		SELECT 
+				level1_id, level2_id, level3_id, level4_id, level5_id,
+				level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+				date_format(alarm_time, '%Y-%m-%d %H') alarm_time,
+				severity, alarm_group, alarm_id, sum(gen_count)
+		FROM 
+			davis_fm_t_hist
+		WHERE 
+			level1_id >= -1 AND
+			alarm_time BETWEEN date_format( #{time_format_from}, '%Y-%m-%d %H:%i:%S') AND
+			date_format( #{time_format_to}, '%Y-%m-%d %H:%i:%S')
+		GROUP BY 
+			level1_id, level2_id, level3_id, level4_id, level5_id,
+			level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+			date_format(alarm_time, '%Y-%m-%d %H'),
+			severity, alarm_group, alarm_id
+	</insert>
+
+	
+
+	<select id="isDailyAlarmExists" parameterType="map" resultType="String">
+		SELECT 
+			date_format(alarm_time, '%Y-%m-%d') day
+		FROM 
+			davis_fm_t_hourly_alarms
+		WHERE 
+			level1_id >= -1 and
+			alarm_time BETWEEN date_format( #{start_time}, '%Y-%m-%d %H')  AND 
+								date_format( #{end_time}, '%Y-%m-%d %H')
+		GROUP BY date_format(alarm_time, '%Y-%m-%d')
+	</select>
+
+	<insert id="insDailyAlarm" parameterType="map">
+		INSERT INTO
+				davis_fm_t_daily_alarms
+			SELECT level1_id, level2_id, level3_id, level4_id,level5_id,
+					level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+					date_format(alarm_time, '%Y-%m-%d'), severity, alarm_group, alarm_id, sum(count)
+			FROM 
+				davis_fm_t_hourly_alarms
+			WHERE level1_id >= -1 AND
+					alarm_time BETWEEN date_format (#{start_time},'%Y-%m-%d %H') AND 
+									   date_format (#{end_time}, '%Y-%m-%d %H') 
+			GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id,	level6_id, level7_id,
+						level8_id, level9_id, level10_id, lloc,
+						date_format(alarm_time,'%Y-%m-%d'), severity, alarm_group, alarm_id
+	</insert>
+
+
+
+	<select id="isMonthlyAlarmExists" parameterType="map"  resultType="String">
+		SELECT date_format(alarm_time, '%Y-%m') month
+		FROM
+				davis_fm_t_daily_alarms
+		WHERE level1_id >= -1 AND
+				alarm_time BETWEEN  date_format (#{start_time}, '%Y-%m-%d')  AND 
+									date_format (#{end_time}, '%Y-%m-%d') 
+		GROUP BY date_format(alarm_time, '%Y-%m')
+	</select>
+
+	<insert id="insMonthlyAlarm" parameterType="map">
+		INSERT INTO
+				davis_fm_t_monthly_alarms
+		SELECT level1_id, level2_id, level3_id, level4_id, level5_id,
+				level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+				date_format(concat(date_format(alarm_time,'%Y-%m'),'-01'),'%Y-%m-%d') alarm_time,
+				severity, alarm_group, alarm_id, sum(count)
+		FROM
+				davis_fm_t_daily_alarms
+		WHERE level1_id >= -1 AND
+				alarm_time BETWEEN  date_format(#{start_time},'%Y-%m-%d')  AND   
+									date_format(#{end_time},'%Y-%m-%d') 
+		GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id,
+				  level6_id, level7_id, level8_id, level9_id, level10_id, lloc,
+				  date_format(concat(date_format(alarm_time,'%Y-%m'),'-01'),'%Y-%m-%d'),
+				  severity, alarm_group, alarm_id
+	</insert>
+
+
+
+	<select id="getFmPartitionNum" parameterType="map" resultType="Integer">
+		SELECT TO_DAYS( #{strTimeFormat} ) % 64 )
+	</select>
+
+
+	<update id="turncateFmNextPartion" parameterType="map">
+		ALTER TABLE
+				davis_fm_t_hist
+		TRUNCATE PARTITION ${strTrunPartitionName}
+	</update>
+
+
+	<delete id="deleteFmHistoryData" parameterType="map">
+		DELETE   
+		FROM 
+			davis_fm_t_hist
+		WHERE alarm_time &lt; #{strDate}
+	</delete>
+
+
+	<delete id="deleteFmCurAlarmsNeDeleted" parameterType="map">
+		DELETE
+		FROM 
+			davis_fm_t_cur_alarms
+		WHERE 
+			level3_id IN 
+			(
+				SELECT level3_id
+				FROM 
+					davis_common_t_deleted_ne_list
+				WHERE level3_id > 0
+			)
+	</delete>
+
+	<delete id="deleteFmCurAlarmsMSDeleted" parameterType="map">
+		DELETE
+		FROM 
+			davis_fm_t_cur_alarms
+		WHERE 
+			level3_id = -1 AND level2_id = -1 AND 
+			level1_id IN 
+			( 
+				SELECT 
+					level1_id
+				FROM 
+					davis_common_t_deleted_ne_list
+				WHERE 
+					level3_id = -1 AND level2_id = -1 AND level1_id > 0 
+			)
+	</delete>
+
+	<update id="turncateFmPartion" parameterType="map">
+		ALTER TABLE
+		<choose>
+			<when test="jobType == 1">
+				davis_fm_t_cur_alarms
+			</when>
+			<when test="jobType == 2">
+				davis_fm_t_hourly_alarms
+			</when>
+			<when test="jobType == 3">
+				davis_fm_t_daily_alarms
+			</when>
+			<when test="jobType == 4">
+				davis_fm_t_monthly_alarms
+			</when>
+		</choose>
+		TRUNCATE PARTITION ${partionName}
+	</update>
+
+
+</mapper>

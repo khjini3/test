@@ -1,0 +1,182 @@
+/*! gridster.js - v0.6.10 - 2015-05-31
+* https://dsmorse.github.io/gridster.js/
+* Copyright (c) 2015 ducksboard; Licensed MIT */
+h1,
+h2,
+h3,
+ {
+  margin: 10px;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.demo {
+  margin: 3em 0;
+  padding: 7.5em 0 5.5em;
+  background: #26941f;
+}
+.demo:hover .gridster {
+  margin: 0 auto;
+  opacity: .8;
+  -webkit-transition: opacity .6s;
+  -moz-transition: opacity .6s;
+  -o-transition: opacity .6s;
+  -ms-transition: opacity .6s;
+  transition: opacity .6s;
+}
+
+.gridster .gs-w {
+  background-color: rgba(2, 15, 39, 0.6);
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.gridster .player {
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  background: rgba(2, 15, 39, 0.6);/* #BBB */
+}
+.gridster .gs-w.try {
+  background-image: url(../img/sprite.png);
+  background-repeat: no-repeat;
+  background-position: 37px -169px;
+}
+.gridster .preview-holder {
+  border: none !important;
+  border-radius: 0 !important;
+  background: red !important;
+}
+
+.gridster li {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  line-height: 100%;
+}
+ul {
+  list-style-type: none;
+}
+/* 'Dashboard' 클릭 시 메뉴 글씨체 굵어짐. */
+/* li:not(.jqtree_common) {
+  list-style: none;
+  font-weight: bold;
+} */
+.gridster-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.controls {
+  margin-bottom: 20px;
+}
+.fxs-theme-blue {
+    /* background-color: #2e80ab !important; */
+    background-color: rgba(46, 128, 171, 0) !important;
+}
+
+.fxs-flowlayout-resolutionguide {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    box-sizing: border-box;
+    color: #fff;
+    border-color: #fff;
+    opacity: 0.7;
+    border-width: 1px;
+    border-right-style: dashed;
+    border-bottom-style: dashed;
+    pointer-events: none;
+    font-family: az_ea_font,wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-size: 13px;
+    line-height: normal;
+}
+
+
+.fxs-flowlayout-resolutionguide::after {
+	position: absolute;
+	right: 8px;
+	bottom: 5px
+}
+
+.fxs-flowlayout-resolutionguide-1024x768 {
+	height: 768px;
+	width: 1024px
+}
+
+.fxs-flowlayout-resolutionguide-1024x768::after {
+	content: "1024 x 768"
+}
+
+.fxs-flowlayout-resolutionguide-1366x768 {
+	height: 768px;
+	width: 1366px
+}
+
+.fxs-flowlayout-resolutionguide-1366x768::after {
+	content: "1366 x 768"
+}
+
+.fxs-flowlayout-resolutionguide-1440x900 {
+	height: 900px;
+	width: 1440px
+}
+
+.fxs-flowlayout-resolutionguide-1440x900::after {
+	content: "1440 x 900"
+}
+
+.fxs-flowlayout-resolutionguide-1920x1080 {
+/* 	height: 1080px;
+	width: 1920px; */
+	height: calc(100% - 38px);
+	width: 100%;
+	background: url(../../img/dashboard/FlowLayout_gridShadow.png);
+}
+
+.fxs-flowlayout-resolutionguide-1920x1080::after {
+	/* content: "1920 x 1080" */
+}
+
+.fxs-flowlayout-resolutionguide-3840x2160 {
+	height: 2160px;
+	width: 3840px
+}
+
+.fxs-flowlayout-resolutionguide-3840x2160::after {
+	content: "3840 x 2160"
+}
+
+.task-card-list {
+/*     
+    width: 3865px;
+    height : 2155px;
+    min-height: 2155px;
+    
+    min-width: 1850px;
+    min-height: 1080px;
+    width: 1850px;
+    height: 1080px; */
+/*     min-width: 1850px;
+    min-height: 1080px; */
+    width: 100%;
+    height: calc(100% - 16px);
+    padding-left: 0px !important;
+}
+
+
+.task-card-list {
+	/* 
+   background: url(../../img/dashboard/FlowLayout_gridShadow.png);
+    */
+   background-position :  5px 5px;
+}
+
+.task-card {
+    padding-left: 0px;
+    background: greenyellow;
+}
+
+.fxs-flowlayout-resolutionguide {
+	display: none;
+}

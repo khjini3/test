@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.security.PrivilegeMapper">
+
+	<sql id="Column_List">
+		id, name
+	</sql>
+
+	<insert id="insertPrivilege" parameterType="com.yescnc.core.entity.db.PrivilegeVO">
+		 insert into davis_privilege (id, name)
+    	values (#{id}, #{name})
+	</insert>
+
+	<select id="selectPrivilege" parameterType="com.yescnc.core.entity.db.PrivilegeVO"
+		resultType="com.yescnc.core.entity.db.PrivilegeVO">
+		select
+		<include refid="Column_List" />
+		from davis_privilege 
+		<if test="_paramter != null">
+			where id = #{id}
+		</if>
+	</select>
+
+	<delete id="deleteByPrivilegeId" parameterType="com.yescnc.core.entity.db.PrivilegeVO">
+		delete from davis_privilege
+		<if test="_parameter != null">
+			where id = #{id}
+		</if>
+	</delete>
+</mapper>

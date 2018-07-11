@@ -1,0 +1,621 @@
+{
+	"title" :{
+		"main" : {
+		    "normal" : "YESCNC" ,
+			"small" : "YES"
+		},
+		"report" : {
+			"info" : "Information",
+			"create_popup" : "Add Report",
+			"edit_popup" : "Edit Report"
+		},
+		"user" : {
+			"info" : "Information",
+			"addUser" : "Add User",
+			"editUser" : "Edit User",
+			"confirm" : "Confirm",
+			"ipAdd_popup" : "Add Ip",
+			"ipEdit_popup" : "Edit Ip",
+			"information" : "Information",
+			"user_id" : "USER ID",
+			"privilege" : "Role",
+			"status" : "Status",
+			"create_time" : "Create Time",
+			"login_status" : "Login Status",
+			"last_login_time" : "Last Login Time",
+			"last_login_ip" : "Last Login IP"
+		},
+		"loginhistory" : {
+			"login_id" : "Login ID",
+			"ip_address" : "IP Address",
+			"login_time" : "Login Time",
+			"logout_time" : "Logout Time",
+			"result" : "Result",
+			"fail_reason" : "Fail Reason",
+			"logout_reason" : "Logout Reason"
+		},
+		"ipmanager" : {
+			"allow" : "Login Allow",
+			"description" : "Description"
+		},
+		"operationhistory" : {
+			"login_id" : "Login ID",
+			"user_name" : "User Name",
+			"ip_address" : "IP Address",
+			"category" : "Category",
+			"type" : "Type",
+			"command" : "Command",
+			"request_time" : "Request Time",
+			"response_time" : "Response Time",
+			"result" : "Result",
+			"fail_reason" : "Fail Reason",
+			"userId" : "USER ID"
+		},
+		"login" : {
+			"rootAdd_popup" : "Root Registration"
+		},
+		"dashboard" : {
+			"widgetList" : "Widget List",
+			"deletePopup" : "Delete Panel",
+			"kpi" : "KPI",
+			"custom" : "Custom"
+		},
+		"sla" : {
+			"info" : "Information",
+			"addSla" : "Add SLA",
+			"editSla" : "Edit SLA"
+		},
+		"currentAlarm" : {
+			"info" : "Information"
+		},
+		"eventhistory" : {
+			"ack_type" : "Ack Type",
+			"severity" : "Grade",
+			"alarm_id" : "Code",
+			"location" : "Location",
+			"probable_cause" : "Probable Cause",
+			"alarm_time" : "Alarm Time",
+			"clear_time" : "Clear Time",
+			"clear_type" : "Clear Type",
+			"ack_user" : "Ack User",
+			"info" : "Information"
+		},
+		"groupNotification" : {
+			"info" : "Information",
+			"addGroup" : "Add Group",
+			"addTarget" : "Add Target",
+			"addUser" : "Add User"
+		},
+		"userNotification" : {
+			"info" : "알림",
+			"addTarget" : "Add Target",
+			"addUser" : "Add User"
+		},
+		"kpi" : {
+			"info" : "Information",
+			"addKpi" : "Add KPI",
+			"editKpi" : "Edit KPI"
+		},
+		"codeManager" : {
+			"info" : "Information",
+			"addCode" : "Create New Code"
+		},
+		"locationManager" : {
+			"addLocation" : "Create New Location"
+		},
+		"modelManager" : {
+			"info" : "Information"
+		},
+		"modelMapping" : {
+			"info" : "Information"
+		},
+		"assetManager" : {
+			"info" : "Information",
+			"addAsset" : "Add Asset",
+			"editAsset" : "Edit Asset",
+			"import" : "Import"
+		},
+		"assetMapping" : {
+			"info" : "Information"
+		},
+		"assetHistory" : {
+			"info" : "Information",
+			"userId" : "USER ID"
+		},
+		"assetStatus" : {
+			"info" : "Information"
+		},
+		"symbolManager" : {
+			"info" : "Information",
+			"addSymbol" : "Add Symbol",
+			"editSymbol" : "Edit Symbol",
+			"svgTextEditor" : "SVG Text Editor"
+		},
+		"davisMonitor" : {
+			"detailInfo" : "Detail Info"
+		},
+		"roleManager" : {
+			"info" : "Information",
+			"addGroup" : "Add Group",
+			"editGroup" : "Edit Group",
+			"addAssignedUser" : "Add Assigned User",
+			"createNewMenu" : "Create New Menu"
+		},
+		"tickerManager" : {
+		"info" : "Information",
+		"addTicker" : "Add Ticker",
+		"editTicker" : "Edit Ticker"
+		},
+		"estimate" : {
+			"info" : "Information",
+			"registerEstimate" : "Register Estimate",
+			"editEstimate" : "Edit Estimate",
+			"siteList" : "Site List",
+			"productList" : "Product List",
+			"modelManager" : "Model Manager",
+			"emailSend" : "E-mail",
+			"estimate" : "Estimate",
+			"addEstimate" : "Add Estimate"
+		}
+	},
+	"menu" : {
+		"dashbaord" : "Dashboard"
+	},
+	"button" :{
+		"dashboard" :{
+			"full_screen_start" : "Full Screen",
+			"full_screen_stop" : "Normal Screen"
+		},
+		"user" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"done" : "Done"
+		},
+		"report" : {
+			"save" : "Save",
+			"execute" : "Execute",
+			"cancel" : "Cancel",
+			"add" : "Create",
+			"edit" : "Edit",
+			"delete" : "Delete",
+			"refresh" : "Refresh",
+			"search" : "Search",
+			"history" : "History",
+			"allhistory" : "All History",
+			"download" : "Download",
+			"preview" : "Preview",
+			"close" : "Close",
+			"confirm" : "Confirm"
+		},
+		"sla" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"currentAlarm" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"eventhistory" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"search" : "Search"
+		},
+		"groupNotification" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"userNotification" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"kpi" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"operationhistory" : {
+			"done" : "Done",
+			"search" : "Search"
+		},
+		"codeManager" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"locationManager" : {
+			"done" : "Done"
+		},
+		"modelManager" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"assetManager" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"assetMapping" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"assetHistory" : {
+			"done" : "Done",
+			"search" : "Search"
+		},
+		"assetStatus" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"search" : "Search"
+		},
+		"symbolManager" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"preview" : "Preview"
+		},
+		"roleManager" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"ok" : "OK"
+		},
+		"tickerManager" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"davisMonitor" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel"
+		},
+		"estimate" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"search" : "Search",
+			"next" : "Next",
+			"prev" : "Prev",
+			"preview" : "Preview",
+			"email" : "Email",
+			"estimateAdd" : "Add Estimate"
+		},
+		"order" : {
+			"save" : "Save",
+			"close" : "Close",
+			"confirm" : "Confirm",
+			"cancel" : "Cancel",
+			"search" : "Search",
+			"next" : "Next",
+			"prev" : "Prev",
+			"attachment" : "Attachment",
+			"preview" : "Preview",
+			"email" : "Email"
+		}
+	},
+	"label" :{
+		"user" : {
+			"locale_ko" : "Kor",
+			"locale_en" : "Eng",
+			"password_discrepancy" : "Password and Re-Password do not match. Please check again.",
+			"notSelect_editItem" : "The item you want to edit is not selected. Please select an item.",
+			"delete_confirm" : "The data will be deleted. Do you want to proceed?",
+			"notSelect_deleteItem" : "The item you want to delete is not selected. Please select an item.",
+			"logout" : "Are you sure you want to sign out?",
+			"notSelect_logout" : "The item you want to sign out is not selected or is not signed in.",
+			"duplicate_userid" : "The same ID exists. Please try again.",
+			"duplicate_ipAddress" : "The same IP address exists. Please try again.",
+			"noData" : "The data does not exist.",
+			"ipValidate" : "IP Address is not entered or input format is not correct.",
+			"password_discrepancy_failReason" : "Password discrepancy",
+			"same_sessionlogged" : "Attempting to sign in with the current identity",
+			"notexists_loginid" : "Try signing in with a nonexistent ID",
+			"notexists_loginip" : "Attempt to login with a nonexistent IP",
+			"denyed_userid" : "Attempt to sign in as a denied user",
+			"denyed_ipaddr" : "Attempt to sign in with a rejected IP",
+			"information_discrepancy" : "User information discrepancy",
+			"logout_useraction" : "Logout by user",
+			"logout_timeout" : "Logout due to timeout",
+			"valid_userid" : "ID can be entered from 4 to 20 characters.",
+			"valid_password" : "Passwords can be from 8 to 15 characters in upper, lower case, numeric, and special character combinations.",
+			"valid_repassword" : "Passwords can be from 8 to 15 characters in upper, lower case, numeric, and special character combinations.",
+			"result_success" : "Sucess",
+			"result_fail" : "Fail",			
+			"allowance_allow" : "Allow",
+			"allowance_deny" : "Deny",
+			"info" : "My Information Management",
+			"signout" : "Log out",
+			"logout_adminaction" : "Logout by administrator",
+			"admin_logout_action" : "You have been signed out by an administrator.",
+			"login_status" : "Enabled",
+			"logout_status" : "Disabled",
+			"enabled_status" : "Enabled",
+			"disabled_status" : "Disabled",
+			"lock_status" : "Lockout",
+			"add_popup_password" : "Password",
+			"add_popup_repassword" : "Re-Password",
+			"add_popup_privilege" : "Role",
+			"add_popup_username" : "User Name",
+			"add_popup_email" : "E-mail",
+			"add_popup_phone" : "Phone",
+			"security" : "Security",
+			"admin" : "Admin",
+			"user" : "User",
+			"add_popup_alarm" : "Receiving",
+			"add_popup_group" : "Level",
+			"alarm_on" : "on",
+			"alarm_off" : "off",
+			"state_all" : "all",
+			"state_critical" : "critical",
+			"state_major" : "major",
+			"state_minor" : "minor",
+			"select_alarm_severity" : "The alarm level is not selected. Please select an alarm level.",
+			"no_input_userId" : "Please enter your ID.",
+			"no_input_password" : "Please enter a password.",
+			"no_match_password" : "Passwords do not match.",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"changedContents" : "Changed.",
+			"noSelectedItem" : "No items selected."
+		},
+		"login" : {
+			"information_discrepancy" : "Your information does not match. Please verify your information.",
+			"same_session_logged" : "An attempt was made to log in with the ID of the connection status.",
+			"disconnect_server" : "I can not connect to the server. Please check the status of the server."
+		},
+		"report" :{
+			"period_error" : "The date range is incorrect.",
+			"condition_noselected" : "Please select at least one condition.",
+			"start_hour_error" : "Start time is from 0 to 23.",
+			"start_min_error" : "Start minutes is from 0 to 59.",
+			"hour_error" : "The time period is from 1 to 23",
+			"day_error" : "The day period is from 1 to 31",
+			"month_error" : "The month period is from 1 to 12",
+			"week_error" : "Please select at least one day",
+			"nodata" : "The data does not exist.",
+			"row_noselected" : "Please select a report.",
+			"delete_confirm" : "Delete the report.",
+			"delete_fail" : "The report has not been deleted.",
+			"state_change_fail" : "The status value has not been changed.",
+			"title_error" : "Please enter a title within 20 characters",
+			"storage_range_error" : "Storage cycle is from 1 to 99",
+			"type" : "Type",
+			"title" : "Title",
+			"schedule_start" : "Start time",
+			"schedule_end" : "End time",
+			"scheduling" : "Scheduling",
+			"state" : "State",
+			"history" : "History",
+			"run_date" : "Run date",
+			"download" : "Download",
+			"preview" : "Preview"
+		},
+		"dashboard": {
+			"panel_delete" : "The panel is deleted. Do you want to proceed?",
+			"panel_no_delete" : "You can not delete a panel if you have only one panel.",
+			"screenAtt" : "The D.A.VI.S Dashboard is optimized for 1920 x 1080 resolution."
+		},
+		"kpi" : {
+			"title": "Title",
+			"query":"Query",
+			"polling":"Polling",
+			"threshold": "Threshold",
+			"all_fields": "All fields",
+			"keys": "Keys",
+			"values": "Values",
+			"description": "Description",
+			"result": "Result",
+			"title_msg": "No title entered.",
+			"query_msg": "No query entered.",
+			"polling_msg": "No polling cycle entered.",
+			"notSelect_deleteItem" : "no select for delete",
+			"delete_confirm" : "Delete the Kpi.",
+			"selected" : "선택된 ",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"noSelectedItem" : "No items selected.",
+			"itemDelete" : "개의 항목이 삭제 되었습니다.",
+			"alreadyExistDashboard" : "A value exists in the dashboard."
+		},
+		"projectManager" : {
+			"title" : "Title",
+			"scheduleStart" : "Start time",
+			"scheduleEnd" : "End time",
+			"state" : "State"
+		},
+		"sla": {
+			"validation_message" : "No value was entered or an invalid value was entered.",
+			"severityNotSet" : "No ratings set. Please check again.",
+			"notSelect_editItem" : "The item you want to edit is not selected. Please select an item.",
+			"delete_confirm" : "The data will be deleted. Do you want to proceed?"
+		},
+		"currentAlarm" : {
+			"ackTypeEdit" : "Do you want to change Ack Type?"
+		},
+		"eventhistory": {
+			"ack" : "Ack",
+			"unack" : "Unack",
+			"eventStatus" : "STATUS",
+			"eventFault" : "FAULT",
+			"eventCritical" : "CRITICAL",
+			"eventMajor" : "MAJOR",
+			"eventMinor" : "MINOR",
+			"eventWarning" : "WARNING",
+			"eventIndeterminate" : "INDETERMINATE",
+			"clearTypeFail" : "Fail",
+			"clearTypeUnclear" : "Unclear",
+			"clearTypeAuto" : "Auto",
+			"clearTypeManual" : "Manual",
+			"clearTypeAudit" : "Audit",
+			"clearTypeInit" : "Init",
+			"clearTypeNoDeclared" : "No declared",
+			"clearTypeAlreadExistDeclared" : "Already exist declared",
+			"notAck" : "You have not selected an item or selected it incorrectly. Please select Unack item in alarm status.",
+			"notUnack" : "You have not selected an item or selected it incorrectly. Please select the Ack item of alarm status.",
+			"ackTypeEdit" : "Do you want to change Ack Type?"
+		},
+		"groupNotification" : {
+			"errorContents" : "There was a temporary error.",
+			"alreadyExistGroup" : "Already Exist Group Name.",
+			"editItem" : "Are you sure you want to edit this item?",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"groupDelete" : "Removed.",
+			"confirmRegistration" : "Would you like to register?",
+			"editComplete" : "It is changed.",
+			"addComplete" : "Registered.",
+			"notChanedWhenCanceled" : "The contents are not changed when canceled."
+		},
+		"userNotification" : {
+			"errorContents" : "There was a temporary error.",
+			"confirmRegistration" : "Would you like to register?",
+			"addComplete" : "Registered.",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"Delete" : "Removed."
+		},
+		"codeManager": {
+			"noChangeedContents" : "No changes have been made.",
+			"changedContents" : "Changed.",
+			"errorContents" : "There was a temporary error.",
+			"noSelectedItem" : "No items selected.",
+			"canNotEditedItem" : "This item can not be edited.",
+			"canNotDeletedItem" : "This item can not be deleted.",
+			"sublistExists" : "A sub-list exists in the selected code.",
+			"delete" : "Are you sure you want to delete?",
+			"deleteAll" : "Are you sure you want to delete everything?",
+			"codeDelete" : "건 코드가 삭제 되었습니다.",
+			"add" : "Added.",
+			"notChanedWhenCanceled" : "The contents are not changed when canceled."
+		},
+		"locationManager" : {
+			"delete" : "Are you sure to delete the selected location?",
+			"save" : "Are you sure to save this location?"
+		},
+		"modelManager" : {
+			"noChangeedContents" : "No changes have been made.",
+			"notChanedWhenCanceled" : "The contents are not changed when canceled.",
+			"successSave" : "The data has been saved normall.",
+			"errorContents" : "There was a temporary error.",
+			"noSelectedItem" : "No items selected."
+		},
+		"modelMapping" : {
+			"applySuccess" : "The model has been applied.",
+			"errorContents" : "There was a temporary error.",
+			"reTry" : "Please try again."
+		},
+		"assetManager": {
+			"noChangeedContents" : "No changes have been made.",
+			"aladyExistsID" : "This ID already exists.",
+			"noSelectedItem" : "No items selected.",
+			"selected" : "선택된 ",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"itemAdded" : " Add Success.",
+			"id" : "ID는",
+			"inUse": "에서 사용 중 입니다.",
+			"errorData" : "Invalid data or transient error.",
+			"contactAdministrator" : "Please contact your administrator.",
+			"itemDelete" : "개의 항목이 삭제 되었습니다.",
+			"errorContents" : "There was a temporary error.",
+			"editFinished" : "Your edit is complete.",
+			"exportConfirm" : "개의 항목을 Export 하시겠습니까?" ,
+			"noCSVFile" : "This is not a csv file.",
+			"importComplete" : "Import Complete.",
+			"noDataImport" : "No data to Import.",
+			"unableRead" : "Unable to read the file."
+		},
+		"assetMapping" : {
+			"notChanedWhenCanceled" : "The contents are not changed when canceled.",
+			"noSelectedItem" : "No items selected.",
+			"successSave" : "The data has been saved normall.",
+			"errorContents" : "There was a temporary error.",
+			"noChangeedContents" : "No changes have been made."
+		},
+		"assetHistory" : {
+			"noSelectDate" : "Please select date."
+		},
+		"assetStatus" : {
+			"exportConfirm" : "개의 항목을 Export 하시겠습니까?" ,
+			"noSelectDate" : "Please select date."
+		},
+		"symbolManager" : {
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"oneSelectSymbol" : "Please select only one symbol.",
+			"alreadyExistSymbol" : "The same symbol name exists.",
+			"addSymbol" : "Symbol added.",
+			"errorContents" : "There was a temporary error.",
+			"reTry" : "Please try again.",
+			"applySuccess" : "Symbol applied."
+		},
+		"idc" : {
+			"innerAssetList" : "실장 장비 리스트"
+		},
+		"roleManager": {
+			"selected" : "선택된 ",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"alreadyExistGroup" : "Already Exist Group Name.",
+			"noSelectedItem" : "No items selected.",
+			"changedContents" : "Changed.",
+			"notChanedWhenCanceled" : "The contents are not changed when canceled.",
+			"alreadyExistMenu" : "Already Exist Menu ID.",
+			"itemAdded" : " Add Success.",
+			"errorContents" : "There was a temporary error.",
+			"subMenuExists" : "A sub-Menu exists in the selected menu.",
+			"deleteAll" : "Are you sure you want to delete everything?",
+			"delete" : "Are you sure you want to delete?",
+			"menuDelete" : "Delete Success.",
+			"noSelect_applyGroup" : "Please select a group to apply.",
+			"noChangeedContents" : "No changes have been made."
+		},
+		"tickerManager" : {
+			"noChangeedContents" : "No changes have been made.",
+			"noSelectedItem" : "No items selected.",
+			"selected" : "선택된 ",
+			"selectedItemDelete" : "개의 항목을 삭제 하시겠습니까?",
+			"errorData" : "Invalid data or transient error.",
+			"contactAdministrator" : "Please contact your administrator.",
+			"itemDelete" : "개의 항목이 삭제 되었습니다.",
+			"errorContents" : "There was a temporary error.",
+			"editFinished" : "Your edit is complete.",
+			"endDateConfirm" : "Please check the notification end date again.",
+			"applySuccess" : "Successfully applied"
+		},
+		"estimate" : {
+			"saveConfirm" : "Do you want to save it?",
+			"successSave" : "The data has been saved normall.",
+			"savePreview" : "Auto save and preview will be executed. Do you want to continue?",
+			"noChangeedContents" : "No changes have been made.",
+			"selectedItemDelete" : "Are you sure you want to delete the selected items?",
+			"addEstimateConfirm" : "Do you want to add a estimate to this project?",
+			"sendMailConfirm" : "Auto save and send mail will be executed. Do you want to continue?",
+			"noProduct" : "Please select a product."
+		}
+	},
+	"image" : {
+		"defaultPage" : {
+			"pagePath" : "dist/img/default/error_page_en.png"
+		}
+	}
+}

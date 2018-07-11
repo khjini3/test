@@ -1,0 +1,286 @@
+@CHARSET "UTF-8";
+
+#siteManager .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#siteManager .contentsCls > div {
+	z-index: 98;
+}
+
+#siteManager div#companyMainContents {
+	width : 100%;
+	padding : 0px 0px 0px 10px;
+}
+
+#siteManager div#defectSearchBottom {
+	width : 100%;
+	height : calc(10vh - 8px);
+}
+
+#siteManager #defectSearchBottom .search-options.border {
+	width: 435px; 
+	float: left; 
+	margin-left: 0px;
+    border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+#siteManager #defectSearchBottom .search-options {
+	width: 435px; 
+	float: left; 
+	margin-left: 0px;
+}
+
+#siteManager div#customerMainTop,
+#siteManager div#companyMainTop {
+	width : 100%;
+	height : 5px;
+	padding: 4px 0px 0px 10px;
+}
+
+#siteManager div#customerMainTop .align-left-btn,
+#siteManager div#companyMainTop .align-left-btn {
+	float : left;
+}
+
+#siteManager .dashboard-panel .dashboard-title .align-right-btn {
+	float : right;
+}
+
+#siteManager div#customerMainTop .align-left-btn span,
+#siteManager div#companyMainTop .align-left-btn span {
+	position : relative;
+    bottom : 8px;
+}
+
+#siteManager #manager {
+	cursor : pointer;
+	background-color : rgba(255, 255, 255, 0.1);
+}
+
+#siteManager .manager-list {
+	width : 25px !important;
+    position : relative;
+    top: 4px;
+    float : left;
+    color : white;
+}
+
+/* SVG ICON */
+#siteManager svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#siteManager svg.link.icon {
+	cursor: pointer;
+}
+
+#siteManagerfect svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-left: 8px; */
+}
+
+#siteManager .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	/* padding-top:2px; */
+}
+
+#siteManager #codeMgrSaveBtn.svg-inline--fa.fa-w-14 {
+	width:0.975em;
+	padding-top:2px;
+}
+
+#siteManager .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:2px;
+}
+
+/* Disabled SVG ICON */
+#siteManager svg.icon{
+	//color: #8e8c8c;
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#siteManager svg.icon{
+	cursor: default;
+}
+
+#siteManager .w2ui-form .w2ui-page {
+	/*position: relative;*/
+	padding : 0px;
+}
+
+#siteManager #rightBottomContents .disableClass {
+    width: 96%;
+    height: 84%;
+    position: absolute;
+    bottom: 0px;
+}
+
+#siteManager div#rightTopContents,
+#siteManager div#rightBottomContents {
+	padding : 4px 10px 0px 0px;
+}
+
+#siteManager div#companyMainBottom {
+	width : 100%;
+	height : calc(100vh - 142px);
+}
+
+#siteManager div#customerMainContents {
+	width:100%; 
+    height: calc(100vh - 83px);
+	padding-left: 10px;	
+}
+
+#siteManager div#companyDetailInfo {
+	overflow : auto;
+	height : calc(25vh - 84px);
+}
+
+#siteManager div#customerMainBottom {
+	width : 100%;
+	height : calc(75vh - 126px);
+}
+
+#siteManager label.company_name,
+#siteManager label.company_registration_number,
+#siteManager label.area,
+#siteManager label.address {
+	width : 100px;
+}
+
+#siteManager label.ceo_name,
+#siteManager label.phone,
+#siteManager label.fax {
+	width : 100px;
+}
+
+#siteManager input#company_name,
+#siteManager input#company_registration_number,
+#siteManager input#area {
+	width : 100%;
+}
+
+#siteManager input#ceo_name,
+#siteManager input#phone,
+#siteManager input#fax {
+	width : 100%;
+}
+
+#siteManager input#address,
+#siteManager input#note {
+	width: 100%;
+}
+
+/* Menu List Checkbox */
+#siteManager #companyMainBottom .menu-tree-checkbox {
+	float: left;
+	margin: 0px 4px 0px 0px;
+	pointer-events: none;
+}
+
+#siteManager #companyMainBottom .menu-tree-checkbox.check-x {
+	pointer-events: none;
+}
+
+#siteManager #companyMainBottom .menu-tree-checkbox {
+	pointer-events: auto;
+}
+
+#siteManager #companyMainBottom .w2ui-node-group {
+   display: none;
+}
+
+#siteManager .w2ui-sidebar .w2ui-sidebar-div {
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#siteManager .w2ui-form-box {
+	overflow : auto;
+}
+
+#companyPopupContents div#customerListResult,
+#companyEdotPopupContents div#customerEditListResult {
+	padding: 3px;
+    margin-bottom: 3px;
+}
+
+#customerPopupContents div#customerListResultBottom,
+#customerEditPopupContents div#customerEditListResultBottom {
+	width : 100%;
+	height : 212px;
+}
+
+#customerPopupContents .customer-btn,
+#customerEditPopupContents .customer-btn {
+	float : right;
+}
+
+#siteManager svg.icon.link, #customerPopupContents svg.icon.link, #doublePopup svg.icon.link,
+#siteManager svg.icon.link, #customerEditPopupContents svg.icon.link, #doublePopup svg.icon.link {
+    color: white;
+    opacity: .5;
+}
+
+#customerPopupContents .svg-inline--fa.fa-w-14,
+#customerEditPopupContents .svg-inline--fa.fa-w-14 {
+    padding: 3px 3px 2px 2px;
+}
+
+.company-field::before,
+.customer-field::before {
+    content: '*';
+    position: absolute;
+    margin-top: 7px;
+    margin-left: -11px;
+    color: #ff525a;
+}
+
+#siteManager .w2ui-field > div {
+    margin-bottom: 3px;
+    margin-left: 128px;
+    padding: 2px 3px 2px 3px;
+    min-height: 28px;
+    float: none;
+}
+
+/* SVG ICON */
+#siteManager svg.icon.link:hover,
+#customerPopupContents svg.icon.link:hover,
+#customerEditPopupContents svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#siteManager svg.link.icon,
+#customerPopupContents svg.link.icon,
+#customerEditPopupContents svg.link.icon {
+	cursor: pointer;
+}
+
+#siteManager svg.icon.link,
+#customerPopupContents svg.icon.link,
+#customerEditPopupContents svg.icon.link {
+	color: white;
+	opacity: .5;
+	padding: 0px 5px 7px 5px;
+}
+
+/* Disabled SVG ICON */
+#siteManager svg.icon,
+#customerPopupContents svg.icon,
+#customerEditPopupContents svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+}
+
+#siteManager svg.icon,
+#customerPopupContents svg.icon,
+#customerEditPopupContents svg.icon {
+	cursor: default;
+}

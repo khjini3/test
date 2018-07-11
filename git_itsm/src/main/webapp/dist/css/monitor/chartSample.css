@@ -1,0 +1,32 @@
+.chart-comp {
+	width : 50%;
+	height : 50%;
+	float: left;
+}
+.chart-area {
+	width : 100%;
+	height : 85%;
+}
+.chart-title {
+    padding: 25 5 5 5;
+    height: 15%;
+}
+.chart-top, .chart-bottom {
+	width : 100%;
+	height : 50%;
+	float: left;
+}
+.chart-full {
+	width : 100%;
+	height : 100%;
+	float: left;
+}
+.chart-left, .chart-right {
+	width : 50%;
+	height : 100%;
+	float: left;
+}
+.chart-left-top, .chart-left-bottom {
+	width : 100%;
+	height : 50%;
+} 

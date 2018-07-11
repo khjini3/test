@@ -1,0 +1,309 @@
+@CHARSET "UTF-8";
+
+#estimate .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#estimate .contentsCls > div {
+	z-index: 98;
+}
+
+/* W2UI Field CSS */
+#estimate * .w2ui-field > label {
+	width: 80px;
+}
+
+#estimate .w2ui-field > div {
+    margin-left: 80px;
+}
+
+#estimate .w2ui-field.email div:nth-child(2) {
+  	width: 28%;
+	float: left;
+	margin-left: 15px;
+}
+
+/* Contents CSS */
+#estimate div#searchContents,
+#estimate div#mainContents {
+	width : 100%;
+	padding : 4px 10px;
+}
+
+#estimate div#searchBottom {
+	width : 100%;
+	height : calc(10vh - 8px);
+}
+
+#estimate #searchBottom .search-options.border {
+	height: 60px;
+	float: left; 
+	margin-left: 0px;
+    border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+#estimate #searchBottom .search-options {
+	width: 450px; 
+	height: 92px;
+	float: left; 
+	margin-left: 0px;
+}
+
+#estimate div#mainTop {
+	width : 100%;
+	/* height : 35px; */
+	padding: 4px 0px 0px 10px;
+}
+
+#estimate div#mainTop .align-left-btn {
+	float : left;
+}
+
+#estimate div#mainTop .align-right-btn {
+	float : right;
+}
+
+#estimate div#mainTop .align-left-btn span {
+	position : relative;
+    bottom : 8px;
+}
+
+#estimate #mainContents .dashboard-panel .dashboard-title .align-right-btn {
+	float : right;
+}
+
+#estimate div#mainBottom {
+	width : 100%;
+	height : calc(86vh - 167px);
+}
+
+#estimate div#mainBottom #estimateUnSendStatusBtn {
+	cursor : pointer;
+}
+
+#estMgrPopupContents div#productListResult {
+	padding: 3px;
+    margin-bottom: 3px;
+}
+
+#estMgrPopupContents div#productListResultBottom {
+	width : 100%;
+	height : 214px;'
+}
+
+#estMgrPopupContents .product-btn {
+	float : right;
+}
+
+#estMgrPopupContents input#validity.w2ui-input.w2ui-select.w2field {
+	height : 25px !important;
+}
+
+#estMgrPopupContents .input-one-area {
+	width : 858px;
+}
+
+#estMgrPopupContents .input-three-area {
+	width : 202px;
+}
+
+/* Site List Popup */
+#doublePopup #siteAddArea #siteLeftContents {
+	width : 22%;
+	float : left;
+}
+
+#doublePopup #siteAddArea #siteRightContents {
+	width : 77%;
+	float : right;
+}
+
+#doublePopup #siteAddArea #siteLeftContents #siteLeftBottom {
+	height: 400px;
+}
+
+#doublePopup #siteAddArea #siteRightContents #siteRightBottom {
+	height: 400px;
+}
+
+#doublePopup #siteLeftBottom .w2ui-node-group {
+	display : none;
+}
+
+#doublePopup .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#doublePopup #productTypeBtnGrp .w2ui-field.w2ui-span3 > div {
+	margin-left : 0px;
+}
+
+/* Product List Popup */
+#doublePopup #productAddArea #proLeftContents {
+	width : 47.5%;
+	float : left;
+}
+
+#doublePopup #productAddArea #proLeftContents #proLeftBottom {
+	height: 400px;
+}
+
+#doublePopup #productAddArea #proRightContents #proRightBottom {
+	height: 400px;
+}
+
+#doublePopup #productAddArea #proMiddleContents {
+	width : 40px;
+    height: 100%;
+	float : left;
+	text-align : center;
+    display: table;
+}
+
+#doublePopup #productAddArea #proMiddleContents div {
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#doublePopup #productAddArea #proRightContents {
+	width : 47.5%;
+	float : right;
+}
+
+#doublePopup .selected-list-btn {
+	float : right;
+	padding : 4px;
+}
+
+.w2ui-overlay {
+  z-index: 1800 !important;
+}
+
+/* Mail Send Popup */
+#doublePopup #emailContents #mail_body {
+	width : 540px;
+	height : 270px;
+	resize : none;
+}
+
+/* Mail Site List Popup */
+#triplePopup #siteAddArea #siteLeftContents {
+	width : 35%;
+	float : left;
+}
+
+#triplePopup #siteAddArea #siteRightContents {
+	width : 64%;
+	float : right;
+}
+
+#triplePopup #siteAddArea #siteLeftContents #siteLeftBottom {
+	height: 400px;
+}
+
+#triplePopup #siteAddArea #siteRightContents #siteRightBottom {
+	height: 400px;
+}
+
+#triplePopup #siteLeftBottom .w2ui-node-group {
+	display : none;
+}
+
+#triplePopup .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#triplePopup #productTypeBtnGrp .w2ui-field.w2ui-span3 > div {
+	margin-left : 0px;
+}
+
+/* Disable Panel */
+#estMgrPopupContents .disableClass {
+	width : 96%;
+	height : 95%;
+	position : absolute;
+	top : 0px;
+	background-color : #fff0;
+}
+
+/* SVG ICON */
+#estimate svg.icon.link:hover,
+#estMgrPopupContents svg.icon.link:hover,
+#doublePopup svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#estimate svg.link.icon,
+#estMgrPopupContents svg.link.icon,
+#doublePopup svg.link.icon {
+	cursor: pointer;
+}
+
+#estimate svg.icon.link,
+#estMgrPopupContents svg.icon.link,
+#doublePopup svg.icon.link {
+	color: white;
+	opacity: .5;
+}
+
+#estimate .svg-inline--fa.fa-w-18 {
+    padding: 0px 5px 7px 5px;
+}
+
+/* #estimate .svg-inline--fa.fa-w-16 {
+	padding: 0px 5px 4px 5px;
+} */
+
+#estimate .svg-inline--fa.fa-w-14 {
+	padding: 0px 5px 5px 5px;
+}
+
+#estMgrPopupContents .svg-inline--fa.fa-w-14 {
+	padding : 6px 6px 5px 5px;
+}
+
+#doublePopup .svg-inline--fa.fa-w-14 {
+	padding : 6px 6px 5px 5px;
+}
+
+#estMgrPopupContents #site_name {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+#emailContents #to_target,
+#emailContents #appended_target {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dialog Alert Popup */
+#doublePopup #dialogAlertPopupArea #dialogAlertPopupContents {
+	padding: 15px 10px 0px 10px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 12px;
+    line-height: 130%;
+}
+
+.customAlertPopup.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable {
+	top : 298px !important;
+}
+
+/* Disabled SVG ICON */
+#estimate svg.icon,
+#estMgrPopupContents svg.icon,
+#doublePopup svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+}
+
+#estimate svg.icon,
+#estMgrPopupContents svg.icon,
+#doublePopup svg.icon {
+	cursor: default;
+}
+

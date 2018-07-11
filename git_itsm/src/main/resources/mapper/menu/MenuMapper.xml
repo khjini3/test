@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.menu.MenuMapper">
+
+	<sql id="Column_List">
+		menuId, parent, menuName, url, privilegeId, sortOrder, description<!-- , usingMenu -->
+	</sql>
+
+
+	<sql id="MenuTree_Column_List">
+		menuId, parent, menuName, url, privilegeId, sortOrder, description, <!-- usingMenu, --> fullName, depth
+	</sql>
+	
+	<insert id="insertMenu" parameterType="com.yescnc.core.entity.db.MenuVO">
+		INSERT INTO DAVIS_MENU
+		(`parent`,`menuName`,`url`,`privilegeId`,`sortOrder`, `description`<!-- , `usingMenu` -->)
+		VALUES
+		(#{parent},#{menuName},#{url},#{privilegeId},#{sortOrder},#{description}<!-- ,#{usingMenu} -->)
+	</insert>
+
+	<select id="selectMenu" parameterType="com.yescnc.core.entity.db.MenuVO"
+		resultType="com.yescnc.core.entity.db.MenuVO">
+		select
+		<include refid="Column_List" />
+		from davis_menu
+		<if test="_paramter != null">
+			where menuId = #{menuId}
+		</if>
+	</select>
+
+	<delete id="deleteByMenuId" parameterType="com.yescnc.core.entity.db.MenuVO">
+		delete from davis_menu
+		<if test="_parameter != null">
+			where menuId = #{menuId}
+		</if>
+	</delete>
+	
+	<select id="listMenuTree" resultType="com.yescnc.core.entity.db.MenuTreeVO">
+		select
+		<include refid="MenuTree_Column_List" />
+		from menu_tree
+		<!-- where usingMenu = 1 -->
+		order by sortOrder, menuName
+	</select>
+	
+	<select id="updateMenu" parameterType="java.util.HashMap">
+		UPDATE davis_menu SET 
+			parent = #{parent},
+			menuName = #{menuName},
+			url = #{url},
+			privilegeId = #{privilegeId},
+			sortOrder = #{sortOrder},
+			description = #{description}<!-- ,
+			usingMenu = #{usingMenu} -->
+		WHERE menuId = #{menuId}
+	</select>
+	
+	<select id="getMenuStatus" resultType="com.yescnc.core.entity.db.MenuManagerVO">
+		select
+		@ROWNUM := @ROWNUM + 1 recid,
+		menuId, parent, menuName, url, privilegeId, sortOrder, description<!-- , usingMenu -->
+		from davis_menu, (SELECT @ROWNUM:=0) recid
+		order by sortOrder, menuName
+	</select>
+	
+	<select id="getUseYNMenuStatus" parameterType="String" resultType="com.yescnc.core.entity.db.MenuManagerVO">
+		select
+		@ROWNUM := @ROWNUM + 1 recid,
+		menuId, parent, menuName, url, privilegeId, sortOrder, description, 
+		IF(comp.menu_id > 0, true, false) useYN
+		from davis_menu menu LEFT JOIN
+		(SELECT * FROM davis_role_group_component WHERE group_id = #{groupId}) comp 
+		ON menu.menuId = comp.menu_id , (SELECT @ROWNUM:=0) recid 
+		order by sortOrder, menuName
+	</select>
+	
+	<select id="deleteMenu" parameterType="java.util.HashMap">
+		DELETE FROM davis_menu
+		WHERE menuId in
+		<foreach item="item" collection="param" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="groupCompMenuList" parameterType="String" resultType="com.yescnc.core.entity.db.MenuTreeVO">
+		select
+			<include refid="MenuTree_Column_List" />
+		from davis_role_group_component groupComp
+		left join
+			menu_tree menu
+		on
+			groupComp.menu_id = menu.menuId
+		where group_id = #{group_id}
+		order by menu.sortOrder, menu.menuName
+	</select>
+	
+	<select id="getStartPage" parameterType="String" resultType="java.util.HashMap">
+		select
+			menu.menuId, menu.menuName
+		from
+			davis_role_group roleGroup
+		left join
+			menu_tree menu
+		on
+			roleGroup.start_page = menu.menuId
+		where roleGroup.group_id = #{group_id}
+	</select>
+	
+</mapper>

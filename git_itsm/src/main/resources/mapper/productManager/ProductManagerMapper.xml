@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.project.itsm.db.productmanager.ProductManagerMapper">
+
+	<select id="getProductList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+		SELECT CODE_ID id,
+		CODE_NAME name,
+		CODE_NAME text,
+	    INOUT_STATUS inOutStatus,
+		IFNULL(CODE_DESC, "") codeDesc,
+		PARENT_CODE_ID parentId,
+		IFNULL(SORT_ORDER, 0) sortOrder,
+	    IFNULL(COL1, "") column1,
+	    IFNULL(COL2, "") column2
+		FROM DAVIS_CODE
+		WHERE PARENT_CODE_ID = "9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca"
+		ORDER BY SORT_ORDER
+	</select>	
+	
+	<select id="getModelList" parameterType="com.yescnc.project.itsm.entity.db.ProductVO"
+resultType="com.yescnc.project.itsm.entity.db.ProductVO">
+		select
+			@ROWNUM := @ROWNUM + 1 recid,
+			product_id,
+			product_name,
+			site_id,
+			spec,
+			product_type,
+			note,
+			file_name,
+			if(isnull(cnt), 0, cnt) cnt
+		from davis_itsm.itsm_product_info product
+			left join (select count(*) cnt, file_info.cmd_id from davis_itsm.itsm_attach_file_info file_info group by file_info.cmd_id) file_info
+			on product.product_id = file_info.cmd_id
+			,(SELECT @ROWNUM:=0 ROWNUM) recid
+		<where>
+			<if test="product_type != '-1'">
+				and product_type = #{product_type}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getSearchlList" parameterType="com.yescnc.project.itsm.entity.db.ProductVO"
+	resultType="com.yescnc.project.itsm.entity.db.ProductVO">
+		select
+			@ROWNUM := @ROWNUM + 1 recid,
+			product_id,
+			product_name,
+			site_id,
+			spec,
+			product_type,
+			note,
+			file_name,
+			if(isnull(cnt), 0, cnt) cnt
+		from davis_itsm.itsm_product_info product
+			left join (select count(*) cnt, file_info.cmd_id from davis_itsm.itsm_attach_file_info file_info group by file_info.cmd_id) file_info
+			on product.product_id = file_info.cmd_id
+			,(SELECT @ROWNUM:=0 ROWNUM) recid
+		<where>
+			<if test="product_name != '-1'">
+				and product_name like CONCAT('%',#{product_name},'%')
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertModel" parameterType="com.yescnc.project.itsm.entity.db.ProductVO">
+		INSERT INTO itsm_product_info    
+		(`product_id`,`product_name`,`spec`,`product_type`,`note`,`file_name`,`site_id`)
+		VALUES
+		(#{product_id},#{product_name},#{spec},#{product_type},#{note},#{file_name},#{site_id})
+	</insert>
+	
+	<update id="updateModel" parameterType="com.yescnc.project.itsm.entity.db.ProductVO">
+		UPDATE itsm_product_info
+		SET
+			`product_name` = #{product_name},
+			`product_type` = #{product_type},
+			`spec` = #{spec},
+			`site_id` = #{site_id},
+			`file_name` = #{file_name},
+			`note` = #{note}
+		WHERE `product_id` = #{product_id}
+	</update>
+	
+	<delete id="deleteIpMulti" parameterType="com.yescnc.project.itsm.entity.db.ProductVO">
+		delete from itsm_product_info		
+		where `product_id` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.product_id}
+		</foreach>
+		
+	</delete>
+	
+	<delete id="deleteModelList" parameterType="com.yescnc.project.itsm.entity.db.ProductVO">
+		delete from itsm_product_info		
+		where product_type = #{product_type}
+	</delete>
+	
+	<!-- Import // Export  -->
+	<!-- <insert id="csvAsset" parameterType="java.util.HashMap" > csvAsset
+		INSERT INTO itsm_product_info (PRODUCT_NAME, PRODUCT_TYPE, SPEC, SITE_ID, FILE_NAME, NOTE)
+		VALUES (
+		#{product_name}, 
+		#{product_type},
+		#{spec},
+		#{site_id},
+		#{file_name},
+		#{note}
+		)
+		ON DUPLICATE KEY UPDATE
+		PRODUCT_NAME = #{product_name},
+		PRODUCT_TYPE = #{product_type},
+		SPEC = #{spec},
+		SITE_ID = #{site_id},
+		FILE_NAME = #{file_name},
+		NOTE = #{note},
+    
+	</insert> -->
+	<insert id="csvAsset" parameterType="java.util.HashMap" > <!-- csvAsset -->
+		INSERT INTO itsm_product_info (product_id, product_name, product_type, spec, site_id, file_name, note)
+		VALUES (
+			#{product_id}, 
+			#{product_name}, 
+			#{product_type},
+			#{spec},
+			#{site_id},
+			#{file_name},
+			#{note}
+		)
+		
+	</insert>
+	
+</mapper>

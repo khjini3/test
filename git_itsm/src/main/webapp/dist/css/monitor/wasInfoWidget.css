@@ -1,0 +1,21 @@
+.wasInfo-chart {
+	width : 50%;
+	height : 100%;
+	float: left;
+}
+
+.wasInfo-chart-memory {
+	width : 50%;
+	height : 100%;
+	float: left;
+}
+
+.wasInfo-chart-mem-per {
+	position: relative;
+	top : -120px;
+}
+.wasInfo-chart-thread {
+	width : 50%;
+	height : 100%;
+	float: left;
+}

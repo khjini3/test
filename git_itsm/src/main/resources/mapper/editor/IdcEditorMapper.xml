@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.editor.IdcEditorMapper">
+	<select id="selectLocationList" resultType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		SELECT idc_location.*, idc_code.code_name, idc_model.model_name
+		FROM idc_location
+			LEFT OUTER JOIN idc_code ON idc_location.code_id = idc_code.code_id
+			LEFT OUTER JOIN idc_model ON idc_location.model_id = idc_model.model_id
+		WHERE
+			parent_loc_id = #{parent_loc_id}
+		ORDER BY idc_location.parent_loc_id, idc_location.loc_id
+	</select>
+	
+	<select id="selectLocationListAll" resultType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		SELECT idc_location.*, idc_code.code_name, idc_model.model_name
+		FROM idc_location
+			LEFT OUTER JOIN idc_code ON idc_location.code_id = idc_code.code_id
+			LEFT OUTER JOIN idc_model ON idc_location.model_id = idc_model.model_id
+		ORDER BY idc_location.parent_loc_id, idc_location.loc_id
+	</select>
+
+	<select id="selectObjectList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcObjectVO">
+		(
+			SELECT
+				idc_location.parent_loc_id,
+				idc_location.loc_id comp_id,
+				idc_location.loc_name comp_name,
+				'LOCATION' comp_type,
+				'' asset_id,
+				false is_asset,
+				idc_location.code_id,
+				idc_code.code_name,
+				idc_location.model_id,
+				idc_model.model_name,
+				idc_location.position_x,
+				idc_location.position_y,
+				idc_location.position_z,
+				idc_location.scale_x,
+				idc_location.scale_y,
+				idc_location.scale_z,
+				idc_location.rotation_x,
+				idc_location.rotation_y,
+				idc_location.rotation_z,
+				idc_location.is_pickable,
+				idc_location.is_tooltip,
+				idc_location.is_visible,
+				idc_location.opacity,
+				idc_location.camera,
+				idc_location.reserve_str
+			FROM idc_location
+				LEFT OUTER JOIN idc_model ON idc_location.model_id = idc_model.model_id 
+				LEFT JOIN idc_code ON idc_code.code_id = idc_location.code_id
+			WHERE idc_location.loc_id = #{loc_id} OR idc_location.parent_loc_id = #{loc_id}
+			ORDER BY idc_location.loc_name
+		)
+		UNION
+		(
+			SELECT
+				idc_component.loc_id parent_loc_id,
+				idc_component.comp_id,
+				idc_component.comp_name,
+				'ASSET' comp_type,
+				idc_component.asset_id,
+				true is_asset,
+				idc_code.code_id,
+				idc_code.code_name,
+				idc_model.model_id,
+				idc_model.model_name,
+				idc_component.position_x,
+				idc_component.position_y,
+				idc_component.position_z,
+				idc_component.scale_x,
+				idc_component.scale_y,
+				idc_component.scale_z,
+				idc_component.rotation_x,
+				idc_component.rotation_y,
+				idc_component.rotation_z,
+				idc_component.is_pickable,
+				idc_component.is_tooltip,
+				idc_component.is_visible,
+				idc_component.opacity,
+				null camera,
+				idc_component.reserve_str
+			FROM idc_component
+				LEFT JOIN idc_asset ON idc_component.asset_id = idc_asset.asset_id
+				LEFT JOIN idc_code ON idc_asset.code_id = idc_code.code_id
+				LEFT JOIN idc_model ON idc_asset.model_id = idc_model.model_id
+			WHERE
+				idc_component.loc_id = #{loc_id} AND
+				idc_component.asset_id IS NOT NULL
+			ORDER BY idc_component.comp_name
+		)
+		UNION
+		(
+			SELECT
+				idc_component.loc_id parent_loc_id,
+				idc_component.comp_id,
+				idc_component.comp_name,
+				'ASSET' comp_type,
+				idc_component.asset_id,
+				false is_asset,
+				idc_code.code_id,
+				idc_code.code_name,
+				idc_model.model_id,
+				idc_model.model_name,
+				idc_component.position_x,
+				idc_component.position_y,
+				idc_component.position_z,
+				idc_component.scale_x,
+				idc_component.scale_y,
+				idc_component.scale_z,
+				idc_component.rotation_x,
+				idc_component.rotation_y,
+				idc_component.rotation_z,
+				idc_component.is_pickable,
+				idc_component.is_tooltip,
+				idc_component.is_visible,
+				idc_component.opacity,
+				null camera,
+				idc_component.reserve_str
+			FROM idc_component
+				LEFT JOIN idc_model ON idc_component.na_model_id = idc_model.model_id
+				LEFT JOIN idc_code ON idc_model.code_id = idc_code.code_id
+			WHERE
+				idc_component.loc_id = #{loc_id} AND
+				idc_component.asset_id IS NULL AND
+				idc_component.na_model_id IS NOT NULL
+			ORDER BY idc_component.comp_name
+		)
+	</select>
+	
+	<update id="updateLocation" parameterType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		UPDATE idc_location
+		SET position_x = #{position_x},
+		position_y = #{position_y},
+		position_z = #{position_z},
+		scale_x = #{scale_x},
+		scale_y = #{scale_y},
+		scale_z = #{scale_z},
+		rotation_x = #{rotation_x},
+		rotation_y = #{rotation_y},
+		rotation_z = #{rotation_z},
+		is_pickable = #{is_pickable},
+		is_tooltip = #{is_tooltip},
+		is_visible = #{is_visible},
+		<if test="camera != null">
+			camera = #{camera},
+		</if>
+		opacity = #{opacity}
+		WHERE
+		loc_id = #{loc_id}
+	</update>
+	
+	<insert id="setComponent" parameterType = "com.yescnc.jarvis.entity.db.IdcObjectVO">
+		INSERT INTO idc_component
+		(
+			comp_id, comp_name, asset_id, loc_id, na_model_id, 
+			position_x, position_y, position_z, scale_x, scale_y, scale_z, 
+			rotation_x, rotation_y, rotation_z, is_pickable, is_tooltip, is_visible, opacity
+		)
+		VALUES
+		(
+			#{comp_id}, #{comp_name}, #{asset_id}, #{parent_loc_id}, #{na_model_id}, 
+			#{position_x}, #{position_y}, #{position_z}, #{scale_x}, #{scale_y}, #{scale_z}, 
+			#{rotation_x}, #{rotation_y}, #{rotation_z}, #{is_pickable}, #{is_tooltip}, #{is_visible}, #{opacity}
+		)
+		ON DUPLICATE KEY UPDATE
+			position_x = #{position_x},
+			position_y = #{position_y},
+			position_z = #{position_z},
+			scale_x = #{scale_x},
+			scale_y = #{scale_y},
+			scale_z = #{scale_z},
+			rotation_x = #{rotation_x},
+			rotation_y = #{rotation_y},
+			rotation_z = #{rotation_z},
+			is_pickable = #{is_pickable},
+			is_tooltip = #{is_tooltip},
+			is_visible = #{is_visible},
+			opacity = #{opacity}
+	</insert>
+	
+	<select id="selectAssetList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcEditorAssetVO">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 recid,
+			t1.asset_id,
+			t1.asset_name,
+			t1.code_id,
+			t1.code_name,
+			t1.model_id,
+			t1.model_name,
+			t1.loc_id,
+			t1.loc_name
+		FROM
+		(
+			SELECT
+				@ROWNUM := 0 ROWNUM,
+				idc_asset.asset_id,
+				idc_asset.asset_name,
+				idc_asset.code_id,
+				idc_code.code_name,
+				idc_asset.model_id,
+				idc_model.model_name,
+				idc_asset.loc_id,
+				idc_location.loc_name
+			FROM idc_asset
+				LEFT JOIN idc_code ON idc_asset.code_id = idc_code.code_id
+				LEFT JOIN idc_location ON idc_asset.loc_id = idc_location.loc_id
+				LEFT JOIN idc_model ON idc_model.model_id = idc_asset.model_id
+			WHERE idc_asset.model_id IS NOT NULL AND idc_asset.loc_id = #{loc_id}
+			ORDER BY idc_asset.asset_name
+		) t1
+	</select>
+	
+	<select id="selectModelList" resultType="com.yescnc.jarvis.entity.db.IdcEditorModelVO">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 recid,
+			t1.model_id,
+			t1.model_name,
+			t1.model_desc,
+			t1.code_id,
+			t1.code_name
+		FROM
+		(
+			SELECT
+				@ROWNUM := 0 ROWNUM,
+				davis_model.model_id,
+				davis_model.model_name,
+				davis_model.model_desc,
+				davis_model.code_id,
+				davis_code.code_name
+			FROM davis_model
+				LEFT JOIN davis_code ON davis_model.code_id = davis_code.code_id
+			WHERE davis_model.model_name IS NOT NULL AND davis_model.code_id IS NOT NULL
+			ORDER BY davis_model.model_name
+		) t1
+	</select>
+	
+	<delete id="deleteComponent" parameterType="com.yescnc.jarvis.entity.db.IdcObjectVO">
+		DELETE FROM idc_component
+		WHERE comp_id = #{comp_id}
+		<if test="asset_id != null">
+			AND asset_id = #{asset_id}
+		</if>
+		<if test="parent_loc_id != null">
+			AND loc_id = #{parent_loc_id}
+		</if>
+	</delete>
+</mapper>

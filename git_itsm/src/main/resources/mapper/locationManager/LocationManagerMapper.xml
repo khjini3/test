@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.locationManager.LocationManagerMapper">
+	<select id="selectLocationListAll" resultType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		SELECT
+			davis_location.parent_loc_id,
+			davis_location.loc_id,
+			davis_location.loc_name,
+			davis_location.code_id,
+			davis_code.code_name,
+			davis_location.model_id,
+			davis_model.model_name,
+			davis_location.position_x,
+			davis_location.position_y,
+			davis_location.position_z,
+			davis_location.scale_x,
+			davis_location.scale_y,
+			davis_location.scale_z,
+			davis_location.rotation_x,
+			davis_location.rotation_y,
+			davis_location.rotation_z,
+			davis_location.is_pickable,
+			davis_location.is_tooltip,
+			davis_location.is_visible,
+			davis_location.opacity,
+			davis_location.camera,
+			davis_location.reserve_str
+		FROM davis_location
+			LEFT OUTER JOIN davis_model ON davis_location.model_id = davis_model.model_id 
+			LEFT JOIN davis_code ON davis_code.code_id = davis_location.code_id
+		ORDER BY davis_location.loc_id
+	</select>
+
+	<insert id="addLocation" parameterType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		INSERT INTO davis_location
+		(
+			parent_loc_id, loc_id, loc_name, code_id, model_id
+		)
+		VALUES
+		(
+			#{parent_loc_id}, #{loc_id}, #{loc_name}, #{code_id}, #{model_id}
+		)
+	</insert>
+	
+	<update id="updateLocation" parameterType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		UPDATE davis_location
+		SET loc_name = #{loc_name},
+		code_id = #{code_id},
+		model_id = #{model_id}
+		WHERE
+		loc_id = #{loc_id}
+	</update>
+	
+	<delete id="deleteLocation" parameterType="com.yescnc.jarvis.entity.db.IdcLocationVO">
+		DELETE FROM davis_location
+		WHERE loc_id = #{loc_id} AND loc_id
+	</delete>
+	
+	<select id="selectCountChildLocation" parameterType="int" resultType = "int">
+		SELECT
+			count(*)
+		FROM davis_location
+		WHERE
+			parent_loc_id = #{loc_id}
+	</select>
+	
+	<select id="selectLocationTypeList" resultType = "com.yescnc.jarvis.entity.db.IdcLocationManagerCodeVO">
+		SELECT
+			*
+		FROM davis_code
+		WHERE
+			parent_code_id = '985985a5-21a5-726a-e64c-d79203c6e656'
+		ORDER BY sort_order
+	</select>
+	
+	<update id="updateIdcAssetLocID" parameterType = "com.yescnc.jarvis.entity.db.IdcLocationVO">
+		UPDATE davis_asset set loc_id = null
+		WHERE
+		loc_id = #{loc_id}
+	</update>
+</mapper>

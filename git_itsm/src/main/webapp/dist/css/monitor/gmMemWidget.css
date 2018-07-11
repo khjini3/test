@@ -1,0 +1,19 @@
+.gmMemWidget .gm-chart {
+	width : calc(100% - 10px);
+	height : calc(100% - 10px);
+	margin : 5 5 5 5;
+}
+
+.gmMemWidget .gm-chart-pie {
+	position: relative;
+    width: 45%;
+    height: 100%;
+    float: left;
+}
+
+.gmMemWidget .gm-chart-line {
+	width : 50%;
+	height : 100%;
+	float: left;
+	margin-left: 10;
+}

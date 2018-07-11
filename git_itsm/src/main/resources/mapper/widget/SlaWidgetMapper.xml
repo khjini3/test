@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.widget.SlaWidgetMapper">
+	<sql id="Column_List">
+		id, chartType, widgetName, slaTitle, polling, xpos, ypos, width, height, url, description, alarmCode, dataColumn, unit, legend, displayCode
+	</sql>
+	 
+	<select id="selectSlaWidgetList" resultType="com.yescnc.core.entity.db.SlaWidgetVO">
+		select
+			<include refid="Column_List" />
+		from davis_sla_widget
+	</select>
+	
+</mapper>

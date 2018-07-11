@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.user.UserMapper">
+	
+	<sql id="Column_List">
+		id,userId,password,privilegeId,group_id,status,userName,userName_eng,email,createTime,loginStatus,lastLoginTime,lastLoginIp,phone,alarm_on_off,alarm_type,tempPassword
+	</sql>
+
+	<insert id="insertUser" parameterType="com.yescnc.core.entity.db.UserVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_user
+		</selectKey>
+		
+		INSERT INTO davis_user
+		(`id`,`userId`,`password`,`privilegeId`,`group_id`,`status`,`userName`,`email`,`createTime`,`phone`,`loginStatus`,`alarm_on_off`,`alarm_type`,`tempPassword`,`userName_eng`)
+		VALUES
+		(
+			<choose>
+				<when test="id != null">
+					#{id},
+				</when>
+				<otherwise>
+					#{max_id},
+				</otherwise>
+			</choose>
+			#{userId},#{password},#{privilegeId},#{group_id},#{status},#{userName},#{email},#{createTime},#{phone},#{loginStatus},#{alarm_on_off},#{alarm_type},#{tempPassword},#{userName_eng})
+	</insert>
+	
+	<update id="updateByUserId" parameterType="com.yescnc.core.entity.db.UserVO">
+		UPDATE davis_user
+		<set>				
+			<if test="privilegeId != null">					
+				`privilegeId` = #{privilegeId}
+			</if>
+			<if test="loginStatus != null">
+				,`loginStatus` = #{loginStatus}
+			</if>
+			<if test="password != null and password != ''">												
+				,`password` = #{password}
+			</if>
+			<if test="lastLoginTime != null">
+				,`lastLoginTime` = #{lastLoginTime}
+			</if>
+			<if test="lastLoginIp != null">
+				,`lastLoginIp` = #{lastLoginIp}
+			</if>
+			<if test="group_id != null">								
+				,`group_id` = #{group_id}
+			</if>
+			<if test="userName != null">					
+				,`userName` = #{userName}
+			</if>
+			<if test="userName != null">					
+				,`userName_eng` = #{userName_eng}
+			</if>
+			<if test="status != null">					
+				,`status` = #{status}
+			</if>
+			<if test="email != null">					
+				,`email` = #{email}
+			</if>
+			<if test="phone != null">					
+				,`phone` = #{phone}
+			</if>
+			<if test="alarm_on_off != null">					
+				,`alarm_on_off` = #{alarm_on_off}
+			</if>
+			<if test="alarm_type != null">					
+				,`alarm_type` = #{alarm_type}
+			</if>
+			<if test="tempPassword != ''">		
+				,`tempPassword` = #{tempPassword}
+			</if>
+		</set>
+		WHERE `userId` = #{userId}
+	</update>
+	
+		<update id="updateByUserStatus" parameterType="com.yescnc.core.entity.db.UserVO">
+		UPDATE davis_user
+		<set>
+			<if test="loginStatus != null">
+				`loginStatus` = #{loginStatus}
+			</if>
+		</set>
+		WHERE `userId` = #{userId}
+	</update>
+	
+	<select id="selectUser" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		select
+			<include refid="Column_List" />
+		from davis_user
+		<if test="userId != null">
+			where userId = BINARY(#{userId})
+		</if>
+	</select>
+	
+	<select id="returnUserIdList" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		select @ROWNUM := @ROWNUM + 1 recid,
+			userId
+		from davis_user, (SELECT @ROWNUM:=0 ROWNUM) recid
+		where userId != 'root'
+	</select>
+	
+	<select id="selectUserList" resultType="com.yescnc.core.entity.db.UserVO">
+		select
+			<include refid="Column_List" />
+		from davis_user where userId != 'root' order by userId
+		<!--  from user where userId != 'root'-->
+	</select>
+	
+	<select id="selectUserMailList" resultType="com.yescnc.core.entity.db.UserVO">
+		select
+			<include refid="Column_List" />
+		from davis_user
+		where
+			userId != 'root' and email is not null and alarm_on_off = 'on'
+	</select>
+	
+	<delete id="deleteByUserId" parameterType="com.yescnc.core.entity.db.UserVO">
+		delete from davis_user
+		<if test="id != null">
+			where id = #{id}
+		</if>
+	</delete>
+	
+	<delete id="deleteUserMulti" parameterType="com.yescnc.core.entity.db.UserVO">
+		delete from davis_user		
+		where `id` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
+		
+	</delete>	
+	
+	<select id="searchUserList" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		select
+			id,userId,privilegeId,group_id,status,userName,userName_eng,email,createTime,loginStatus,lastLoginTime,lastLoginIp,phone,alarm_on_off,alarm_type,tempPassword
+			<!--  <include refid="Column_List" />-->
+		from davis_user
+		<if test="userId != null">
+			where userId=#{userId}
+			<!-- where userId like CONCAT('%',#{userId},'%') -->
+		</if>
+	</select>
+	
+	<select id="userLimitList" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		select SQL_CALC_FOUND_ROWS
+		@ROWNUM := @ROWNUM + 1 recid, id,userId,privilegeId,group_id,status,userName,userName_eng,email,createTime,loginStatus,lastLoginTime,lastLoginIp,phone,alarm_on_off,alarm_type,tempPassword
+			<!--  <include refid="Column_List" />-->
+		from davis_user ,(SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<choose>
+			<when test="userId == null or userId == ''">
+				where userId != 'root' order by id DESC limit #{startRow},#{endRow}
+			</when>
+			<when test="userId != null">
+				where userId != 'root' and userId=#{userId} order by id DESC limit #{startRow},#{endRow}
+				<!-- where userId != 'root' and userId like CONCAT('%',#{userId},'%') limit #{startRow},#{endRow} -->
+			</when>
+		</choose>
+	</select>	
+	
+	<select id="userListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>	
+</mapper>

@@ -1,0 +1,317 @@
+@CHARSET "UTF-8";
+
+#productManager .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#productManager .contentsCls > div {
+	z-index: 98;
+}
+
+#productManager div#productMainContents {
+	width : 100%;
+	padding : 0px 0px 0px 10px;
+}
+
+#productManager div#modelMainTop {
+	width : 100%;
+	height : 5px;
+	padding: 4px 0px 0px 10px;
+}
+
+#productManager div#productMainTop {
+	width : 100%;
+	height : 5px;
+	padding: 4px 0px 0px 10px;
+}
+
+#productManager div#modelMainTop .align-left-btn,
+#productManager div#productMainTop .align-left-btn {
+	float : left;
+}
+
+#productManager .dashboard-panel .dashboard-title .align-right-btn {
+	float : right;
+}
+
+#productManager div#modelMainTop .align-left-btn span,
+#productManager div#productMainTop .align-left-btn span {
+	position : relative;
+    bottom : 8px;
+}
+
+#productManager #manager {
+	cursor : pointer;
+	background-color : rgba(255, 255, 255, 0.1);
+}
+
+#productManager .manager-list {
+	width : 25px !important;
+    position : relative;
+    top: 4px;
+    float : left;
+    color : white;
+}
+
+/* SVG ICON */
+#productManager svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#productManager svg.link.icon {
+	cursor: pointer;
+}
+
+#d#productManagerfect svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-left: 8px; */
+}
+
+#productManager .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	padding: 0px 5px 7px 5px;
+}
+
+#modelImportBtn {
+	padding: 2px 4px 8px 9px !important;
+}
+
+
+#modelExportBtn {
+	padding: 3px 6px 8px 0px !important;
+}
+
+#productManager .svg-inline--fa.fa-w-14 {
+	width: 0.875em;
+	padding: 0px 5px 5px 5px;
+}
+
+#productManager .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:2px;
+}
+
+/* Disabled SVG ICON */
+#productManager svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#productManager svg.icon{
+	cursor: default;
+}
+
+#modelMgrPopupContents.w2ui-form .w2ui-page {
+	position: relative;
+	padding : 6px;
+}
+
+#modelMgrUpdatePopupContents.w2ui-form .w2ui-page {
+	position: relative;
+	padding : 6px;
+}
+
+#productManager #rightBottomContents .disableClass {
+    width: 96%;
+    height: 84%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.w2ui-node-group{
+   display : none;
+}
+
+#productManager div#rightBottomContents {
+	padding : 0px 10px 0px 0px;
+}
+
+#productManager div#productMainBottom {
+	width : 100%;
+	height : calc(100vh - 142px);
+}
+
+#productManager div#modelMainContents {
+	width:100%; 
+    height: calc(100vh - 83px);
+	padding-left: 10px;	
+}
+
+#productManager div#modelMainBottom {
+	width : 100%;
+	height : calc(100vh - 178px);
+}
+
+/* Menu List Checkbox */
+#productManager #companyMainBottom .menu-tree-checkbox {
+	float: left;
+	margin: 0px 4px 0px 0px;
+	pointer-events: none;
+}
+
+#productManager #companyMainBottom .menu-tree-checkbox.check-x {
+	pointer-events: none;
+}
+
+#productManager #companyMainBottom .menu-tree-checkbox {
+	pointer-events: auto;
+}
+
+#productManager #companyMainBottom .w2ui-node-group {
+   display: none;
+}
+
+#productManager .w2ui-sidebar .w2ui-sidebar-div {
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#productManager .w2ui-form-box {
+	overflow : auto;
+}
+
+#companyPopupContents div#customerListResult {
+	padding: 3px;
+    margin-bottom: 3px;
+}
+
+#companyPopupContents div#customerListResultBottom {
+	width : 100%;
+	height : 235px;
+}
+
+#companyPopupContents .customer-btn {
+	float : right;
+}
+
+#productManager svg.icon.link, #companyPopupContents svg.icon.link, #productDoublePopup svg.icon.link {
+    color: white;
+    opacity: .5;
+}
+
+#companyPopupContents .svg-inline--fa.fa-w-14 {
+    padding: 3px 3px 2px 2px;
+}
+
+#rightBottomContents #modelSearchBtn {
+    position: relative;
+    left: 10px;
+    margin-top: 8px;
+}
+
+#rightBottomContents #inputModel{
+	height: 25px;
+}
+
+#modelMgrPopupContents .w2ui-field.w2ui-span4 > label {
+    width: 100px;
+}
+
+#modelMgrUpdatePopupContents .w2ui-field.w2ui-span4 > label {
+    width: 100px;
+}
+
+#productDoublePopup #siteLeftBottom .w2ui-node-group {
+	display : none;
+}
+
+#productDoublePopup #siteAddArea #siteLeftContents #siteLeftBottom {
+	height: 400px;
+}
+
+/* popup svg */
+#modelMgrPopupContents svg.icon.link:hover {
+	opacity: 1;
+}
+
+#modelMgrPopupContents svg.link.icon{
+	cursor: pointer;
+}
+
+#modelMgrPopupContents svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#modelMgrPopupContents .fa-yes-upload_download,
+#modelMgrUpdatePopupContents .fa-yes-upload_download{
+	padding-right: 0px !important;
+	padding-top: 2px !important;
+	padding-bottom: 0px !important;
+}
+
+#modelMgrUpdatePopupContents svg.icon.link:hover {
+	opacity: 1;
+}
+
+#modelMgrUpdatePopupContents svg.link.icon{
+	cursor: pointer;
+}
+
+#modelMgrUpdatePopupContents svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#assetMgrImportWrap .w2ui-list{
+	text-align: left;
+	padding-left: 10px;
+	left: 48px;
+	border: 0px solid #777777;
+}
+
+#assetMgrImportWrap .w2ui-field.w2ui-span3 > div {
+    margin-left: 0;
+}
+
+#assetMgrImportWrap input#file{
+	display: none;
+}
+
+svg.icon.link#assetMgrImportDelBtn:hover {
+	opacity: 1;
+}
+
+svg.link.icon#assetMgrImportDelBtn {
+	cursor: pointer;
+}
+
+svg.icon.link#assetMgrImportDelBtn {
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+svg.icon#assetMgrImportDelBtn {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+svg.icon#assetMgrImportDelBtn {
+	cursor: default;
+}
+
+div#assetMgrImportWrap {
+	background-color: #434343;
+}
+.spec{	
+	resize: none
+}
+#modelMainBottom .productDownloadBtn,
+#modelMainBottom .productUploadBtn{
+    cursor: pointer;
+}
+
+#modelMgrPopupContents .productAddPopupUploadBtn,
+#modelMgrUpdatePopupContents .productEditPopupUploadBtn{
+	cursor: pointer;
+}
+

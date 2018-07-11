@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.editor.RackEditorMapper">
+	<select id="getLocationList" resultType="com.yescnc.jarvis.entity.db.LocationVO">
+		select loc.loc_id locId,
+			   loc.parent_loc_id parentId,
+			   loc.loc_name locName
+		from idc_location loc
+	    where loc.parent_loc_id = -1
+	    order by loc.loc_id
+	</select>
+	
+	<select id="getSelectLocationList" resultType="com.yescnc.jarvis.entity.db.LocationVO">
+		    select loc.loc_id locId,
+			   loc.parent_loc_id parentId,
+			   loc.loc_name locName,
+			   loc.code_id codeId,
+			   code.code_name codeName,
+         	   1 unitSize
+		from idc_location loc left join idc_code code on loc.code_id = code.code_id
+	    UNION
+		SELECT ASSET.asset_id locId,
+		      ASSET.loc_id parentId,
+		      ASSET.asset_name locName,
+		      ASSET.code_id codeId,
+		      CODE.code_name codeName,
+              ASSET.unit_size unitSize
+		FROM IDC_ASSET ASSET LEFT JOIN IDC_CODE CODE ON ASSET.code_id = CODE.code_id
+		WHERE ASSET.loc_id IS NOT NULL
+	</select>
+	
+	<select id="getRackInList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+			SELECT  @ROWNUM := @ROWNUM + 1 recid,
+					A.assetId,
+					A.assetName,
+					A.codeId,
+					A.mappingYN,
+         		 	A.modelName,
+					A.codeName,
+					A.locId,
+				    A.unitSize,
+				    A.unitIndex,
+				    A.startPosition,
+         			A.parentId
+				FROM(SELECT @ROWNUM := 0 ROWNUM,
+      						ASSET.ASSET_ID assetId,
+      						ASSET.ASSET_NAME assetName,
+      						ASSET.CODE_ID codeId,
+                   			MODEL.model_name modelName,
+      						IF(ISNULL(ASSET.MODEL_ID), 'false', 'true') mappingYN,
+      		     			CODE.CODE_NAME codeName,
+      		     			ASSET.LOC_ID locId,
+      		     			ASSET.UNIT_SIZE unitSize,
+                    PLACE.UINDEX unitIndex,
+  				          PLACE.START_POS startPosition,
+  	          			PLACE.parent_asset_id parentId
+						FROM IDC_ASSET ASSET LEFT JOIN IDC_CODE CODE
+		          			ON ASSET.CODE_ID = CODE.CODE_ID
+						LEFT JOIN idc_rack_place PLACE ON ASSET.ASSET_ID = PLACE.ASSET_ID LEFT JOIN IDC_MODEL MODEL ON ASSET.MODEL_ID = MODEL.model_id) A
+      		  WHERE 1=1
+		      AND A.parentId = #{id}
+		      AND A.codeName = 'SERVER'
+		      ORDER BY ISNULL(A.startPosition), A.startPosition
+	</select>
+	
+	<select id="getAvailableAssetList" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+				A.assetId,
+				A.assetName,
+				A.codeId,
+				A.mappingYN,
+           		A.modelName,
+				A.codeName,
+				A.locId,
+				A.unitSize,
+				A.unitIndex,
+				A.startPosition,
+	          	A.parentId
+				FROM(SELECT @ROWNUM := 0 ROWNUM,
+      						ASSET.ASSET_ID assetId,
+      						ASSET.ASSET_NAME assetName,
+      						ASSET.CODE_ID codeId,
+                    		MODEL.model_name modelName,
+      						IF(ISNULL(ASSET.MODEL_ID), 'false', 'true') mappingYN,
+      		     			CODE.CODE_NAME codeName,
+      		     			ASSET.LOC_ID locId,
+      		     			ASSET.UNIT_SIZE unitSize,
+                    		PLACE.UINDEX unitIndex,
+  				          	PLACE.START_POS startPosition,
+  	          				PLACE.parent_asset_id parentId
+						FROM IDC_ASSET ASSET LEFT JOIN IDC_CODE CODE ON ASSET.CODE_ID = CODE.CODE_ID
+						LEFT JOIN idc_rack_place PLACE ON ASSET.ASSET_ID = PLACE.ASSET_ID 
+						LEFT JOIN IDC_MODEL MODEL ON ASSET.MODEL_ID = MODEL.model_id) A
+        WHERE 1=1
+	    AND A.parentId IS NULL
+        AND A.codeName = 'SERVER'
+	    ORDER BY ISNULL(A.startPosition), A.startPosition
+	</select>
+	
+	<select id="getRackInfo" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT ASSET.asset_id assetId,
+				ASSET.asset_name assetName,
+				ASSET.code_id codeName,
+				ASSET.model_id modelId,
+				ASSET.loc_id locId,
+				ASSET.unit_size unitSize,
+				CODE.code_name codeName,
+				MODEL.model_name modelName
+		FROM idc_asset ASSET LEFT JOIN idc_code CODE ON ASSET.code_id = CODE.code_id LEFT JOIN IDC_MODEL MODEL ON ASSET.model_id = MODEL.model_id
+		WHERE asset_id = #{id}
+	</select>
+	
+	<update id="updateServerInList" parameterType="java.util.HashMap">
+		update idc_rack_place set parent_asset_id = #{parentId}
+		where asset_id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item.assetId}
+		</foreach>
+	</update>
+	
+	<update id="updateServerOutList" parameterType="java.util.HashMap">
+		update idc_rack_place set parent_asset_id = null
+		where asset_id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item.assetId}
+		</foreach>
+	</update>
+	
+	<update id="updateRackInfo" parameterType="java.util.HashMap">
+		update idc_asset set unit_size = #{unitSize}
+		where asset_id = #{id}
+	</update>
+	
+	<update id="updateUnitSize" parameterType="java.util.HashMap">
+		update idc_asset set unit_size = #{unitSize}
+		where asset_id = #{assetId}
+	</update>
+	
+	<update id="updateServerInfo" parameterType="java.util.HashMap">
+		update idc_rack_place set uindex = #{unitIndex}, start_pos = #{startPosition}
+		where asset_id= #{assetId}
+	</update>
+	
+</mapper>

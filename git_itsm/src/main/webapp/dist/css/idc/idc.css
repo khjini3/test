@@ -1,0 +1,266 @@
+@CHARSET "UTF-8";
+
+div#canvasDiv{
+	position:absolute; 
+	/* top:92px; */ 
+	left:0px; 
+	width: 100%; 
+	height: calc(100% - 82px);
+}
+
+div#divPopup{
+	display: none; 
+	background-color: rgba(1,1,1,1); 
+	width:260px; 
+	height:390px; 
+	border:1px solid silver; 
+	margin:5px;
+}
+
+#idcRenderCanvas {
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+div#leftMenu{
+	position:absolute; top:92px; left:45px;background-color:rgba(255,255,255,0); 
+}
+
+div#rightMenu{
+	position:absolute; top:92px; right:0px;
+	width:250px;
+}
+
+/*******
+ EventBrower 
+ *************/
+#idcStatus div#eventBrower{
+	position:fixed; 
+	bottom:-302px; 
+	width:100%;
+	/* height:344px; */
+}
+
+#idcStatus div#topDownDiv{
+	float :left;
+}
+
+
+#idcStatus div#eventTop {
+    color:#ffffff;
+    font-weight:bold;
+    text-align:left;
+}
+
+#idcStatus div#eventBottom{
+	background-color:rgba(47,45,48,0.5);
+	margin:2px 0px 5px 0px;
+	height:285px;
+	color:#ffffff;
+	font-weight:bold;
+	text-align:center;
+}
+
+div#popupEventBrowerTop{
+	width:100%;
+	height:40px;
+	color:#ffffff;
+}
+
+div#popupEventBrowerBottom{width:100%;heigth:200px;}
+
+/*******
+ EventBrower 
+ *************/
+ 
+#idcStatus {
+	color: #ccc;
+}
+
+
+/* .panelTitle{
+	width: 100%;
+    height: 30px;
+    background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1));
+    color: #ffffff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    padding: 8px;
+    text-align: left;
+}
+
+img#backGroundImg{width:100%;height:100%;object-fit: cover;}
+
+img#btnTop, img#btnDown{cursor:pointer;	padding:2px;margin: 10px;}
+img#btnTop:hover{content: url('../../img/idc/btn/event_up_btn_over.png')} 
+img#btnDown:hover{content: url('../../img/idc/btn/event_down_btn_over.png')} 
+
+div#severityDiv{
+	float:right;
+	margin-right:0px;
+	padding: 7px;
+	}
+
+.severityBtnCls{width:76px;	height:26px;float:left;	margin-left: 10px;}
+.severityBtn{cursor:pointer;}
+
+div.severityTxt{width: 76px;height: 26px;color: white;font-size: 12px;position: relative;top: -28px;text-align: right;padding: 5px 11px;cursor:pointer;} top: -26px; padding: 5px 9px;
+div#iconPanel {
+    background-image: url('../../img/idc/left_icon_panel.png');
+    width: 104px;
+    height: 369px;
+    margin: 0 auto;
+    margin-top: 40px;
+    text-align: center;
+    padding-top: 13px;
+}
+
+div#btnPanel{padding: 20px;}
+.btnOnOffCls{padding-right: 10px;} */
+
+/* side Menu */
+div#naviIcon{
+	height : 44px;
+	margin-top: 10px;
+	text-align: right;
+	padding: 8px 13px 0 0;
+	color: #ffffff;
+	position: fixed;
+    right: 0px;
+}
+
+span.subNavi{
+	cursor:pointer;
+}
+
+span.currentNavi{
+	color: #00edff;
+}
+
+/* asset search */
+div#contentsBox {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 3px;
+}
+
+#idcStatus .title{
+    margin: 0;
+    padding: 0 0 0 20px;
+    color: white;
+    font-size: 12px;
+}
+
+div#assetSearch{
+	/* position: fixed;
+	background-color: rgba(0,0,0,0.5);
+	right:-240px; */
+}
+
+img#search-asset-img, #asset-search-lbl{
+	cursor:pointer;
+}
+
+div#assetSearchContents{
+	position: fixed;
+    right: -239px;
+    width: 269px;
+    top: 160px;
+}
+
+hr.titleLine{margin:0;}
+
+div#iconDiv{width:86px;height:100%;}
+
+.naviArrowCls{padding:0px 7px 0px 7px;height: 12px;}
+
+#assetTypeInput{width:130px;margin-left: 5px; height: 23px;height: 20px;font-size: 11px;}
+#asset-search-lbl{
+	/* width:95px; */
+	/* color:#f5deb3; */
+	color:#ffffff;
+	font-size: 10px;text-align:left;padding-left: 5px;
+}
+
+/*테이블 검색창 길이 */
+div#assetTable.w2ui-grid .w2ui-toolbar-search .w2ui-search-all {
+    width: 215px !important;
+}
+
+div#assetSearch .w2ui-grid .w2ui-grid-body table .w2ui-head {
+	    /* background-image: linear-gradient(#232323, #000000) !important; */
+}
+div#assetSearch div#grid_assetTable_fcolumns, #assetSearch div#grid_assetTable_columns{
+	left:0px!important;
+}
+
+div#assetSearch div#grid_assetTable_body{
+	/* border : 1px solid rgba(255,255,255,0.5); */
+}
+
+div#assetSearch .w2ui-grid{
+	border : 0px solid rgba(255,255,255,0.5);
+}
+
+div#assetSearchContents .w2ui-field > div{
+	padding-top: 5px;
+}
+
+div#assetTable {
+    background-color: rgba(2, 15, 39, 0.6);
+    border : 1px solid rgba(255,255,255,0.5) !important;
+}
+
+#idcStatus div#searchTop{
+	width: 233px;
+	height: 32px;
+	background: linear-gradient(rgb(43, 47, 58), rgb(12, 18, 30));
+	float: right;
+	margin-right: 5px;    
+	border-bottom: 1px solid rgba(255,255,255,0.2); 
+	padding-left: 3px
+}
+
+/* building floor Severity Icon */
+#idcStatus img#upsImg {
+    position: relative;
+    right: -33px;
+    top: -10px;
+}
+
+#idcStatus img#temperatureImg {
+	position: relative;
+    top: -20px;
+}
+
+img#waterLeakImg {
+	position: relative;
+    right: -33px;
+    top: -30px;
+}
+
+.idcCls-module-container {
+	width: 100% !important;
+	height: 325px !important;
+}
+
+.idcCls-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.idcCls-module-heading {
+	
+}
+
+.idcCls-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}

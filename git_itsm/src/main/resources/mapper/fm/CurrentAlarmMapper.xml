@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.currentalarm.CurrentAlarmMapper">
+	<select id="selectCurrentAlarm" parameterType="com.yescnc.core.entity.db.CurrentAlarmVO"
+		resultType="com.yescnc.core.entity.db.CurrentAlarmVO">
+		SELECT SQL_CALC_FOUND_ROWS 
+			@ROWNUM := @ROWNUM + 1 recid,
+			A.*
+		FROM(
+			SELECT
+				@ROWNUM := 0 ROWNUM,
+				davis_fm_t_cur_alarms.*
+			from davis_fm_t_cur_alarms
+		    <where>
+				LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+				AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+				
+				<if test="severity != -1">
+					AND severity = #{severity}
+				</if>
+			</where>
+			ORDER BY ALARM_TIME DESC,SEQ_NO DESC
+			<if test= "nRowCntInSelection != -1">
+				LIMIT #{nRowCntInSelection}
+			</if>
+		) A;
+	</select>
+	
+	<update id="updateCurrentAlarmAck" parameterType = "HashMap">
+		UPDATE davis_fm_t_cur_alarms
+		SET ack_type = #{ack_type},
+		ack_user = #{ack_user},
+		ack_time = now()
+		WHERE
+			seq_no IN
+			<foreach collection="seqNoList" item="type" open="(" close=")" separator=",">
+				#{type.value}
+			</foreach>
+	</update>
+	
+	<delete id="deleteCurrentAlarmAck" parameterType = "HashMap">
+		DELETE FROM davis_fm_t_cur_alarms
+		WHERE
+			seq_no IN
+			<foreach collection="seqNoList" item="type" open="(" close=")" separator=",">
+				#{type.value}
+			</foreach>
+	</delete>
+</mapper>

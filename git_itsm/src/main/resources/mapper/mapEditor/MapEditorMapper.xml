@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.mapEditor.MapEditorMapper">
+    <select id="getMapData"  resultType="com.yescnc.jarvis.entity.db.SymbolVO" parameterType="String">
+	    select 
+		comp.comp_id compId
+		,if(comp.group_name is null, asset.asset_name, comp.group_name) assetName
+		,ifnull(comp.asset_id, comp.group_id) as assetId
+	    ,ifnull(event.severity, 5) severity
+		,parent_loc_id parentId
+		,comp.transform
+		,comp.font_color color
+		,ifnull(asset.symbol_seq_id, -1) symbolId
+		,symbol.symbol_svg symbolSvg
+		,ifnull(code.code_name, 'Group') symbolType
+		,comp.map_id mapId
+		from davis_symbol_component comp left join davis_asset asset 
+		on comp.asset_id = asset.asset_id left join davis_symbol symbol on symbol.seq_id = asset.symbol_seq_id
+		left join davis_code code on asset.code_id = code.code_id left join (select min(event.severity) severity, name from davis_event event group by event.name) event
+	    on comp.asset_id = event.name
+		 where comp.map_id = #{id}
+    	<!-- select 
+		if(comp.comp_name is null, asset.asset_name, comp.comp_name) as 'compName'
+		,if(comp.asset_id is null, SUBSTRING_INDEX(SUBSTRING_INDEX(comp_id, '_', 2), '_', -1), comp.asset_id) as 'assetId'
+		,comp_id compId 
+		,parent_loc_id parentId
+		,comp.transform
+		,comp.font_color color
+		,ifnull(asset.symbol_seq_id, -1) symbolId
+		,symbol.symbol_svg symbolSvg
+	    ,code.code_id
+	    ,ifnull(code.code_name, 'Group') symbolType
+		from davis_symbol_component comp left join davis_asset asset 
+		on comp.asset_id = asset.asset_id left join davis_symbol symbol on symbol.seq_id = asset.symbol_seq_id
+	    left join davis_code code on asset.code_id = code.code_id -->
+    </select>
+    
+    <select id="getMapList" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+	    select code_id id,
+				code_name name,
+				inout_status inOutStatus,
+				code_desc codeDesc,
+				parent_code_id parentId,
+				sort_order sortOrder,
+				col1 column1,
+				col2 column2 
+		from davis_code
+		where 1=1
+		and parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca'
+		and inout_status = 1
+		or code_id = '0adccdb6-e956-433c-a7b4-315ba8ce705b'
+    </select>
+    
+    <select id="getMapListType" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+    select code_id id,
+				code_name name,
+				code_name text,
+				inout_status inOutStatus,
+				code_desc codeDesc,
+				parent_code_id parentId,
+				sort_order sortOrder,
+				col1 column1,
+				col2 column2,
+				'fas fa-cubes' icon
+		from davis_code
+		where 1=1
+		and parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca'
+		and inout_status = 1
+    </select>
+    
+    <select id="getAvailableList" parameterType="java.util.HashMap" resultType="com.yescnc.jarvis.entity.db.SymbolVO">
+    select 
+	@rownum := @rownum +1 recid
+	,concat(#{mapId}, "_", assetId) compId
+	,assetId
+	,assetName
+	,symbolId
+	,symbolType
+	,symbolSvg
+	,'white' color
+	,#{mapId} mapId
+	,#{mapId} loc
+	from(
+	select 
+	@rownum := 0
+	,asset.asset_id assetId
+	,asset.asset_name assetName
+	,asset.symbol_seq_id symbolId
+	,code.code_name symbolType
+	,symbol.symbol_svg symbolSvg
+	from davis_asset asset left join davis_code code on code.code_id = asset.code_id 
+	left join (select * from davis_symbol_component where map_id = #{mapId}) comp on asset.asset_id = comp.asset_id
+	left join davis_symbol symbol on asset.symbol_seq_id = symbol.seq_id
+	where 1=1
+	and asset.code_id = #{codeId}
+	and comp.map_id is null ) a
+    </select>
+    
+    <select id="getUseList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.SymbolVO">
+    select 
+		@rownum := @rownum + 1 recid
+		,compId
+		,assetId
+		,assetName
+		,symbolId
+		,symbolType
+		,symbolSvg
+	  ,color
+	  ,mapId
+    ,loc
+	from(
+		select
+		@rownum := 0
+		,comp.comp_id compId
+		,asset.asset_id assetId
+		,asset.asset_name assetName
+		,asset.symbol_seq_id symbolId
+		,code.code_name symbolType
+		,symbol.symbol_svg symbolSvg
+	  ,comp.font_color color
+	  ,comp.map_id mapId
+    ,comp.parent_loc_id loc
+	from davis_asset asset left join davis_code code on code.code_id = asset.code_id 
+	left join davis_symbol_component comp on asset.asset_id = comp.asset_id
+	left join davis_symbol symbol on asset.symbol_seq_id = symbol.seq_id
+	where 1=1
+	and comp.map_id = #{mapId}) a
+    </select>
+    
+    <select id="getAssetList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+    	select @ROWNUM := @ROWNUM + 1 recid
+		    	,assetId
+		    	,assetName
+		    	,codeId
+				,modelId
+				,locId
+				,unitSize
+				,productModel
+				,serialNumber
+				,revision 
+				,hwVersion
+				,fwVersion
+				,receiptDate
+				,releaseDate
+				,status
+				,symbolId
+		   	    ,symbolSvg
+	     	    ,name
+		from(
+	    	select 
+	    		@ROWNUM :=0 ROWNUM,
+				asset.asset_id assetId
+				,asset.asset_name assetName
+				,asset.code_id codeId
+				,asset.model_id modelId
+				,asset.loc_id locId
+				,asset.unit_size unitSize
+				,asset.product_model productModel
+				,asset.serial_number serialNumber
+				,asset.revision 
+				,asset.hw_version hwVersion
+				,asset.fw_version fwVersion
+				,asset.receipt_date receiptDate
+				,asset.release_date releaseDate
+				,asset.status
+				,asset.sequence_id sequenceId
+				,asset.symbol_seq_id symbolId
+	      		,symbol.symbol_svg symbolSvg
+        		,code.code_name name
+			from davis_asset asset left join davis_symbol symbol
+	      		   on asset.symbol_seq_id = symbol.seq_id left join davis_code code
+        		    on code.code_id = asset.code_id
+       	) a
+		where codeId = #{id}
+		order by sequenceId desc
+    </select>
+    
+    <insert id="setSaveEditor" parameterType="com.yescnc.jarvis.entity.db.SymbolVO">
+    	insert into davis_symbol_component (
+    		comp_id
+    		<if test="groupId != null">
+    		,group_id
+    		,group_name
+    		</if>
+    		<if test="assetId != null">
+    		,asset_id
+    		</if>
+    		,map_id
+    		,symbol_type
+		    ,parent_loc_id
+			,transform
+		    ,font_color
+    	)values(
+    		#{compId}
+    		<if test="groupId != null">
+    		,#{groupId}
+    		,#{groupName}
+    		</if>
+    		<if test="assetId != null">
+    		,#{assetId}
+    		</if>
+    		,#{mapId}
+    		,#{symbolType}
+    		,#{loc}
+    		,#{transform}
+    		,#{color}
+    	)
+    	on DUPLICATE KEY UPDATE
+    	parent_loc_id = #{loc}
+    	<if test="groupId != null">
+    	,group_name = #{groupName}
+    	</if>
+    	,transform = #{transform}
+		,font_color = #{color}
+    </insert>
+    
+    <delete id="setDeleteEditor" parameterType="java.util.HashMap">
+    	delete from davis_symbol_component
+    	where 1=1
+    	and comp_id in
+    	<foreach collection="deleteData" item="item" open="(" separator="," close=")">
+    	#{item.compId}
+    	</foreach>
+    </delete>
+    
+    <delete id="deleteAllData" parameterType="String">
+    	delete from davis_symbol_component
+		where map_id = #{mapId}
+    </delete>
+    
+    <insert id="insertAllData"  parameterType="com.yescnc.jarvis.entity.db.SymbolVO">
+    	insert into davis_symbol_component (
+    		comp_id
+    		,asset_id
+    		,map_id
+    		,symbol_type
+		    ,parent_loc_id
+			,transform
+		    ,font_color
+    	)values(
+    		#{compId}
+    		,#{assetId}
+    		,#{mapId}
+    		,#{symbolType}
+    		,#{loc}
+    		,#{transform}
+    		,#{color}
+    	)
+    </insert>
+    
+    <select id="getMapInfo" parameterType="java.util.HashMap" resultType="com.yescnc.jarvis.entity.db.MapVO">
+     select mapId
+			,width
+			,height
+			,pageName
+     from davis_map_editor_info
+     where 1=1
+     and mapId in
+     <foreach collection="mapList" item="item" open="(" separator="," close=")">
+    	#{item.mapId}
+    </foreach>
+    </select>
+    
+    <insert id="setSaveMapInfo" parameterType="com.yescnc.jarvis.entity.db.MapVO">
+    insert into davis_map_editor_info (
+    		mapId
+    		,width
+    		,height
+    		,pageName
+    	)values(
+    		#{mapId}
+    		,#{width}
+    		,#{height}
+    		,#{pageName}
+    	)
+    	on DUPLICATE KEY UPDATE
+    	width = #{width}
+    	,height = #{height}
+		,pageName = #{pageName}
+    </insert>
+    
+</mapper>

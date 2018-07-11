@@ -1,0 +1,15 @@
+.sla-pie {
+	width : 50%;
+	height : 100%;
+	float: left;
+}
+
+.slaInfo-chart-mem-per {
+	position: relative;
+	top : -120px;
+}
+.sla-bar {
+	width : 100%;
+	height : 100%;
+	float: left;
+}

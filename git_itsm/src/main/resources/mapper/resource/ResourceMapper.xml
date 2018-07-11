@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.os.ResourceMapper">
+
+	<!-- CPU RESOURCE  -->
+	<insert id="insertCpu" parameterType="com.yescnc.core.entity.os.CpuInfoVO">
+		insert into davis_resource_cpu (recordTime, user, nice, sys, idle, iowait, irq, softirq, coreUsage, `usage`)
+    	values (#{recordTime,jdbcType=TIMESTAMP}, #{user,jdbcType=VARCHAR}, #{nice,jdbcType=VARCHAR}, 
+      #{sys,jdbcType=VARCHAR}, #{idle,jdbcType=VARCHAR}, #{iowait,jdbcType=VARCHAR},#{irq,jdbcType=VARCHAR},
+      #{softirq,jdbcType=VARCHAR},#{coreUsage,jdbcType=VARCHAR},#{usage,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- MEMORY RESOURCE  -->
+	<insert id="insertMemory" parameterType="com.yescnc.core.entity.os.GlobalMemoryVO">
+		insert into davis_resource_memory (recordTime ,  totalMemory,  usedMemory, availableMemory, memoryUsage, 
+		totalSwapMemory, usedSwapMemory, availableSwapMemory, swapUsage)
+		values( 	#{recordTime}, #{totalMemory}, #{usedMemory}, #{availableMemory}, #{memoryUsage}, 
+					#{totalSwapMemory}, #{usedSwapMemory}, #{availableSwapMemory}, #{swapUsage}) 
+	</insert>
+	
+	<!-- FILESYSTEM RESOURCE  -->
+	<insert id="insertFileSystem" parameterType="java.util.List">
+		insert into davis_resource_filesystem (recordTime ,  mount,  totalSpace, usedSpace, usableSpace, `usage`)
+		values
+		<foreach separator="," item="item" collection="list">
+			( #{item.recordTime}, 
+			  #{item.mount},
+			  #{item.totalSpace},
+			  #{item.usedSpace},
+			  #{item.usableSpace},
+			  #{item.usage}) 
+		</foreach>
+	</insert>
+	
+	<!-- NETWORK INTERFACE RESOURCE  -->
+	<insert id="insertNetwork" parameterType="java.util.List">
+		insert into davis_resource_network (
+			recordTime ,  
+			name,  
+			ipv4, 
+			ipv6, 
+			bytesRecv, 
+			bytesRecvTotal,
+			bytesSent,
+			bytesSentTotal,
+			packetsRecv,
+			packetsRecvTotal,
+			packetsSent,
+			packetsSentTotal,
+			inErrors,
+			outErrors)
+		values
+		<foreach separator="," item="item" collection="list">
+		( 	
+			#{item.recordTime},  
+			#{item.name},  
+			#{item.ipv4}, 
+			#{item.ipv6}, 
+			#{item.bytesRecv}, 
+			#{item.bytesRecvTotal},
+			#{item.bytesSent},
+			#{item.bytesSentTotal},
+			#{item.packetsRecv},
+			#{item.packetsRecvTotal},
+			#{item.packetsSent},
+			#{item.packetsSentTotal},
+			#{item.inErrors},
+			#{item.outErrors})
+		</foreach>
+	</insert>
+</mapper>

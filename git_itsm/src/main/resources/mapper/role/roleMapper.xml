@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.role.RoleMapper">
+
+	<select id="getGroupInfo"  resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			group_id groupId,
+			group_name groupName,
+			start_page startPage
+		FROM
+			davis_role_group, (SELECT @ROWNUM:=0) recid
+		ORDER BY create_time
+	</select>
+	
+	<select id="getUserList" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			user.userId userId, 
+			user.userName userName, 
+			privilege.id privilegeId,
+			privilege.name privilegeName
+		FROM 
+			davis_user user 
+		LEFT JOIN 
+			davis_privilege privilege
+		ON 
+			user.privilegeId = privilege.id, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE userId != "root"
+	</select>
+	
+	<select id="getInitUserList" resultType="java.util.HashMap" parameterType="String">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			userId, userName, privilege.name privilegeName 
+		FROM davis_user user
+		LEFT JOIN 
+			davis_privilege privilege
+		ON 
+			user.privilegeId = privilege.id,
+			(SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE 
+			userId != 'root'
+		AND 
+			user.group_id = #{group_id}
+	</select>
+	
+	<select id="getInitMenuCheck" resultType="java.util.HashMap" parameterType="String">
+		SELECT
+			menu.menuId
+			,menu.menuName
+			,menu.privilegeId
+			,IF(comp.menu_id > 0, true, false) useYN
+		FROM davis_menu menu LEFT JOIN
+			(SELECT * FROM davis_role_group_component WHERE group_id = #{group_id}) comp ON menu.menuId = comp.menu_id
+		WHERE 1=1;
+	</select>
+	
+	<insert id="insertRoleGroup" parameterType="java.util.HashMap">
+		INSERT INTO davis_role_group (
+			group_id,
+			group_name,
+			create_time
+		)
+		VALUES (
+			#{groupId},
+			#{groupName},
+			now()
+		)
+	</insert>
+	
+	<update id="updateRoleGroup" parameterType="java.util.HashMap">
+		UPDATE davis_role_group SET
+			group_name = #{groupName}
+		WHERE
+			group_id = #{groupId}
+	</update>
+	
+	<update id="updateUserGroup" parameterType="java.util.HashMap" >
+		UPDATE davis_user SET
+			<foreach item="item" index="index" collection="list" separator=",">
+				group_id = CASE userId
+					WHEN #{item.userId} THEN #{item.groupId}
+					ELSE group_id
+					END
+			</foreach>
+		WHERE 
+			userId IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.userId}
+			</foreach>
+	</update>
+	
+	<update id="updateUserBaseGroup" parameterType="java.util.HashMap" >
+		UPDATE davis_user SET
+				group_id = #{baseId}
+		WHERE 
+			userId IN
+			<foreach item="list" index="index" collection="list" open="(" separator="," close=")">
+				#{list.userId}
+			</foreach>
+	</update>
+	
+	<update id="updateStartPage" parameterType="java.util.HashMap" >
+		UPDATE davis_role_group SET
+				start_page = #{startPage}
+		WHERE group_id = #{groupId}
+	</update>
+	
+	<insert id="insertGroupComponent" parameterType="java.util.List">
+		INSERT INTO davis_role_group_component (
+			group_id,
+			privilege_id,
+			menu_id
+		)
+		VALUES 
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.groupId},
+			#{item.privilegeId},
+			#{item.menuId}
+		</foreach>
+	</insert>
+	
+	<delete id="deleteRoleGroup" parameterType="java.util.HashMap">
+		DELETE FROM davis_role_group 
+		WHERE
+			group_id IN
+			<foreach item="item" index="index" collection="recId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
+	
+	<delete id="deleteGroupComponent" parameterType="String">
+		DELETE FROM davis_role_group_component WHERE group_id = #{groupId}
+	</delete>
+	
+	<select id="selecteInnerUsers" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT userId FROM davis_user WHERE group_id in 
+		<foreach item="item" index="index" collection="recId" open="(" separator="," close=")">
+				#{item}
+		</foreach>
+	</select>
+	
+	<select id="selectGroup" parameterType="String" resultType="com.yescnc.core.entity.db.RoleVO"> 
+		SELECT 
+			polling
+		FROM davis_role_group
+			where group_id = #{groupId}
+	</select>
+	
+	<update id="updatePolling" parameterType="com.yescnc.core.entity.db.RoleVO">
+		UPDATE davis_role_group
+		SET
+			`polling` = #{polling}
+		where 
+			group_id = #{groupId}
+	</update>
+	
+</mapper>

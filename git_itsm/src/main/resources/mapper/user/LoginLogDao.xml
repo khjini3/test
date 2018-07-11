@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.user.LoginLogMapper">
+
+
+	<select id="getSmTLoginHisCount" parameterType="map" resultType="java.lang.Integer">
+ 		<!-- SELECT session_id, tomcat_session, user_index, login_id, privilege,
+ 		if(login_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(login_time,'%Y-%m-%d %H:%i:%S')) login_time,
+ 		if(last_check_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(last_check_time,'%Y-%m-%d %H:%i:%S')) last_check_time,
+ 		if(logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(logout_time,'%Y-%m-%d %H:%i:%S')) logout_time,lloc,login_fail_reason,logout_reason,tomcat_ip,session_type
+		FROM sm_t_login_log--> 
+		SELECT count(*)
+		FROM sm_t_login_log WHERE login_time between #{from_time} and #{to_time}
+	    <if test="user_id != 'N/A'">
+	        	and login_id = #{user_id}
+	    </if>
+		<if test="ip_address != 'N/A'">
+	        	and lloc = #{ip_address}
+	    </if>
+	    <if test="login_result == 1">
+	        	and login_fail_reason = 'SUCCESS'
+	    </if>
+	    <if test="login_result == 2">
+	        	and login_fail_reason != 'SUCCESS'
+	    </if>
+	</select>
+	 
+	<select id="getSmTLoginHis" parameterType="map" resultType="com.yescnc.core.entity.db.LoginLogVO">
+		<!-- SELECT session_id, tomcat_session, user_index, login_id, privilege,
+ 		if(login_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(login_time,'%Y-%m-%d %H:%i:%S')) login_time,
+ 		if(last_check_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(last_check_time,'%Y-%m-%d %H:%i:%S')) last_check_time,
+ 		if(logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(logout_time,'%Y-%m-%d %H:%i:%S')) logout_time,lloc,login_fail_reason,logout_reason,tomcat_ip,session_type
+		FROM sm_t_login_log WHERE session_id= #{session_id}
+		and logout_time = date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S') -->
+		SELECT login_id, if(login_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(login_time,'%Y-%m-%d %H:%i:%S')) login_time,
+ 		if(last_check_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(last_check_time,'%Y-%m-%d %H:%i:%S')) last_check_time,
+ 		if(logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(logout_time,'%Y-%m-%d %H:%i:%S')) logout_time,lloc,login_fail_reason,logout_reason 
+		FROM sm_t_login_log WHERE login_time between #{from_time} and #{to_time}
+	    <if test="user_id != 'N/A'">
+	        	and login_id = #{user_id}
+	    </if>
+		<if test="ip_address != 'N/A'">
+	        	and lloc = #{ip_address}
+	    </if>
+	    <if test="login_result == 1">
+	        	and login_fail_reason = 'SUCCESS'
+	    </if>
+	    <if test="login_result == 2">
+	        	and login_fail_reason != 'SUCCESS'
+	    </if>
+	    order by login_time desc
+	    limit ${startIdx},${linePerPage} 
+		
+	</select>
+	
+	<select id="getSmTLoginLog" parameterType="map" resultType="com.yescnc.core.entity.db.LoginLogVO">
+ 		SELECT session_id, tomcat_session, user_index, login_id, privilege,
+ 		if(login_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(login_time,'%Y-%m-%d %H:%i:%S')) login_time,
+ 		if(last_check_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(last_check_time,'%Y-%m-%d %H:%i:%S')) last_check_time,
+ 		if(logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(logout_time,'%Y-%m-%d %H:%i:%S')) logout_time,lloc,login_fail_reason,logout_reason,tomcat_ip,session_type
+		FROM sm_t_login_log 
+	</select>
+	 
+	<select id="getSmTLoginLogBySessionId" parameterType="map" resultType="com.yescnc.core.entity.db.LoginLogVO">
+		SELECT session_id, tomcat_session, user_index, login_id, privilege,
+ 		if(login_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(login_time,'%Y-%m-%d %H:%i:%S')) login_time,
+ 		if(last_check_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(last_check_time,'%Y-%m-%d %H:%i:%S')) last_check_time,
+ 		if(logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'), '-',
+ 		date_format(logout_time,'%Y-%m-%d %H:%i:%S')) logout_time,lloc,login_fail_reason,logout_reason,tomcat_ip,session_type
+		FROM sm_t_login_log WHERE session_id= #{session_id}
+		and logout_time = date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S')
+	</select>
+
+	<select id="getCurrentLoginLog" parameterType="map" resultType="com.yescnc.core.entity.db.LoginLogVO">
+		select sessionId, tomcatSession, id, loginId, privilege,
+		if(loginTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'),'-',
+		date_format(loginTime,'%Y-%m-%d %H:%i:%S')) loginTime,
+		if(lastCheckTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'),'-',
+		date_format(lastCheckTime,'%Y-%m-%d %H:%i:%S')) lastCheckTime,
+		logoutTime,lloc,failReason,logoutReason,tomcatIp,sessionType, ipAddress from davis_login_history where 
+		logoutTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S')     
+		and sessionId in (select sessionId from davis_session where state=1)
+	</select>
+<!-- 
+	<select id="getCurrentLoginLog" parameterType="map" resultType="com.yescnc.framework.db.model.sm.SmTLoginLog">
+		select session_id, tomcat_session, user_index, login_id, privilege,
+		if(login_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'),'-',
+		date_format(login_time,'%Y-%m-%d %H:%i:%S')) login_time,
+		if(last_check_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'),'-',
+		date_format(last_check_time,'%Y-%m-%d %H:%i:%S')) last_check_time,
+		logout_time,lloc,login_fail_reason,logout_reason,tomcat_ip,session_type from sm_t_login_log where 
+		logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S')     
+		and session_id in (select session_id from sm_t_sessions where state=1)
+	</select>
+ -->	
+	<select id="getCurrentLoginLogOnPage" parameterType="map" resultType="com.yescnc.core.entity.db.LoginLogVO">
+		select a.sessionId, a.tomcatSession, a.id, a.loginId, a.privilege,
+ 		if(a.loginTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'),'-',
+ 		date_format(a.loginTime,'%Y-%m-%d %H:%i:%S')) loginTime,
+ 		if(a.lastCheckTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S'),'-',
+		date_format(a.lastCheckTime,'%Y-%m-%d %H:%i:%S')) lastCheckTime,
+ 		'-' logoutTime, a.lloc, a.failReason, a.logoutReason,a.tomcatIp,a.sessionType from 
+ 		( select sessionId, tomcatSession, id, loginId, privilege,
+        loginTime,lastCheckTime,logoutTime,lloc,failReason,logoutReason,tomcatIp,sessionType
+ 		from davis_login_history
+ 		where logoutTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S')       
+ 		and sessionId in (select id from user where loginStatus=1)
+ 		order by loginTime desc 
+        ) a limit #{paragraph_no}, #{row_count_per_paragraph}
+	</select>
+<!-- 	
+	<select id="getCurrentLoginLogCount" parameterType="map" resultType="java.lang.Integer">
+		select count(*) count from sm_t_login_log where 
+		logout_time=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S') 
+		and session_id in (select session_id from sm_t_sessions where state=1)
+
+	</select>
+ -->	
+	<select id="getCurrentLoginLogCount" parameterType="map" resultType="java.lang.Integer">
+		select count(*) count from davis_login_history where 
+		logoutTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S') 
+		and sessionId in (select sessionId from davis_session where state=1)
+
+	</select>
+	
+	<insert id="putSmTLoginLog" parameterType="com.yescnc.core.entity.db.LoginLogVO">
+
+		<selectKey resultType="java.lang.String" keyProperty="login_time" order="BEFORE">
+			select date_format(now(), '%Y-%m-%d %H:%i:%S') login_time,
+			date_format(now(), '%m') month
+		</selectKey>
+		
+		
+		INSERT INTO sm_t_login_log(
+			session_id,
+			tomcat_session,
+			user_index,
+			login_id,
+			privilege,
+			login_time,
+			last_check_time,
+			logout_time,
+			lloc,
+			login_fail_reason,
+			logout_reason,
+			tomcat_ip,
+			session_type
+		) values (
+      		#{session_id},
+      		#{tomcat_session},  
+			#{user_index},
+			#{login_id},
+			#{privilege},
+			date_format(#{login_time},'%Y-%m-%d %H:%i:%S'),
+			date_format(#{login_time},'%Y-%m-%d %H:%i:%S'),
+			date_format(#{logout_time},'%Y-%m-%d %H:%i:%S'),
+			#{lloc}, 
+			#{login_fail_reason},
+			#{logout_reason},
+			#{tomcat_ip},
+			<if test="session_type != 'N/A'">
+	        	#{session_type}
+	        </if>
+	        <if test="session_type == 'N/A'">
+	        	"EMS"
+	        </if>
+		)
+	</insert>
+	
+	
+	<update id="updAllSessionsIdle" parameterType="java.lang.Integer">
+		update sm_t_sessions set state = 0		
+	</update>
+	
+	<update id="setUsersLogout" parameterType="com.yescnc.core.entity.db.LoginLogVO">
+	
+		update davis_login_history set logoutTime=now(),
+
+	        <if test="logoutReason == 'N/A'">
+	        	logoutReason='com.message.logout.forced'
+	        </if>
+	        <if test="logoutReason != 'N/A'">
+	        	logoutReason= #{logoutReason}
+	        </if>	        
+		where 
+	        <if test="sessionId != -1">
+	        	sessionId= #{sessionId} and 
+	        </if>
+		logoutTime=date_format('1900-01-01 00:00:00','%Y-%m-%d %H:%i:%S')		
+	</update>
+	
+</mapper>

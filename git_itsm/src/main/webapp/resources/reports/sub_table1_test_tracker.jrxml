@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subtable" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="66f3298f-e9a2-4422-b50c-7217dfa29133">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF" fill="Solid" fontSize="12">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<field name="column1" class="java.lang.String"/>
+	<field name="column2" class="java.lang.String"/>
+	<field name="column3" class="java.lang.String"/>
+	<field name="column4" class="java.lang.String"/>
+	<field name="column5" class="java.lang.String"/>
+	<field name="column6" class="java.lang.String"/>
+	<field name="column7" class="java.lang.String"/>
+	<field name="column8" class="java.lang.String"/>
+	<title>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="66" uuid="d17d53da-2cb8-43c2-b53e-b3110563f7cf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SVT Quality Status]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_TH" x="212" y="0" width="185" height="42" uuid="8fa50286-ad93-471b-83e1-9fb4216e1e02"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monthly Cumulative Quality Indicators]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="397" y="0" width="180" height="42" uuid="cbf47bfc-d95d-429b-b453-c6cb73e9bdd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="226" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_TD" x="212" y="0" width="185" height="50" uuid="e44db511-8a03-4d75-a75a-2d3e6a2b60a9"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[SVT available defect rate
+(P1+P2) / (P1+P2+P3)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="212" y="50" width="185" height="50" uuid="66cf5925-6b4d-4387-96da-2ace6e481261"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[SVT Defect Density
+(Defect count) / (KLOC)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="212" y="100" width="185" height="20" uuid="cba22dc6-12c6-40c4-8585-1089192ac1f7"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[accumulate TC count]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="295" y="140" width="102" height="20" uuid="d11ba27b-7043-4f0f-8a39-68368115c486"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[P2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="295" y="120" width="102" height="20" uuid="f50c9b23-cf06-4e31-ac3e-b2340b059fd6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[P1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="295" y="160" width="102" height="20" uuid="62f5a64e-74a2-4104-a37e-97c52a795a0d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[P3]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="397" y="0" width="180" height="50" uuid="a25eadb9-8782-4d8c-96e9-d8bdfb4d3f90"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="50" width="180" height="50" uuid="b37297cc-9133-4609-9ec9-4f91eb5a2e84"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="100" width="180" height="20" uuid="5ca001a0-8561-44fb-bd37-682023b7a8aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="120" width="180" height="20" uuid="d9d42b98-b7b0-40ec-b652-06414abf19f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="140" width="180" height="20" uuid="3e9ef72d-91eb-4988-b68a-599fb58495b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="160" width="180" height="20" uuid="79c7d7dc-8ed1-4106-ad37-9d157a458a90"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="180" width="180" height="20" uuid="0b0ed127-4215-4ccb-aa0f-b670bb276634"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="397" y="200" width="180" height="20" uuid="628e97d2-b42b-4cc1-bc07-8567a22ecb9d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{column8}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="295" y="180" width="102" height="20" uuid="6ee9d0ae-1986-4cf9-96be-17d8e70333d1"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[info]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="295" y="200" width="102" height="20" uuid="d7e9e862-b57f-4ed7-9ff3-08f7283f94f1"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[sum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="212" y="120" width="83" height="100" uuid="cff55576-a587-4391-91c2-822447f6991b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Accumulate
+Defects]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

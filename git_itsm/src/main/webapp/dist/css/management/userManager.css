@@ -1,0 +1,102 @@
+@CHARSET "UTF-8";
+
+#userManager .contentsCls{
+	 width: 100%; height: 100%; background-color: rgba(255,0,0,0);
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#userManager div#leftContents{width:100%; height: calc(100vh - 137px);padding-left: 10px; padding-right: 5px;}
+#userManager div#rightContents{width:100%; height: calc(100vh - 137px);padding-left: 5px; padding-right: 10px;}
+
+#userManager .dashboard-contents {
+	margin-top: -28px;
+}
+    
+#userManager div#leftBottom{
+	width:100%;
+	height:calc(100vh - 255px);
+}
+
+#userManager div#rightBottom{
+	width:100%;
+	height:calc(100vh - 255px);
+}
+
+#userManager #leftTop {
+	text-align: right;
+    padding: 3px 5px;
+}
+
+#userManager #rightTop {
+	text-align: right;
+    padding: 3px 5px;
+}
+
+
+/* SVG ICON */
+#userManager svg.icon.link:hover {
+	opacity: 1;
+}
+
+#userManager svg.link.icon{
+	cursor: pointer;
+}
+
+#userManager svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+/* Disabled SVG ICON */
+#userManager svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#userManager svg.icon {
+	cursor: default;
+}
+
+#userIdTextArea {
+	height: 55px;
+    position: relative;
+    top: -5px;
+} 
+
+#rightDateBox {
+	position: relative;
+    top: -5px;
+    height : 55px !important;
+}
+
+#historySearchBtn, #userSearchBtn {
+	position: relative;
+    left: 5px;
+}
+
+#userManager .w2ui-layout > div .w2ui-resizer {
+    background-color: transparent !important;
+}
+
+#alarmOnOffArea > div > label, #severityGroup > div > label{
+	width: 90px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#alarmOnOffArea > div > label > label, #severityGroup > div > label > label{
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}

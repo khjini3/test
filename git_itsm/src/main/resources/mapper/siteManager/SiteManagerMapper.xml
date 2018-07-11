@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.project.itsm.db.sitemanager.SiteManagerMapper">
+
+	<sql id="Column_List">
+		site_id,site_name,main_phone,fax,parent_site_id,ceo_name,company_number,area,address
+	</sql>
+	
+	<select id="getCompanyList" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO" 
+	resultType="com.yescnc.project.itsm.entity.db.SiteManagerCompanyVO">
+		select
+		@ROWNUM := @ROWNUM + 1 recid,
+			<include refid="Column_List" />
+			from itsm_site_manager, (SELECT @ROWNUM:=0) recid
+			<if test="site_id != null">
+				where site_id = #{site_id}
+			</if>			
+		order by site_name
+	</select>	
+	
+	<insert id="addCompanyInfo" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCompanyVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(site_id)+1, 1) from itsm_site_manager
+		</selectKey>
+		
+		INSERT INTO itsm_site_manager
+		(`site_id`,`site_name`,`main_phone`,`fax`,`parent_site_id`,`ceo_name`,`company_number`,`area`,`address`,`note`)
+		VALUES
+		(
+			#{site_id},#{site_name},#{main_phone},#{fax},#{parent_site_id},#{ceo_name},#{company_number},#{area},#{address},#{note})
+	</insert>	
+	
+	<update id="updateCompanyInfo" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCompanyVO">
+		UPDATE itsm_site_manager
+		<set>
+			<if test="site_name != null">
+				`site_name` = #{site_name}
+			</if>
+			<if test="main_phone != null">												
+				,`main_phone` = #{main_phone}
+			</if>
+			<if test="fax != null">
+				,`fax` = #{fax}
+			</if>
+			<if test="parent_site_id != null">												
+				,`parent_site_id` = #{parent_site_id}
+			</if>		
+			<if test="ceo_name != null">
+				,`ceo_name` = #{ceo_name}
+			</if>
+			<if test="company_number != null">												
+				,`company_number` = #{company_number}
+			</if>
+			<if test="area != null">
+				,`area` = #{area}
+			</if>
+			<if test="address != null">												
+				,`address` = #{address}
+			</if>	
+			<if test="note != null">												
+				,`note` = #{note}
+			</if>						
+		</set>
+		WHERE `site_id` = #{site_id}	
+	</update>			
+<!-- 	
+	<delete id="deleteCompanyInfo" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCompanyVO">
+		delete from itsm_site_manager
+		where site_id = #{site_id}
+	</delete>	
+ -->	
+	<delete id="deleteCompanyInfo" parameterType="java.util.HashMap">
+		delete from itsm_site_manager
+		where site_id in
+		<foreach item="item" index="index" collection="deleteCompanyList" open="(" separator="," close=")">
+			#{item}
+		</foreach>		
+	</delete>	
+		
+<!-- 	
+	<select id="getCustomerList" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO"
+	resultType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO">
+		select
+		@ROWNUM := @ROWNUM + 1 recid,customer_id,customer_name,phone,email,department,site_id,task,rank,parent_site_id,mobile_phone
+			from itsm_custom_info, (SELECT @ROWNUM:=0) recid
+			<choose>
+				<when test="site_id != null and parent_site_id != null">
+					where site_id = #{site_id} and parent_site_id = #{parent_site_id}
+				</when>			
+				<when test="site_id != null">
+					where site_id = #{site_id}
+				</when>
+				<otherwise>
+					where parent_site_id = #{parent_site_id}
+				</otherwise>
+			</choose>
+		order by customer_name
+	</select>
+ -->
+ 	<select id="getCustomerList" parameterType="java.util.HashMap" resultType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO">
+		select
+		@ROWNUM := @ROWNUM + 1 recid,customer_id,customer_name,phone,email,department,site_id,task,rank,parent_site_id,mobile_phone
+			from itsm_custom_info, (SELECT @ROWNUM:=0) recid
+		<foreach item="item" index="index" collection="customerList" open="where (" separator=" or" close=")">
+			site_id=#{item}
+		</foreach>
+		order by customer_name
+	</select>
+ 	
+	<!-- <insert id="addCustomerInfo" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO"> -->
+	<insert id="addCustomerInfo" parameterType="java.util.List">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(customer_id)+1, 1) from itsm_custom_info
+		</selectKey>
+		
+		INSERT INTO itsm_custom_info
+		(`customer_id`,`customer_name`,`phone`,`email`,`department`,`site_id`,`task`,`rank`,`parent_site_id`,`mobile_phone`)
+		VALUES
+			<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			<choose>
+				<when test="item.customer_id != null">
+					#{item.customer_id},
+				</when>
+				<otherwise>
+					(select ifnull(max(customer_id)+1, 1) from itsm_custom_info custom),
+				</otherwise>				
+			</choose>
+			      #{item.customer_name},
+				  #{item.phone},
+				  #{item.email},
+				  #{item.department},
+				  #{item.site_id},
+				  #{item.task},
+				  #{item.rank},
+				  #{item.parent_site_id},
+				  #{item.mobile_phone}
+			</foreach>	
+	</insert>	
+	
+	<update id="updateCustomerInfo" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO">
+		UPDATE itsm_site_manager
+		<set>
+			<if test="customer_name != null">
+				`customer_name` = #{customer_name}
+			</if>
+			<if test="phone != null">												
+				,`phone` = #{phone}
+			</if>
+			<if test="email != null">
+				,`email` = #{email}
+			</if>
+			<if test="site_id != null">												
+				,`site_id` = #{site_id}
+			</if>		
+			<if test="department != null">
+				,`department` = #{department}
+			</if>
+			<if test="task != null">												
+				,`task` = #{task}
+			</if>
+			<if test="rank != null">
+				,`rank` = #{rank}
+			</if>
+			<if test="parent_site_id != null">												
+				,`parent_site_id` = #{parent_site_id}
+			</if>	
+			<if test="mobile_phone != null">												
+				,`mobile_phone` = #{mobile_phone}
+			</if>						
+		</set>
+		WHERE `customer_id` = #{customer_id}	
+	</update>	
+	
+	
+	<delete id="deleteCustomerInfo" parameterType="java.util.HashMap">
+		delete from itsm_custom_info
+		where SITE_ID in
+		<foreach item="item" index="index" collection="customerDeleteList" open="(" separator="," close=")">
+			#{item}
+		</foreach>		
+	</delete>				
+
+ <!-- 	
+	<delete id="deleteCustomerInfo" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO">
+		delete from itsm_custom_info
+		<if test="site_id != null">
+			where site_id = #{site_id}
+		</if>
+		<if test="parent_site_id != null">
+			where parent_site_id = #{parent_site_id}
+		</if>		
+	</delete>	
+-->
+</mapper>

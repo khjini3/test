@@ -1,0 +1,193 @@
+@CHARSET "UTF-8";
+.contentsCls{
+	 width: 100%; height: 100%; background-color: rgba(255,0,0,0);
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#codeManager div#leftContents{
+	padding-left: 10px;
+}
+#codeManager div#mainTop{height:30px;text-align: right;padding: 8px 10px 5px 10px;}
+#codeManager div#leftTop{height:30px;text-align: right;padding: 4px 0px 0px 10px;}
+
+#codeManager div#leftBottom{
+	width:100%;
+	height: calc(100vh - 176px);
+	/* height:calc(100% - 92px); */
+	padding: 5px 10px 5px 10px;
+}
+
+#codeManager div#detailInfo{
+	height: calc(100vh - 176px);
+	/* height:calc(100% - 92px); */
+}
+
+#codeManager div#mainBottom{
+	width:100%;
+	padding: 5px 10px;
+}
+
+#codeManager div#mainContents{
+	width:100%;
+	height:100%;
+	padqding: 5px 5px 5px 5px;
+}
+
+
+.popup-btnGroup {
+    text-align: center;
+    width: 100%;
+    right: 4px;
+}
+
+#codeManager #detailInfo.w2ui-reset input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]), .w2ui-reset select, .w2ui-reset textarea{
+	width:100%!important;
+}
+
+#codeManager .w2ui-sidebar .w2ui-sidebar-div{
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+/* ICON
+#codeManager i.icon:hover {
+	opacity: 1!important
+}
+
+#codeManager i.link.icon {
+	cursor: pointer;
+}
+
+#codeManager i.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+#codeManager .fa-2x {
+    font-size: 1.5em;
+} 
+*/
+
+/* SVG ICON */
+#codeManager svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#codeManager svg.link.icon {
+	cursor: pointer;
+}
+
+#codeManager svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-left: 8px; */
+}
+
+#codeManager .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	/* padding-top:2px; */
+}
+
+#codeManager #codeMgrSaveBtn.svg-inline--fa.fa-w-14 {
+	width:0.975em;
+	padding-top:2px;
+}
+
+#codeManager .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:2px;
+}
+
+/* Disabled SVG ICON */
+#codeManager svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#codeManager svg.icon{
+	cursor: default;
+}
+
+/*
+ ******************************
+ * Module BOX
+ ******************************
+ */
+#codeManager .w2ui-sidebar .w2ui-sidebar-div{
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#codeManager div#rightTop {
+    position: relative;
+    top: -5px;
+}
+
+#codeManager #leftBottom .w2ui-node-group {
+   display: none;
+}
+
+.codeMgr-module-container {
+	width: 100% !important;
+	height: calc(100% - 40px) !important;
+}
+
+.codeMgr-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.codeMgr-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}
+
+.codeMgr div#bottomTree{
+	color: #ffffff;
+}
+
+#inOutPopup > div > label {
+    width: 75px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#inOutTableFields > div > label {
+	width: 75px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#inOutPopup > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+#inOutTableFields > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+#mainBottom .disableClass{
+	width:100%;
+	height:100%;
+	top: 0;
+    background-color: #fff0;
+    position: absolute;
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" printOrder="Horizontal" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0899aae4-59e7-455f-9495-1ca903ff6966">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="request_time" class="java.lang.String"/>
+	<field name="category" class="java.lang.Number"/>
+	<field name="category2" class="java.lang.String"/>
+	<field name="ITEM" class="java.lang.String"/>
+	<field name="CRITICAL" class="java.lang.String"/>
+	<field name="MAJOR" class="java.lang.String"/>
+	<field name="MINOR" class="java.lang.String"/>
+	<field name="WARNING" class="java.lang.String"/>
+	<field name="INDETERMINATE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="325" splitType="Stretch">
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="74" width="555" height="149" uuid="b5952fc5-13b5-4fde-b3da-e3b77d8ff843"/>
+					<chartTitle position="Top" color="#999999">
+						<font size="24" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend textColor="#999999" position="Right"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["CRITICAL"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ITEM}]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{CRITICAL})]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["MAJOR"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ITEM}]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{MAJOR})]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["MINOR"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ITEM}]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{MINOR})]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot isShowShapes="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#5EA9E0"/>
+						<seriesColor seriesOrder="1" color="#D2527F"/>
+						<seriesColor seriesOrder="2" color="#FF7F66"/>
+						<seriesColor seriesOrder="3" color="#55C7C3"/>
+						<seriesColor seriesOrder="4" color="#96CF41"/>
+					</plot>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

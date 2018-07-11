@@ -1,0 +1,23 @@
+{
+	"title" :{
+		"main" : {
+		    "normal" : "YESCNC" ,
+			"small" : "YES"
+		}
+	},
+	"menu" : {
+		"dashbaord" : "Dashboard"
+	},
+	"button" :{
+		"dashboard" :{
+			"full_screen_start" : "Full Screen",
+			"full_screen_stop" : "Normal Screen"
+		}
+	},
+	"label" :{
+		"user" :{
+			"locale_ko" : "Kor",
+			"locale_en" : "Eng"
+		}
+	}
+}

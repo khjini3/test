@@ -1,0 +1,19 @@
+.gm-chart {
+	width : 33%;
+	height : 100%;
+	float: left;
+}
+
+.gm-chart-title {
+    position: absolute;
+    top: 15px;
+    padding: 5 5 5 5;
+}
+
+.gm-chart-cpu,
+.gm-chart-mem,
+.gm-chart-disk {
+	width : 100%;
+	height : 100%;
+	float: left;
+}

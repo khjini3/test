@@ -1,0 +1,183 @@
+@CHARSET "UTF-8";
+
+#assetMapping .contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#assetMapping .contentsCls > div {
+	z-index: 98;
+}
+
+/* Layout Setting Start*/
+.assetMap div#leftContents{width:100%; height:100%;padding-left:10px;}
+.assetMap div#leftTop{height:30px;text-align: right;padding: 5px 10px 5px 10px;}
+.assetMap div#mainLeftTop, 
+.assetMap div#mainMiddleTop, 
+.assetMap div#mainRightTop
+{
+	height:35px;
+}
+
+.assetMap div#mainLeftTop,
+.assetMap div#mainMiddleTop
+{
+	padding-top: 5px;
+}
+
+.assetMap div#leftBottom{
+	width:100%;
+	height: calc(100vh - 176px);
+	/* height:calc(100% - 92px); */
+	padding: 5px 10px 5px 10px;
+}
+
+.assetMap div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+.assetMap div#mainLeftContents{
+	width : calc(50% - 30px);
+	height:100%;
+	float : left;
+}
+
+.assetMap div#mainMiddle{
+	display: table;
+    height: calc(100% - 37px);
+}
+
+.assetMap div#mainMiddleContents {
+	width : 60px;
+	height : 100%;
+	float : left;
+	display: table;
+	text-align: center;
+}
+
+.assetMap div#mainRightContents {
+	width : calc(50% - 30px);
+	height:100%;
+	float : right;
+}
+/* Layout Setting End */
+
+/* main Layout */
+.assetMap div#mainLeft{
+	width : 100%;
+	float : left;
+}
+
+.assetMap div#mainMiddle {
+	width : 60px;
+	float : left;
+	display: table;
+	text-align: center;
+}
+
+.assetMap div#mainRight {
+	width : 100%;
+	float : right;
+}
+
+
+/* Icon 
+.assetMap i.icon:hover {
+	opacity: 1!important
+}
+.assetMap i.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+.assetMap i.link.icon {
+	cursor: pointer;
+}
+.assetMap div#assetMapBtnGroup{
+	float:right;
+	/* position: relative;
+    top: -5px;
+    right: -19px; *
+    
+}
+.assetMap .fa-2x {
+    font-size: 1.5em;
+}
+#mainLeftTopToolbar.w2ui-toolbar{
+	padding : 0px;
+}
+*/
+
+.assetMap svg.icon:hover {
+	opacity: 1!important
+}
+.assetMap svg.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+.assetMap svg.link.icon {
+	cursor: pointer;
+}
+.assetMap div#assetMapBtnGroup{
+	float:right;
+    padding-top: 2px;
+}
+#mainLeftTopToolbar.w2ui-toolbar{
+	padding : 0px;
+}
+
+#assetMapping .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	padding-top:4px;
+}
+
+#assetMapping .svg-inline--fa.fa-w-14 {
+	width:0.975em;
+	padding-top:4px;
+}
+
+#assetMapping .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:4px;
+}
+
+/*
+ ******************************
+ * Module BOX
+ ******************************
+ */
+#assetMapping .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#assetMapping #leftBottom .w2ui-node-group {
+   display: none;
+}
+
+.assetMap-module-container {
+	width: 100% !important;
+}
+
+.assetMap-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.assetMap-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}
+
+#assetMapping .w2ui-grid {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.w2ui-panel-content {
+	width: 100%;
+	height: 100%;
+}

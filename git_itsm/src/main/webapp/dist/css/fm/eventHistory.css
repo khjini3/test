@@ -1,0 +1,74 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#eventHistory div#leftContents{width:100%; height:100%;padding-left: 10px;}
+#eventHistory div#mainTop,
+#eventHistory div#leftTop{
+	height:35px;
+	text-align: right;
+	padding-top: 10px;
+}
+
+#eventHistory div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#eventHistory div#mainSubBottom{
+	width: 100%;
+	height:calc(100vh - 230px);
+}
+
+#eventHistory div#leftBottom {
+	width:100%;
+	height:calc(100vh - 176px);
+	padding: 5px 10px 5px 10px;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+/* SVG ICON */
+#eventHistory svg.icon.link:hover,
+svg.icon.link#exportBtn:hover {
+	opacity: 1;
+}
+
+#eventHistory svg.link.icon,
+svg.link.icon#exportBtn {
+	cursor: pointer;
+}
+
+#eventHistory svg.icon.link,
+svg.icon.link#exportBtn {
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+/* Disabled SVG ICON */
+#eventHistory svg.icon,
+svg.icon#exportBtn {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#eventHistory svg.icon,
+svg.icon#exportBtn {
+	cursor: default;
+}
+
+#eventHistory #eventHistBtnGroup{
+	position : relative;
+	bottom : 4px;
+}

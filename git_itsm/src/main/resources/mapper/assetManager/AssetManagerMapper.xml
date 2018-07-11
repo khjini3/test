@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.assetManager.AssetManagerMapper">
+	<select id="getAssetList" resultType = "com.yescnc.jarvis.entity.db.IdcCodeVO">
+		SELECT CODE_ID id,
+				CODE_NAME name,
+				CODE_DESC codeDesc,
+				PARENT_CODE_ID parentId,
+				SORT_ORDER sortOrder,
+				INOUT_STATUS inOutStatus,
+				COL1 col1,
+				COL2 col2
+		FROM DAVIS_CODE
+		WHERE PARENT_CODE_ID = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca'
+		ORDER BY SORT_ORDER
+	</select>
+	
+	<select id="selectItemList" parameterType="java.util.HashMap" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT SQL_CALC_FOUND_ROWS
+		   @ROWNUM := @ROWNUM + 1 recid,
+			A.assetId,
+			A.assetName,
+			A.codeId,
+			A.codeName,
+			A.modelId,
+			A.locId,
+		    A.unitSize,
+		    A.serialNumber,
+		    A.productModel,
+		    A.status,
+		    A.fwVersion,
+		    A.hwVersion,
+		    A.revision,
+		    A.releaseDate,
+		    A.receiptDate,
+		    PLACE.UINDEX unitIndex,
+		    PLACE.START_POS startPosition,
+		    location.loc_name locName,
+		    p_status.code_desc codeDesc
+		FROM(
+		SELECT @ROWNUM := #{startRow} ROWNUM,
+				ASSET.SEQUENCE_ID sequenceId,
+				ASSET.ASSET_ID assetId,
+				ASSET.ASSET_NAME assetName,
+				ASSET.CODE_ID codeId,
+				ASSET.MODEL_ID modelId,
+				ASSET.LOC_ID locId,
+				ASSET.UNIT_SIZE unitSize,
+			  IF(ISNULL(ASSET.MODEL_ID), 0, 1) mappingYN,
+				ASSET.SERIAL_NUMBER serialNumber,
+				ASSET.PRODUCT_MODEL productModel,
+				ASSET.STATUS status,
+				CODE.CODE_NAME codeName,
+				ASSET.FW_VERSION fwVersion,
+				ASSET.HW_VERSION hwVersion,
+				ASSET.REVISION revision,
+				date_format(ASSET.RELEASE_DATE,"%Y-%m-%d") releaseDate,
+				date_format(ASSET.RECEIPT_DATE,"%Y-%m-%d") receiptDate
+		FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE ON ASSET.CODE_ID = CODE.CODE_ID
+		order by sequenceId desc
+		) A LEFT JOIN davis_rack_place PLACE ON A.assetId = PLACE.ASSET_ID
+		LEFT JOIN (select * from davis_code where davis_code.parent_code_id = 'af2e3ac7-b88c-a8f4-e10b-f985dd72e91d') p_status
+		on status = p_status.col1
+		left join davis_location location on locId = location.loc_id
+		<where>
+			<if test="id != null">
+				A.codeId = #{id}
+			</if>
+		</where>
+		limit #{startRow}, #{endRow}
+		<!-- order by assetId, assetName -->
+	</select>
+	
+	<select id="createAsset" parameterType="java.util.HashMap">
+		INSERT INTO DAVIS_ASSET(ASSET_ID, ASSET_NAME, PRODUCT_MODEL, CODE_ID, UNIT_SIZE, SERIAL_NUMBER, REVISION, HW_VERSION, FW_VERSION, RECEIPT_DATE, RELEASE_DATE, STATUS)
+		VALUES(#{assetId}, #{assetName}, #{productModel}, #{parentId}, #{unitSize}, #{serialNumber}, #{revision}, #{hwVersion}, #{fwVersion}, #{receiptDate}, #{releaseDate}, #{status} )
+	</select>
+	
+	<select id="createServerInfo" parameterType="java.util.HashMap">
+		INSERT INTO DAVIS_RACK_PLACE(ASSET_ID, UINDEX, START_POS)
+		VALUES(#{assetId}, #{unitIndex}, #{startPosition} )
+	</select>
+	
+	<select id="updateAsset" parameterType="java.util.HashMap">
+		UPDATE davis_asset SET  ASSET_NAME = #{assetName}, PRODUCT_MODEL = #{productModel}, CODE_ID = #{parentId}, UNIT_SIZE = #{unitSize}, SERIAL_NUMBER = #{serialNumber}, REVISION = #{revision},
+		HW_VERSION = #{hwVersion}, FW_VERSION = #{fwVersion}, RECEIPT_DATE = #{receiptDate}, RELEASE_DATE = #{releaseDate}, STATUS = #{status}
+		WHERE ASSET_ID = #{assetId}
+	</select>
+	
+	<select id="updateServer" parameterType="java.util.HashMap">
+		UPDATE DAVIS_RACK_PLACE SET  UINDEX = #{unitIndex} , START_POS = #{startPosition}
+		WHERE ASSET_ID = #{assetId}
+	</select>
+	
+	<select id="deleteAsset" parameterType="java.util.HashMap" >
+		DELETE
+		FROM DAVIS_ASSET
+		WHERE
+			ASSET_ID in 
+			<foreach item="item" index="index" collection="param" open="(" separator="," close=")">
+	       		#{item}
+			</foreach>		
+		
+	</select>
+	
+	<select id="dupleKeySearch" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT CODE.CODE_ID, CODE.CODE_NAME, ASSET.ASSET_ID 
+		FROM davis_asset ASSET JOIN davis_code CODE
+		ON ASSET.CODE_ID = CODE.CODE_ID
+		WHERE ASSET.ASSET_ID = #{assetId}
+	</select>
+	
+	<insert id="csvAsset" parameterType="java.util.HashMap" > <!-- csvAsset -->
+		INSERT INTO DAVIS_ASSET (ASSET_ID, ASSET_NAME, CODE_ID, PRODUCT_MODEL, SERIAL_NUMBER, REVISION, HW_VERSION, FW_VERSION, RECEIPT_DATE, RELEASE_DATE, STATUS, LOC_ID, UNIT_SIZE)
+		VALUES (
+		#{assetId}, 
+		#{assetId},
+		(SELECT CODE_ID FROM DAVIS_CODE WHERE CODE_NAME = #{codeName} ), 
+		#{productModel},
+		#{serialNumber},
+		#{revision},
+		#{hwVersion},
+		#{fwVersion},
+		#{receiptDate},
+		#{releaseDate},
+		#{status},
+		#{locId},
+		#{unitSize}
+		)
+		ON DUPLICATE KEY UPDATE
+		ASSET_ID = #{assetId},
+		ASSET_NAME = #{assetId},
+		CODE_ID =(SELECT CODE_ID FROM DAVIS_CODE WHERE CODE_NAME = #{codeName} ),  
+		PRODUCT_MODEL = #{productModel},
+		SERIAL_NUMBER = #{serialNumber},
+		REVISION = #{revision},
+		HW_VERSION = #{hwVersion},
+		FW_VERSION = #{fwVersion},
+		RECEIPT_DATE = #{receiptDate},
+		RELEASE_DATE = #{releaseDate},
+		STATUS = #{status},
+		LOC_ID = #{locId},
+		UNIT_SIZE = #{unitSize}
+    
+	</insert>
+	
+	<select id="getExportFileFormat" resultType="java.util.HashMap">
+		select * from davis_code
+		where parent_code_id = 'bd8c9b13-23fa-cc45-efa9-df647404baf5' <!-- ba3129c1-f3e0-1ecb-f311-e08620519097 -->
+		order by sort_order 
+	</select>
+	
+	<select id="getLocationList" resultType="java.util.HashMap">
+		SELECT
+			davis_location.parent_loc_id,
+			davis_location.loc_id,
+			davis_location.loc_name,
+			davis_location.code_id,
+			davis_code.code_name
+		FROM davis_location
+			LEFT OUTER JOIN davis_model ON davis_location.model_id = davis_model.model_id 
+			LEFT JOIN davis_code ON davis_code.code_id = davis_location.code_id
+		ORDER BY davis_location.loc_id
+	</select>
+	
+	<select id="getProductStatus" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+		select 
+		code_id id
+		,code_name name
+		,inout_status inOutStatus
+		,code_desc codeDesc
+		,parent_code_id parentId
+		,sort_order sortOrder
+		,col1 column1
+		,col2 column2
+		from davis_code
+		where parent_code_id = 'af2e3ac7-b88c-a8f4-e10b-f985dd72e91d' <!-- f0849f78-6ccd-4aac-5689-998a2887eb16 -->
+	</select>
+	
+	<insert id="csvRackPlace" parameterType="java.util.HashMap" >
+		insert into davis_rack_place (
+		   asset_id
+		  ,uindex
+		  ,start_pos
+		) VALUES (
+		  #{assetId}
+		  ,1
+		  ,1    
+		)
+		on duplicate key update
+		uindex = 1
+		,start_pos = 1
+	</insert>
+	
+	<select id="getRowCount" resultType="Integer">
+		select FOUND_ROWS()
+	</select>
+</mapper>

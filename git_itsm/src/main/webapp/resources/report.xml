@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<reports>
+
+	<report label="Sm_Login_History">
+		<template reportDataKey="source">sm_loginhistory.jrxml</template>
+		<list>
+			<condition type="combo" column="loginTime" label="Time" columntype="time">
+				<data name="Last 1 day">24</data>
+				<data name="Last 7 day">168</data>
+				<data name="Last 14 day">336</data>
+				<data name="Last 1 month">720</data>
+			</condition>
+			<condition type="checkbox" column="result" label="Result" columntype="String">
+				<data name="Success">1</data>
+				<data name="Fail">2</data>
+			</condition>
+			<condition type="radio" column="type" label="Summary" columntype="type">
+				<data name="none">none</data>
+				<data name="line">sub_line</data>
+				<data name="pie">sub_pie</data>
+			</condition>
+		</list>
+		<query>selectSmLoginHistory</query>
+	</report>
+	<report label="Sm_Operation_History" >
+		<template reportDataKey="source">sm_operationhistory.jrxml</template>
+		<list>
+			<!-- <condition type="checkbox" column="category" label="Function" columntype="String">
+				<data name="GM" >GM</data>
+				<data name="FM" >FM</data>
+				<data name="SM" >SM</data>
+			</condition> -->
+			<condition type="combo" column="requestTime" label="Time" columntype="time">
+				<data name="Last 1 day">24</data>
+				<data name="Last 7 day">168</data>
+				<data name="Last 14 day">336</data>
+				<data name="Last 1 month">720</data>
+			</condition>
+			<condition type="checkbox" column="result" label="Result" columntype="String">
+				<data name="Success">1</data>
+				<data name="Fail">2</data>
+			</condition>
+			<condition type="checkbox" column="actionType" label="Action Type" columntype="String">
+				<data name="Create">POST</data>
+				<data name="Delete">DELETE</data>
+				<data name="Get">GET</data>
+				<data name="Change">PUT</data>
+			</condition>
+			<condition type="radio" column="type" label="Summary" columntype="type">
+				<data name="none">none</data>
+				<data name="line">sub_line</data>
+			</condition>
+		</list>
+		<query>selectSmOperationHistory</query>		
+	</report>
+	<report label="Fm_Statistics_Hourly">
+		<template reportDataKey="source">fm_report.jrxml</template>
+		<list>
+			<condition type="combo" column="alarm_time" label="Time" columntype="time">
+				<data name="Last 1 hour">1</data>
+				<data name="Last 6 hour">6</data>
+				<data name="Last 12 hour">12</data>
+				<data name="Last 1 day">24</data>
+			</condition>
+			<condition type="radio" column="type" label="Summary" columntype="type">
+				<data name="none">none</data>
+				<data name="line">sub_line</data>
+			</condition>
+		</list>
+		<query>selectFmStatistics_hourly</query>	
+	</report>
+	<report label="fm_alarmhistory">
+		<template reportDataKey="source">fm_alarmhistory.jrxml</template>
+		<list>
+			<condition type="radio" column="type" label="document" columntype="type">
+				<data name="none">none</data>
+			</condition>
+		</list>
+		<query>selectFmAlarmhistory</query>
+	</report>
+	<report label="Estimate">
+		<template reportDataKey="source">Estimate.jrxml</template>
+		<list>
+			<condition type="radio" column="type" label="document" columntype="type">
+				<data name="none">none</data>
+			</condition>
+		</list>
+		<query>selectQuotation</query>
+	</report>
+	<report label="Order">
+		<template reportDataKey="source">Order.jrxml</template>
+		<list>
+			<condition type="radio" column="type" label="document" columntype="type">
+				<data name="none">none</data>
+			</condition>
+		</list>
+		<query>selectOrder</query>
+	</report>
+	<!-- <report label="Test_Tracker_Weekly" >
+		<template reportDataKey="source">test_tracker.jrxml</template>
+		<list>
+			<condition type="radio" column="type" label="Summary" columntype="type">
+				<data name="week">sub_table1</data>
+			</condition>
+		</list>
+		<query>selectTT_week</query>		
+	</report> -->
+	<!-- <report label="Test_Tracker_Monthly" >
+		<template reportDataKey="source">test_tracker.jrxml</template>
+		<list>
+			<condition type="radio" column="type" label="Summary" columntype="type">
+				<data name="month">sub_table1</data>
+			</condition>
+		</list>
+		<query>selectTT_month</query>		
+	</report> -->
+	<!-- <report label="sub_line">
+		<template reportDataKey="subdata">subreport_line.jrxml</template>
+		<list>
+			
+		</list>
+		<query></query>		
+	</report> -->
+</reports>	
+
+
+<!-- 
+String [] dynamicUpdateQuery;
+	[0] 'and type in (1,2,3)'
+	[1] 'and grade = 1'  
+-->
+
+<!-- 
+<mapper namespace="project">
+
+	<select id="getProjectList" parameterType="co.common.model.vo.T_ProjectVO" resultType="java.util.HashMap" >
+			
+			SELECT prj_Seqno
+			      ,prj_Code
+			      ,prj_Nm
+			      ,prj_nickNm
+			      ,prj_State
+			      ,prj_Etc
+			      ,prj_Img
+			    
+         		 FROM dbo.T_Project
+			 WHERE Del_Yn != 1
+			 <if test="ignorePrj_Seqno != null">
+			   AND Prj_Seqno != #{ignorePrj_Seqno}
+			 </if>
+			 <if test="prj_State != null and prj_State != '' ">
+			   AND prj_State = #{prj_State}
+			 </if>
+			 
+			 <foreach item="item" index="index" collection="dynamicUpdateQuery">
+				${item}
+		     </foreach>
+	     	 ORDER BY prj_Seqno
+
+	</select>
+</mapper>
+ -->

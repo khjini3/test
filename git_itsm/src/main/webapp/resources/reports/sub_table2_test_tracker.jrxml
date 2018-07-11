@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subtable" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="66f3298f-e9a2-4422-b50c-7217dfa29133">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF" fill="Solid" fontSize="12">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<paragraph leftIndent="5"/>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<paragraph leftIndent="5"/>
+	</style>
+	<field name="category" class="java.lang.String"/>
+	<field name="actionType" class="java.lang.String"/>
+	<field name="request_time" class="java.lang.String"/>
+	<field name="command" class="java.lang.String"/>
+	<field name="result" class="java.lang.String"/>
+	<field name="additional_info" class="java.lang.String"/>
+	<field name="loginId" class="java.lang.String"/>
+	<title>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="104" y="18" width="334" height="40" uuid="125d4c44-8540-4e88-a752-d2e9ed5c18d0"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Operation Table 2]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_TH" x="0" y="4" width="45" height="20" uuid="e44db511-8a03-4d75-a75a-2d3e6a2b60a9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[User ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="420" y="4" width="87" height="20" uuid="d11ba27b-7043-4f0f-8a39-68368115c486"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Action Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="252" y="4" width="168" height="20" uuid="f50c9b23-cf06-4e31-ac3e-b2340b059fd6"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Command]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="507" y="4" width="47" height="20" uuid="62f5a64e-74a2-4104-a37e-97c52a795a0d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Result]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="45" y="4" width="71" height="20" uuid="66cf5925-6b4d-4387-96da-2ace6e481261"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Function]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="116" y="4" width="136" height="20" uuid="cba22dc6-12c6-40c4-8585-1089192ac1f7"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Request Time]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TD" x="252" y="0" width="168" height="20" uuid="4154ff0e-fef5-4596-93bb-c4e32d5e211a"/>
+				<textFieldExpression><![CDATA[$F{command}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="116" y="0" width="136" height="20" uuid="02d3457d-1eaa-4c50-8656-ae0fed26951f"/>
+				<textFieldExpression><![CDATA[$F{request_time}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="0" y="0" width="45" height="20" uuid="efb081b2-d13d-4b87-b856-8108ddb8a43c"/>
+				<textFieldExpression><![CDATA[$F{loginId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="420" y="0" width="87" height="20" uuid="dab513ba-14b9-45ae-9d0f-aa8df93fd142"/>
+				<textFieldExpression><![CDATA[$F{actionType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="45" y="0" width="71" height="20" uuid="aad0387c-c6b0-4b00-81e7-cd77e7354ba0"/>
+				<textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="507" y="0" width="47" height="20" uuid="f0639544-0467-492f-a470-9b4cb7854895"/>
+				<textFieldExpression><![CDATA[$F{result}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

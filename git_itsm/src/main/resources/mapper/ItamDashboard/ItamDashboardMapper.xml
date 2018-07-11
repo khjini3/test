@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.ItamDashboard.ItamDashboardMapper">
+	<select id="getModel" parameterType="Integer" resultType="java.util.HashMap">
+	     	select 
+			code.code_name name,
+			asset.code_id,
+			code.parent_code_id,
+			count(*) value
+			from davis_asset asset left join davis_code code
+			on asset.code_id = code.code_id
+			group by asset.code_id
+			having parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca'
+			order by value desc, name asc 
+	    	limit #{value}
+	</select>
+	
+	<select id="getLocation" resultType="java.util.HashMap">
+			SELECT 
+			loc.parent_loc_id
+			,loc.loc_id
+			,loc.loc_name name
+			,code.code_name
+			,code.code_id
+			,count(asset.asset_id) value
+			FROM davis_location loc left join davis_code code ON loc.code_id = code.code_id right join davis_asset asset
+			on asset.loc_id = loc.loc_id
+			group by loc.loc_id
+			having 1=1
+			and loc.parent_loc_id is not null
+			and code.code_id = '86de14ba-5ea3-43c7-e264-7a06cb550336'
+			order by value desc, name asc
+			limit #{value}
+	</select>
+     
+	<select id="getInstockWeekly" resultType="java.util.HashMap">
+			SELECT 
+			week_day.weekday
+			,sum(if(asset.code_name = 'AIRCON', 1, 0)) as 'AIRCON'
+			,sum(if(asset.code_name = 'CCTV', 1, 0)) as 'CCTV'
+			,sum(if(asset.code_name = 'FINGER-SCAN', 1, 0)) as 'FINGER-SCAN'
+			,sum(if(asset.code_name = 'PDU', 1, 0)) as 'PDU'
+			,sum(if(asset.code_name = 'RACK', 1, 0)) as 'RACK'
+			,sum(if(asset.code_name = 'SERVER', 1, 0)) as 'SERVER'
+			,sum(if(asset.code_name = 'SWITCH', 1, 0)) as 'SWITCH'
+			FROM
+			itam_week_day week_day left join
+			(
+			SELECT 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.receipt_date, '%Y-%m-%d') weekday
+			FROM davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			WHERE 1=1
+			AND asset.receipt_date BETWEEN date_format(date_add(now(), interval-7 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			) asset
+			on week_day.weekday = asset.weekday
+			group by week_day.weekday
+	</select>
+	
+	<select id="getInstockMonthly" resultType="java.util.HashMap">
+			SELECT 
+			month_day.month_day
+			,sum(if(asset.code_name = 'AIRCON', 1, 0)) as 'AIRCON'
+			,sum(if(asset.code_name = 'CCTV', 1, 0)) as 'CCTV'
+			,sum(if(asset.code_name = 'FINGER-SCAN', 1, 0)) as 'FINGER-SCAN'
+			,sum(if(asset.code_name = 'PDU', 1, 0)) as 'PDU'
+			,sum(if(asset.code_name = 'RACK', 1, 0)) as 'RACK'
+			,sum(if(asset.code_name = 'SERVER', 1, 0)) as 'SERVER'
+			,sum(if(asset.code_name = 'SWITCH', 1, 0)) as 'SWITCH'
+			FROM
+			itam_month_day month_day left join
+			(
+			SELECT 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.receipt_date, '%Y-%m-%d') month_day
+			FROM davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			WHERE 1=1
+			AND asset.receipt_date BETWEEN date_format(date_add(now(), interval-30 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			) asset
+			on month_day.month_day = asset.month_day
+			group by month_day.month_day
+	</select>
+	
+	<select id="getActiveWeekly" resultType="java.util.HashMap">
+			SELECT 
+			week_day.weekday
+			,sum(if(asset.code_name = 'AIRCON', 1, 0)) as 'AIRCON'
+			,sum(if(asset.code_name = 'CCTV', 1, 0)) as 'CCTV'
+			,sum(if(asset.code_name = 'FINGER-SCAN', 1, 0)) as 'FINGER-SCAN'
+			,sum(if(asset.code_name = 'PDU', 1, 0)) as 'PDU'
+			,sum(if(asset.code_name = 'RACK', 1, 0)) as 'RACK'
+			,sum(if(asset.code_name = 'SERVER', 1, 0)) as 'SERVER'
+			,sum(if(asset.code_name = 'SWITCH', 1, 0)) as 'SWITCH'
+			FROM
+			itam_week_day week_day left join
+			(
+			SELECT 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.release_date, '%Y-%m-%d') weekday
+			FROM davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			WHERE 1=1
+			AND asset.release_date BETWEEN date_format(date_add(now(), interval-7 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			) asset
+			on week_day.weekday = asset.weekday
+			group by week_day.weekday
+	</select>
+	
+	<select id="getActiveMonthly" resultType="java.util.HashMap">
+			SELECT 
+			month_day.month_day
+			,sum(if(asset.code_name = 'AIRCON', 1, 0)) as 'AIRCON'
+			,sum(if(asset.code_name = 'CCTV', 1, 0)) as 'CCTV'
+			,sum(if(asset.code_name = 'FINGER-SCAN', 1, 0)) as 'FINGER-SCAN'
+			,sum(if(asset.code_name = 'PDU', 1, 0)) as 'PDU'
+			,sum(if(asset.code_name = 'RACK', 1, 0)) as 'RACK'
+			,sum(if(asset.code_name = 'SERVER', 1, 0)) as 'SERVER'
+			,sum(if(asset.code_name = 'SWITCH', 1, 0)) as 'SWITCH'
+			FROM
+			itam_month_day month_day left join
+			(
+			SELECT 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.release_date, '%Y-%m-%d') month_day
+			FROM davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			WHERE 1=1
+			AND asset.release_date BETWEEN date_format(date_add(now(), interval-30 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			) asset
+			on month_day.month_day = asset.month_day
+			group by month_day.month_day
+	</select>
+	
+	<select id="getKeepWeekly" resultType="java.util.HashMap">
+			SELECT 
+			in_tb.week_day
+			,in_tb.AIRCON_IN - out_tb.AIRCON_OUT AIRCON
+			,in_tb.CCTV_IN - out_tb.CCTV_OUT CCTV
+			,in_tb.FINGER_SCAN_IN - out_tb.FINGER_SCAN_OUT FINGER_SCAN
+			,in_tb.PDU_IN - out_tb.PDU_OUT PDU
+			,in_tb.RACK_IN - out_tb.RACK_OUT RACK
+			,in_tb.SERVER_IN - out_tb.SERVER_OUT SERVER
+			,in_tb.SWITCH_IN - out_tb.SWITCH_OUT SWITCH
+			FROM(
+			SELECT 
+			left_tb.week_day
+			,@AIRCON := @AIRCON +AIRCON_IN+AIRCON_OUT AIRCON_IN 
+			,@CCTV := @CCTV +CCTV_IN+CCTV_OUT CCTV_IN
+			,@FINGER_SCAN := @FINGER_SCAN + FINGER_SCAN_IN+FINGER_SCAN_OUT FINGER_SCAN_IN
+			,@PDU := @PDU + PDU_IN+PDU_OUT PDU_IN
+			,@RACK := @RACK + RACK_IN+RACK_OUT RACK_IN
+			,@SERVER := @SERVER + SERVER_IN+SERVER_OUT SERVER_IN
+			,@SWITCH := @SWITCH + SWITCH_IN+SWITCH_OUT SWITCH_IN
+			FROM(
+			select
+			itam_week_day.weekday week_day
+			,sum(if(asset_old.code_name = 'AIRCON', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'AIRCON_IN'
+			,sum(if(asset_old.code_name = 'CCTV', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'CCTV_IN'
+			,sum(if(asset_old.code_name = 'FINGER-SCAN', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'FINGER_SCAN_IN'
+			,sum(if(asset_old.code_name = 'PDU', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'PDU_IN'
+			,sum(if(asset_old.code_name = 'RACK', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'RACK_IN'
+			,sum(if(asset_old.code_name = 'SERVER', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SERVER_IN'
+			,sum(if(asset_old.code_name = 'SWITCH', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SWITCH_IN'
+			,@AIRCON := 0 AIRCON
+			,@CCTV := 0 CCTV
+			,@FINGER_SCAN := 0 FINGER_SCAN
+			,@PDU := 0 PDU
+			,@RACK := 0 RACK
+			,@SERVER := 0 SERVER
+			,@SWITCH := 0 SWITCH
+			from itam_week_day left join
+			(
+			select code.code_id
+			,code.code_name
+			,sum(if(isnull(date_format(asset.receipt_date, '%Y-%m-%d')), 0, 1)) cnt
+			,date_format(date_add(now(), interval-7 day), '%Y-%m-%d') start
+			from (select code_id, code_name from davis_code where parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca') code
+			left join (select * from davis_asset where receipt_date <![CDATA[ < ]]> date_format(date_add(now(), interval-7 day), '%Y-%m-%d')) asset 
+			on code.code_id= asset.code_id
+			group by code.code_id
+			) asset_old on itam_week_day.weekday = asset_old.start
+			group by itam_week_day.weekday
+			) left_tb inner join
+			(
+			select 
+			itam_week_day.weekday week_day
+			,sum(if(asset.code_name = 'AIRCON', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'AIRCON_OUT'
+			,sum(if(asset.code_name = 'CCTV', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'CCTV_OUT'
+			,sum(if(asset.code_name = 'FINGER-SCAN', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'FINGER_SCAN_OUT'
+			,sum(if(asset.code_name = 'PDU', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'PDU_OUT'
+			,sum(if(asset.code_name = 'RACK', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'RACK_OUT'
+			,sum(if(asset.code_name = 'SERVER', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SERVER_OUT'
+			,sum(if(asset.code_name = 'SWITCH', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SWITCH_OUT'
+			from itam_week_day left join
+			(
+			select 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.receipt_date, '%Y-%m-%d') week_day,
+			sum(if(isnull(date_format(asset.receipt_date, '%Y-%m-%d')), 0, 1)) between_cnt
+			from davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			where 1=1
+			AND asset.receipt_date BETWEEN date_format(date_add(now(), interval-7 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			group by asset.code_id, week_day
+			) asset on itam_week_day.weekday = asset.week_day
+			group by itam_week_day.weekday
+			) right_tb on left_tb.week_day = right_tb.week_day
+			)in_tb inner join 
+			(
+			SELECT 
+			left_tb.week_day
+			,@AIRCON := @AIRCON +AIRCON_IN+AIRCON_OUT AIRCON_OUT
+			,@CCTV := @CCTV +CCTV_IN+CCTV_OUT CCTV_OUT
+			,@FINGER_SCAN := @FINGER_SCAN + FINGER_SCAN_IN+FINGER_SCAN_OUT FINGER_SCAN_OUT
+			,@PDU := @PDU + PDU_IN+PDU_OUT PDU_OUT
+			,@RACK := @RACK + RACK_IN+RACK_OUT RACK_OUT
+			,@SERVER := @SERVER + SERVER_IN+SERVER_OUT SERVER_OUT
+			,@SWITCH := @SWITCH + SWITCH_IN+SWITCH_OUT SWITCH_OUT
+			FROM(
+			select
+			itam_week_day.weekday week_day
+			,sum(if(asset_old.code_name = 'AIRCON', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'AIRCON_IN'
+			,sum(if(asset_old.code_name = 'CCTV', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'CCTV_IN'
+			,sum(if(asset_old.code_name = 'FINGER-SCAN', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'FINGER_SCAN_IN'
+			,sum(if(asset_old.code_name = 'PDU', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'PDU_IN'
+			,sum(if(asset_old.code_name = 'RACK', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'RACK_IN'
+			,sum(if(asset_old.code_name = 'SERVER', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SERVER_IN'
+			,sum(if(asset_old.code_name = 'SWITCH', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SWITCH_IN'
+			,@AIRCON := 0 AIRCON
+			,@CCTV := 0 CCTV
+			,@FINGER_SCAN := 0 FINGER_SCAN
+			,@PDU := 0 PDU
+			,@RACK := 0 RACK
+			,@SERVER := 0 SERVER
+			,@SWITCH := 0 SWITCH
+			from itam_week_day left join
+			(
+			select code.code_id
+			,code.code_name
+			,sum(if(isnull(date_format(asset.release_date, '%Y-%m-%d')), 0, 1)) cnt
+			,date_format(date_add(now(), interval-7 day), '%Y-%m-%d') start
+			from (select code_id, code_name from davis_code where parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca') code
+			left join (select * from davis_asset where release_date <![CDATA[ < ]]> date_format(date_add(now(), interval-7 day), '%Y-%m-%d')) asset 
+			on code.code_id= asset.code_id
+			group by code.code_id
+			) asset_old on itam_week_day.weekday = asset_old.start
+			group by itam_week_day.weekday
+			) left_tb inner join
+			(
+			select 
+			itam_week_day.weekday week_day
+			,sum(if(asset.code_name = 'AIRCON', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'AIRCON_OUT'
+			,sum(if(asset.code_name = 'CCTV', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'CCTV_OUT'
+			,sum(if(asset.code_name = 'FINGER-SCAN', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'FINGER_SCAN_OUT'
+			,sum(if(asset.code_name = 'PDU', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'PDU_OUT'
+			,sum(if(asset.code_name = 'RACK', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'RACK_OUT'
+			,sum(if(asset.code_name = 'SERVER', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SERVER_OUT'
+			,sum(if(asset.code_name = 'SWITCH', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SWITCH_OUT'
+			from itam_week_day left join
+			(
+			select 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.release_date, '%Y-%m-%d') week_day,
+			sum(if(isnull(date_format(asset.release_date, '%Y-%m-%d')), 0, 1)) between_cnt
+			from davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			where 1=1
+			AND asset.release_date BETWEEN date_format(date_add(now(), interval-7 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			group by asset.code_id, week_day
+			) asset on itam_week_day.weekday = asset.week_day
+			group by itam_week_day.weekday
+			) right_tb on left_tb.week_day = right_tb.week_day
+			) out_tb on in_tb.week_day = out_tb.week_day
+	</select>
+	
+	<select id="getKeepMonthly" resultType="java.util.HashMap">
+			SELECT 
+			in_tb.month_day
+			,in_tb.AIRCON_IN - out_tb.AIRCON_OUT AIRCON
+			,in_tb.CCTV_IN - out_tb.CCTV_OUT CCTV
+			,in_tb.FINGER_SCAN_IN - out_tb.FINGER_SCAN_OUT FINGER_SCAN
+			,in_tb.PDU_IN - out_tb.PDU_OUT PDU
+			,in_tb.RACK_IN - out_tb.RACK_OUT RACK
+			,in_tb.SERVER_IN - out_tb.SERVER_OUT SERVER
+			,in_tb.SWITCH_IN - out_tb.SWITCH_OUT SWITCH
+			FROM(
+			SELECT 
+			left_tb.month_day
+			,@AIRCON := @AIRCON +AIRCON_IN+AIRCON_OUT AIRCON_IN 
+			,@CCTV := @CCTV +CCTV_IN+CCTV_OUT CCTV_IN
+			,@FINGER_SCAN := @FINGER_SCAN + FINGER_SCAN_IN+FINGER_SCAN_OUT FINGER_SCAN_IN
+			,@PDU := @PDU + PDU_IN+PDU_OUT PDU_IN
+			,@RACK := @RACK + RACK_IN+RACK_OUT RACK_IN
+			,@SERVER := @SERVER + SERVER_IN+SERVER_OUT SERVER_IN
+			,@SWITCH := @SWITCH + SWITCH_IN+SWITCH_OUT SWITCH_IN
+			FROM(
+			select
+			itam_month_day.month_day month_day
+			,sum(if(asset_old.code_name = 'AIRCON', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'AIRCON_IN'
+			,sum(if(asset_old.code_name = 'CCTV', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'CCTV_IN'
+			,sum(if(asset_old.code_name = 'FINGER-SCAN', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'FINGER_SCAN_IN'
+			,sum(if(asset_old.code_name = 'PDU', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'PDU_IN'
+			,sum(if(asset_old.code_name = 'RACK', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'RACK_IN'
+			,sum(if(asset_old.code_name = 'SERVER', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SERVER_IN'
+			,sum(if(asset_old.code_name = 'SWITCH', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SWITCH_IN'
+			,@AIRCON := 0 AIRCON
+			,@CCTV := 0 CCTV
+			,@FINGER_SCAN := 0 FINGER_SCAN
+			,@PDU := 0 PDU
+			,@RACK := 0 RACK
+			,@SERVER := 0 SERVER
+			,@SWITCH := 0 SWITCH
+			from itam_month_day left join
+			(
+			select code.code_id
+			,code.code_name
+			,sum(if(isnull(date_format(asset.receipt_date, '%Y-%m-%d')), 0, 1)) cnt
+			,date_format(date_add(now(), interval-7 day), '%Y-%m-%d') start
+			from (select code_id, code_name from davis_code where parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca') code
+			left join (select * from davis_asset where receipt_date <![CDATA[ < ]]> date_format(date_add(now(), interval-7 day), '%Y-%m-%d')) asset 
+			on code.code_id= asset.code_id
+			group by code.code_id
+			) asset_old on itam_month_day.month_day = asset_old.start
+			group by itam_month_day.month_day
+			) left_tb inner join
+			(
+			select 
+			itam_month_day.month_day month_day
+			,sum(if(asset.code_name = 'AIRCON', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'AIRCON_OUT'
+			,sum(if(asset.code_name = 'CCTV', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'CCTV_OUT'
+			,sum(if(asset.code_name = 'FINGER-SCAN', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'FINGER_SCAN_OUT'
+			,sum(if(asset.code_name = 'PDU', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'PDU_OUT'
+			,sum(if(asset.code_name = 'RACK', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'RACK_OUT'
+			,sum(if(asset.code_name = 'SERVER', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SERVER_OUT'
+			,sum(if(asset.code_name = 'SWITCH', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SWITCH_OUT'
+			from itam_month_day left join
+			(
+			select 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.receipt_date, '%Y-%m-%d') month_day,
+			sum(if(isnull(date_format(asset.receipt_date, '%Y-%m-%d')), 0, 1)) between_cnt
+			from davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			where 1=1
+			AND asset.receipt_date BETWEEN date_format(date_add(now(), interval-30 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			group by asset.code_id, month_day
+			) asset on itam_month_day.month_day = asset.month_day
+			group by itam_month_day.month_day
+			) right_tb on left_tb.month_day = right_tb.month_day
+			)in_tb inner join 
+			(
+			SELECT 
+			left_tb.month_day
+			,@AIRCON := @AIRCON +AIRCON_IN+AIRCON_OUT AIRCON_OUT
+			,@CCTV := @CCTV +CCTV_IN+CCTV_OUT CCTV_OUT
+			,@FINGER_SCAN := @FINGER_SCAN + FINGER_SCAN_IN+FINGER_SCAN_OUT FINGER_SCAN_OUT
+			,@PDU := @PDU + PDU_IN+PDU_OUT PDU_OUT
+			,@RACK := @RACK + RACK_IN+RACK_OUT RACK_OUT
+			,@SERVER := @SERVER + SERVER_IN+SERVER_OUT SERVER_OUT
+			,@SWITCH := @SWITCH + SWITCH_IN+SWITCH_OUT SWITCH_OUT
+			FROM(
+			select
+			itam_month_day.month_day month_day
+			,sum(if(asset_old.code_name = 'AIRCON', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'AIRCON_IN'
+			,sum(if(asset_old.code_name = 'CCTV', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'CCTV_IN'
+			,sum(if(asset_old.code_name = 'FINGER-SCAN', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'FINGER_SCAN_IN'
+			,sum(if(asset_old.code_name = 'PDU', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'PDU_IN'
+			,sum(if(asset_old.code_name = 'RACK', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'RACK_IN'
+			,sum(if(asset_old.code_name = 'SERVER', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SERVER_IN'
+			,sum(if(asset_old.code_name = 'SWITCH', if(isnull(asset_old.cnt), 0,asset_old.cnt), 0)) as 'SWITCH_IN'
+			,@AIRCON := 0 AIRCON
+			,@CCTV := 0 CCTV
+			,@FINGER_SCAN := 0 FINGER_SCAN
+			,@PDU := 0 PDU
+			,@RACK := 0 RACK
+			,@SERVER := 0 SERVER
+			,@SWITCH := 0 SWITCH
+			from itam_month_day left join
+			(
+			select code.code_id
+			,code.code_name
+			,sum(if(isnull(date_format(asset.release_date, '%Y-%m-%d')), 0, 1)) cnt
+			,date_format(date_add(now(), interval-30 day), '%Y-%m-%d') start
+			from (select code_id, code_name from davis_code where parent_code_id = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca') code
+			left join (select * from davis_asset where release_date <![CDATA[ < ]]> date_format(date_add(now(), interval-30 day), '%Y-%m-%d')) asset 
+			on code.code_id= asset.code_id
+			group by code.code_id
+			) asset_old on itam_month_day.month_day = asset_old.start
+			group by itam_month_day.month_day
+			) left_tb inner join
+			(
+			select 
+			itam_month_day.month_day month_day
+			,sum(if(asset.code_name = 'AIRCON', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'AIRCON_OUT'
+			,sum(if(asset.code_name = 'CCTV', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'CCTV_OUT'
+			,sum(if(asset.code_name = 'FINGER-SCAN', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'FINGER_SCAN_OUT'
+			,sum(if(asset.code_name = 'PDU', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'PDU_OUT'
+			,sum(if(asset.code_name = 'RACK', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'RACK_OUT'
+			,sum(if(asset.code_name = 'SERVER', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SERVER_OUT'
+			,sum(if(asset.code_name = 'SWITCH', if(isnull(asset.between_cnt), 0,asset.between_cnt), 0)) as 'SWITCH_OUT'
+			from itam_month_day left join
+			(
+			select 
+			asset.code_id, 
+			code.code_name,
+			date_format(asset.release_date, '%Y-%m-%d') month_day,
+			sum(if(isnull(date_format(asset.release_date, '%Y-%m-%d')), 0, 1)) between_cnt
+			from davis_asset asset left join davis_code code on asset.code_id = code.code_id
+			where 1=1
+			AND asset.release_date BETWEEN date_format(date_add(now(), interval-30 day), '%Y-%m-%d') AND date_format(date_add(now(), interval-1 day), '%Y-%m-%d')
+			group by asset.code_id, month_day
+			) asset on itam_month_day.month_day = asset.month_day
+			group by itam_month_day.month_day
+			) right_tb on left_tb.month_day = right_tb.month_day
+			) out_tb on in_tb.month_day = out_tb.month_day
+	</select>
+</mapper>

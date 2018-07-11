@@ -1,0 +1,195 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+/* Layout Setting Start*/
+.symbolMgr div#leftContents{width:100%; height:100%;}
+.symbolMgr div#leftTop{height:30px;text-align: right;padding: 5px 10px 5px 10px;}
+
+.symbolMgr div#mainLeftTop, 
+.symbolMgr div#mainRightTop
+{
+	height:35px;
+}
+.symbolMgr div#mainRightTop, 
+.symbolMgr div#mainLeftTop{
+	text-align: right;
+	padding: 3px 5px;
+}
+
+/* .symbolMgr div#mainLeftTop{
+	text-align: right;
+	padding: 3px 5px;
+} */
+
+.symbolMgr div#leftMiddle{
+	width:100%;
+	/* height: 100%; */
+	padding: 0px 0px 5px 10px;
+}
+
+.symbolMgr div#leftBottom{
+	width:100%;
+	/* height: 100%; */
+	padding: 0px 0px 5px 10px;
+}
+
+.symbolMgr div#mainContents{
+	width:100%;
+	height:100%;
+}
+
+.symbolMgr div#symbolPreView{
+	height: calc(50vh - 116px);
+	/* height: calc(100% - 52px); */
+}
+
+.symbolMgr div#mainLeftContents{
+	width : 50%;
+	height:100%;
+	float : left;
+	padding-right:5px;
+}
+
+.symbolMgr div#mainRightContents {
+	width : 50%;
+	height:100%;
+	float : right;
+	padding-left:5px;	
+}
+
+.symbolMgr #symbolMapCanvas{
+	width : 100%;
+	height: 100%;
+	border-radius: 3px;
+}
+
+/* SVG ICON */
+.symbolMgr svg.icon.link:hover {
+	opacity: 1!important
+}
+
+.symbolMgr svg.link.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+.symbolMgr svg.link.icon {
+	cursor: pointer;
+}
+
+/* Disabled SVG ICON */
+.symbolMgr svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+.symbolMgr svg.icon {
+	cursor: default;
+}
+
+/* W2UI */
+.symbolMgr .w2ui-sidebar .w2ui-sidebar-div{
+	/* border: 1px solid #ffffff; */
+}
+
+/* .symbolMgr svg#applyBtn{
+	visibility: hidden;
+} */
+
+.symbolMgr img.symbolMgrImg{
+	margin: auto;
+    height: auto;
+    max-height: 50px;
+    width: auto;
+    max-width: 198px;
+}
+
+/*
+ ******************************
+ * Module BOX
+ ******************************
+ */
+#symbolManager .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#symbolManager #leftMiddle .w2ui-node-group {
+   display: none;
+}
+
+.symbolMgr-module-container {
+	width: 100% !important;
+	/*height: calc(100% - 40px) !important;*/
+}
+
+.symbolMgr-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.symbolMgr-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}
+
+#symbolManager .w2ui-grid {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.symbolMgr div#mainLeft, .symbolMgr div#mainRight{
+	width: 100%;
+	float : left;
+}
+
+.symbolMgr div#mainContents{
+	padding: 0px 10px 0px 10px;
+}
+
+.showPreview {
+	float: right;
+	position: relative;
+	top: -16px;
+	right: -12px;
+	color: white;
+}
+
+.svg #svgPreView{
+	height: 100%;
+    width: 100%;
+}
+
+/* #symbolManager #grid_symbolMgrRightTable_records{
+	left: 34px !important;
+} */
+
+#symbolManager .yes-symbol {
+    cursor: default !important;
+}
+
+#symbolManager #leftBottomContent{
+	height:calc(50vh - 116px);
+}
+
+/* #symbolManager #node_Asset_sub{
+	height: 100%;
+} */
+
+#symbolManager #previewGroupBtn {
+	float: right;
+}
+
+#symbolManager #previewGroupBtn svg.icon {
+    padding: 0px 5px 8px 5px;
+}

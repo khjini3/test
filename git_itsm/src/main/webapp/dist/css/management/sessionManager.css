@@ -1,0 +1,31 @@
+/* --- session grid button group --- */
+.session-total-container { display: block; width: 100%; height: 100%; padding: 12px; overflow: auto; }
+.session-module-container { height: calc(100% - 20px); position: relative; border: 1px solid #dfdfdf; margin: 1px; }
+.session-header-button-area { height: 40px; border-bottom: 2px solid #dfdfdf; margin: 5px; }
+.session-header-button-area .session-header-title { padding: 6px 0 0 5px; }
+.session-header-button-area .session-button-group { position: absolute; width: calc(100% - 10px); height: 38px; top: 7px; /*left: calc(100% - 405px);*/ } 
+.session-search-area { width: 300px; height: 34px; display: inline-block; }
+.session-search { height: 30px; }
+.session-delete-area { width: 60px; height: 34px; display: inline-block; float: right; }
+.session-refresh-area { width: 60px; height: 34px; display: inline-block; float: right; }
+
+/* --- session grid table --- */
+.session-content-container { height: calc(100% - 60px); margin: 0 5px 0 5px; }
+.ui-widget-content { width: calc(100% - 16px); }
+.ui-jqgrid-hdiv { border: 1px solid #dfdfdf; }
+#ip-list_userId {  text-align: center; font-size: 15px; padding-bottom: 10px; border-right: 1px solid #dfdfdf; }
+#ip-list_privilegeId {  text-align: center; font-size: 15px; padding-bottom: 10px; border-right: 1px solid #dfdfdf; } 
+#ip-list_status {  text-align: center; font-size: 15px; padding-bottom: 10px; border-right: 1px solid #dfdfdf; }
+#ip-list_userName {  text-align: center; font-size: 15px; padding-bottom: 10px; border-right: 1px solid #dfdfdf; }
+#ip-list_groupId {  text-align: center; font-size: 15px; padding-bottom: 10px; border-right: 1px solid #dfdfdf; }
+#ip-list_email {  text-align: center; font-size: 15px; padding-bottom: 10px; }
+
+.ui-jqgrid-btable { width: calc(100% - 16px); }
+.ui-row-ltr { height: 34px; border-left: 1px solid #dfdfdf; border-right: 1px solid #dfdfdf; border-bottom: 1px solid #dfdfdf; }
+/*.w2ui-popup-title .w2ui-popup-close { display: none; }*/
+.w2ui-popup-title .w2ui-popup-max { display: none; }
+
+.form-control { width: 300px; float: right; }
+label { width: 110px; }
+select { width: 300px; }
+.ui-dialog-titlebar-close { display: none; }

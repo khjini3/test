@@ -1,0 +1,84 @@
+html body nav#navi { margin-bottom: 3; }
+.navbar-nav .dropdown-menu .caret { transform: rotate(-90deg); }
+
+.sidebar-menu > li > a > .fa, .sidebar-menu > li > a > .glyphicon, .sidebar-menu > li > a > .ion { width: 20px; top: 2px; position: relative; }
+
+.sidebar-menu > li > a {
+    height: 38px !important;
+    font-size: 13px !important;
+}
+
+
+.skin-blue .main-header .navbar .sidebar-toggle {
+    color: #3e4e68 !important;
+}
+
+.skin-blue .main-header .navbar,
+.main-header .sidebar-toggle:hover {
+    background-color: #d7dde4 !important;
+}
+
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side,
+.skin-blue .main-header .logo {
+    background-color: rgba(62, 78, 104, 0) !important
+}
+
+.main-sidebar{
+	background-color: rgba(62, 78, 104, 1) !important
+}
+
+.content-wrapper {
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.navbar-nav > .user-menu .user-image {
+    background: url('../../img/menu/login.png') no-repeat 0px;
+}
+
+.navbar-nav .dropdown-toggle>a {
+    height: 50px;
+}
+
+.dropdown-menu a {
+	font-size: 10px;
+}
+
+.navbar-nav span{
+	color : #3e4e68;
+}
+
+.wrapper .navbar-nav > .user-menu > .dropdown-menu {
+	top: 49px;
+    padding-top: 0px;
+    width: 270px;
+}
+
+html body footer { 
+	height: 20px;
+    /* display: none; */
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    /* background-color: rgba(105, 105, 105, 0.23); */
+    text-align: center;
+    z-index: 120;
+}
+
+/* 메뉴 사이즈 */
+body.layout-top-nav .navbar .container { width: 100% !important }
+
+/* 
+
+배경 
+
+*/
+
+body{
+	     background: url('/dist/img/space_bg.jpg') no-repeat center top; 
+	     -webkit-background-size: cover;
+  		 -moz-background-size: cover;
+  		 -o-background-size: cover;
+	     background-size: cover;
+}
+
+

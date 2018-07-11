@@ -1,0 +1,242 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%; 
+	 float:left;
+}
+
+.contentsCls >div{
+	z-index: 98;
+}
+
+/* Layout Setting Start*/
+.modelMgr div#leftContents{width:100%; height:100%;}
+.modelMgr div#leftTop{height:30px;text-align: right;padding: 5px 10px 5px 10px;}
+.modelMgr div#mainLeftTop, 
+.modelMgr div#mainMiddleTop, 
+.modelMgr div#mainRightTop
+{
+	height:35px;
+}
+
+/* .modelMgr div#mainLeft,
+.modelMgr div#mainMiddle,
+.modelMgr div#mainRight
+{
+	margin-top: 5px;
+} */
+
+/* .modelMgr div#mainLeftTop,
+.modelMgr div#mainMiddleTop,
+.modelMgr div#mainRightTop
+{
+	padding-top: 5px;
+} */
+
+.modelMgr div#modelMapBtnGroup{
+	/* padding-right: 5px; */
+}
+
+.modelMgr div#leftMiddle{
+	width:100%;
+	height: 100%;
+	padding: 0px 0px 5px 10px;
+}
+
+.modelMgr div#leftBottom{
+	width:100%;
+	height: 100%;
+	padding: 0px 0px 5px 10px;
+}
+
+.modelMgr div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0 10px;
+}
+
+.modelMgr div#modelPreView{
+	height: calc(50vh - 116px);
+	/* height: calc(100% - 52px); */
+}
+
+.modelMgr div#mainLeftContents{
+	width : calc(50% - 30px);
+	height:100%;
+	float : left;
+}
+
+.modelMgr div#mainMiddle{
+	display: table;
+    height: calc(100% - 37px);
+}
+
+.modelMgr div#mainMiddleContents {
+	width : 60px;
+	height : 100%;
+	float : left;
+	display: table;
+	text-align: center;
+}
+
+.modelMgr div#mainRightContents {
+	width : calc(50% - 30px);
+	height:100%;
+	float : right;
+}
+
+.modelMgr #modelManagerCanvas{
+	width : 100%;
+	height: 100%;
+	border-radius: 3px;
+}
+
+.modelMgr .modelManagerTitle{
+	font-weight: bold;
+}
+
+.modelMgr div#optionDiv{
+	position: absolute;
+	margin-top: 10px;
+	left :20px;
+}
+
+.modelMgr label.optionTxt{
+	font-size: 12px;
+    height: 24px;
+    position: relative;
+    top: -3px;
+    margin-left: 5px;
+    cursor:pointer;
+    color: #c0c8d5;
+}
+
+.modelMgr input#showGrid{
+	cursor:pointer;
+}
+
+.modelMgr img.modelMgrImg{
+	margin: auto;
+    height: auto;
+    max-height: 50px;
+    width: auto;
+    max-width: 198px;
+}
+
+.modelMgr div#modelMapBtnGroup {
+    position: absolute;
+    right: 10px;
+}
+
+.modelMgr div#mainRightTop {
+    padding-top: 4px;
+}
+
+/* ICON
+.modelMgr i.icon:hover {
+	opacity: 1!important
+}
+
+.modelMgr i.link.icon {
+	cursor: pointer;
+}
+
+.modelMgr i.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+.modelMgr .fa-2x {
+    font-size: 1.5em;
+}
+ */
+ 
+ /* SVG ICON */
+ .modelMgr svg.icon:hover {
+	opacity: 1!important
+}
+
+.modelMgr svg.link.icon {
+	cursor: pointer;
+}
+
+.modelMgr svg.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+.modelMgr .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	/* padding-top:2px; */
+}
+
+.modelMgr .svg-inline--fa.fa-w-14 {
+	width:0.975em;
+	/* padding-top:2px; */
+}
+
+.modelMgr .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	/* padding-top:2px; */
+}
+
+/* 카메라 초기화 */
+.custom-menu{
+	-webkit-transition-duration: 0.1s; 
+    z-index: 1000;
+    position: fixed;
+    background-color: #ffffff;
+    border: 1px solid #adabab;
+    padding-left: 20px;
+    width: 165px;
+    height: 22px;
+    box-shadow: 2px 2px 5px rgba(125, 125, 125, 0.5);
+    font-size: 14px;
+    color : #000000;
+}
+
+.custom-menu:hover{
+	background-color: rgba(117,117,117,1);
+	color : #ffffff;
+	cursor:pointer;
+}
+
+/*
+ ******************************
+ * Module BOX
+ ******************************
+ */
+#modelManager .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#modelManager #leftMiddle .w2ui-node-group {
+   display: none;
+}
+
+.modelMgr-module-container {
+	width: 100% !important;
+}
+
+.modelMgr-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.modelMgr-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}
+
+#modelManager .w2ui-grid {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.w2ui-panel-content {
+	width: 100%;
+	height: 100%;
+}

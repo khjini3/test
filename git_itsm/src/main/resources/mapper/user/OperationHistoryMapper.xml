@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.operationhistory.OperationHistoryMapper">
+	
+	<sql id="Column_List">
+		id,loginId,privilege,ipAddress,category,actionType,command,requestTime,responseTime,result,failReason
+	</sql>
+
+	<insert id="insertOperationHistory" parameterType="com.yescnc.core.entity.db.OperationHistoryVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_operation_history
+		</selectKey>
+		
+		INSERT INTO davis_operation_history
+			(`id`,`loginId`,`privilege`,`ipAddress`,`category`,`actionType`,`command`,`requestTime`,`responseTime`,`failReason`,`result`)
+		VALUES
+			(#{max_id},#{loginId},#{privilege},#{ipAddress},#{category},#{actionType},#{command},#{requestTime},#{responseTime},#{failReason},#{result})
+	</insert>
+	
+	<update id="updateByOperationHistoryId" parameterType="com.yescnc.core.entity.db.OperationHistoryVO">
+		UPDATE davis_operation_history
+		SET
+			`loginId` = #{loginId},
+			`ipAddress` = #{ipAddress},
+			`loginTime` = #{category},
+			`actionType` = #{actionType},
+			`command` = #{command},
+			`requestTime` = #{requestTime},
+			`responseTime` = #{responseTime},
+			`result` = #{result},
+			`failReason` = #{failReason}
+		WHERE `loginId` = #{loginId}
+	</update>
+	
+	<select id="selectOperationHistory" parameterType="com.yescnc.core.entity.db.OperationHistoryVO" 
+	resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_operation_history
+		<if test="loginId != null">
+			where loginId = #{loginId}
+		</if>
+	</select>
+	
+	<select id="selectOperationHistoryForlogin" parameterType="com.yescnc.core.entity.db.OperationHistoryVO" 
+	resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_operation_history
+		<if test="loginId != null">
+			where loginId = #{loginId}
+		</if>
+	</select>
+	
+	<select id="selectOperationHistoryList" resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_operation_history order by requestTime desc
+	</select>
+	
+	<delete id="deleteByOperationHistoryId" parameterType="com.yescnc.core.entity.db.OperationHistoryVO">
+		delete from davis_login_history
+		<if test="id != null">
+			where id = #{id}
+		</if>
+	</delete>
+	
+	<select id="searchOperationHistoryList" parameterType="com.yescnc.core.entity.db.OperationHistoryVO" 
+	resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_operation_history
+		<choose>		
+			<when test="loginId != null and category == null and actionType == null and requestTime != null and responseTime != null">
+				where loginId like CONCAT('%',#{loginId},'%') and requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>
+			<when test="loginId != null and category != null and actionType == null and requestTime != null and responseTime != null">
+				where loginId like CONCAT('%',#{loginId},'%') and category = #{category} and requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>
+			<when test="loginId != null and category != null and actionType != null and requestTime != null and responseTime != null">
+				where loginId like CONCAT('%',#{loginId},'%') and category = #{category} and actionType = #{actionType} and requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>
+			<when test="loginId == null and category != null and actionType != null and requestTime != null and responseTime != null">
+				where category = #{category} and actionType = #{actionType} and requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>
+			<when test="loginId == null and category == null and actionType != null and requestTime != null and responseTime != null">
+				where actionType = #{actionType} and requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>
+			<when test="loginId == null and category == null and actionType == null and requestTime != null and responseTime != null">
+				where requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>
+			<when test="loginId == null and category != null and actionType == null and requestTime != null and responseTime != null">
+				where category = #{category} and requestTime between #{requestTime} and #{responseTime} order by requestTime desc
+			</when>															
+		</choose>
+	</select>
+
+	<select id="operationLimitList" parameterType="com.yescnc.core.entity.db.OperationHistoryVO" 
+	resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid, id,loginId,privilege,ipAddress,category,actionType,command,requestTime,responseTime,result,failReason
+		from davis_operation_history, (SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<where>
+			<if test="loginId != 'All'">
+				AND loginId IN
+				<foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+		       		#{item}
+				</foreach>
+			</if>
+			<if test="category != 'All'">
+				AND category = #{category}
+			</if>
+			<if test="actionType != 'All'">
+				AND actionType = #{actionType}
+			</if>
+			 AND requestTime between #{requestTime} and #{responseTime}
+		</where>
+		order by requestTime desc 
+		limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="operationListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>
+	
+	<select id="searchCagegoryList" parameterType="com.yescnc.core.entity.db.OperationHistoryVO" 
+	resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select *
+		from (select category from davis_operation_history where requestTime between #{requestTime} and #{responseTime} order by category desc) as a group by category
+	</select>	
+	
+	<select id="searchActionTypeList" parameterType="com.yescnc.core.entity.db.OperationHistoryVO" 
+	resultType="com.yescnc.core.entity.db.OperationHistoryVO">
+		select *
+		from (select actionType from davis_operation_history where requestTime between #{requestTime} and #{responseTime} order by actionType desc) as a group by actionType
+	</select>	
+			
+</mapper>

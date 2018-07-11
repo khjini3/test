@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.assetMapping.AssetMappingMapper">
+	<select id="getLocalList" resultType="com.yescnc.jarvis.entity.db.LocationVO">
+		select loc.loc_id locId,
+			   loc.parent_loc_id parentId,
+			   loc.loc_name locName,
+			   loc.code_id codeId,
+			   code.code_name codeName,
+         	   1 unitSize
+		from davis_location loc left join davis_code code on loc.code_id = code.code_id
+	    UNION
+		SELECT ASSET.asset_id locId,
+		      ASSET.loc_id parentId,
+		      ASSET.asset_name locName,
+		      ASSET.code_id codeId,
+		      CODE.code_name codeName,
+              ASSET.unit_size unitSize
+		FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE ON ASSET.code_id = CODE.code_id
+		WHERE 1=1
+		AND ASSET.loc_id IS NOT NULL
+		AND CODE.CODE_ID IS NOT NULL
+	</select>
+	
+	<select id="assetList" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+			      assetId,
+			      assetName,
+			      codeId,
+						modelId,
+			 			codeName,
+			 			locId,
+			 			unitSize,
+			      unitIndex,
+			      startPosition,
+			      parentId,
+			      'right' temp
+			FROM(SELECT @ROWNUM := 0 ROWNUM,
+			      			ASSET.ASSET_ID assetId,
+			      			ASSET.ASSET_NAME assetName,
+			      			ASSET.CODE_ID codeId,
+			      			ASSET.MODEL_ID modelId,
+			       			CODE.CODE_NAME codeName,
+			       			ASSET.LOC_ID locId,
+			       			ASSET.UNIT_SIZE unitSize,
+			            null unitIndex,
+			            null startPosition,
+			            null parentId
+			      FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE ON ASSET.CODE_ID = CODE.CODE_ID
+			      WHERE 1=1
+			      AND ASSET.loc_id IS NULL
+			      AND CODE.CODE_NAME NOT IN ('SERVER')
+			      UNION
+			      SELECT @ROWNUM := 0 ROWNUM,
+			              place.asset_id assetId,
+			              asset.asset_name assetName,
+			              asset.code_id codeId,
+			              asset.model_id modelId,
+			              CODE.code_name codeName,
+			              ASSET.loc_id locId,
+			              ASSET.unit_size unitSize,
+			              place.uindex unitIndex,
+			              place.start_pos startPosition,
+			              place.parent_asset_id parentId
+			      from DAVIS_RACK_PLACE place left join davis_asset asset on place.asset_id = asset.asset_id left join davis_code code on asset.code_id = code.code_id
+			      where place.parent_asset_id is null) A
+			ORDER BY codeName, assetName
+	</select>
+	
+	<select id="getRoomAssetList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+					A.assetId,
+					A.assetName,
+					A.codeId,
+					A.modelId,
+					A.codeName,
+					A.locId,
+			        A.unitSize,
+			        PLACE.UINDEX unitIndex,
+			        PLACE.START_POS startPosition,
+			        'left' temp
+			FROM(
+			SELECT @ROWNUM := 0 ROWNUM,
+						ASSET.ASSET_ID assetId,
+						ASSET.ASSET_NAME assetName,
+						ASSET.CODE_ID codeId,
+						ASSET.MODEL_ID modelId,
+	     				CODE.CODE_NAME codeName,
+	     				ASSET.LOC_ID locId,
+	     				ASSET.UNIT_SIZE unitSize
+					FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE
+	          			ON ASSET.CODE_ID = CODE.CODE_ID
+					) A LEFT JOIN davis_rack_place PLACE ON A.assetId = PLACE.ASSET_ID
+	 	 WHERE A.locId = #{id}
+	</select>
+	
+	<select id="codeList" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+			SELECT CODE_ID id,
+					CODE_NAME name,
+					CODE_DESC codeDesc,
+					PARENT_CODE_ID parentId,
+					SORT_ORDER sortOrder,
+					INOUT_STATUS inOutStatus,
+					COL1 col1,
+					COL2 col2
+			FROM DAVIS_CODE
+			WHERE PARENT_CODE_ID = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca'
+			ORDER BY SORT_ORDER
+	</select>
+	
+	<select id="updateLocationInfo" parameterType="java.util.HashMap">
+		update davis_asset set loc_id = #{locId}
+		where asset_id in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.assetId}
+			</foreach>
+	</select>
+	
+	<delete id="deleteComponent" parameterType="java.util.HashMap">
+		delete from davis_component
+		where asset_id in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.assetId}
+			</foreach>
+	</delete>
+	
+	<select id="updateServerInfo" parameterType="java.util.HashMap">
+		update davis_rack_place set parent_asset_id = #{locId}
+		where asset_id in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.assetId}
+			</foreach>
+	</select>
+	
+	<select id="getRackInList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+	SELECT @ROWNUM := @ROWNUM + 1 recid,
+	        assetId,
+					assetName,
+					codeId,
+					modelId,
+	     		codeName,
+	     		locId,
+	     		unitSize,
+	        unitIndex,
+	        startPosition,
+	        parentId
+	FROM(
+			SELECT  @ROWNUM := 0 ROWNUM,
+						ASSET.ASSET_ID assetId,
+						ASSET.ASSET_NAME assetName,
+						ASSET.CODE_ID codeId,
+						ASSET.MODEL_ID modelId,
+	     				CODE.CODE_NAME codeName,
+	     				ASSET.loc_id locId,
+	     				ASSET.UNIT_SIZE unitSize,
+	            PLACE.UINDEX unitIndex,
+	        PLACE.START_POS startPosition,
+	        '' parentId
+					FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE
+	          			ON ASSET.CODE_ID = CODE.CODE_ID
+					LEFT JOIN davis_rack_place PLACE ON ASSET.ASSET_ID = PLACE.ASSET_ID
+	 	 WHERE 1=1
+	   AND ASSET.loc_id =  #{id}
+	   AND CODE.CODE_NAME = 'RACK'
+	   UNION
+	   SELECT  @ROWNUM := 0 ROWNUM,
+	          PLACE.asset_id assetId,
+	          asset.asset_name assetName,
+	          ASSET.code_id codeId,
+	          ASSET.model_id modelId,
+	          CODE.code_name codeName,
+	          ASSET.loc_id locId,
+	          ASSET.unit_size unitSize,
+	          PLACE.uindex,
+	          PLACE.start_pos,
+	          PLACE.parent_asset_id parentId
+	   FROM davis_rack_place PLACE LEFT JOIN DAVIS_ASSET ASSET ON PLACE.asset_id = ASSET.asset_id left join davis_code CODE ON ASSET.code_id = CODE.code_id
+	   WHERE parent_asset_id IN (
+	   SELECT ASSET.asset_id assetId
+	   FROM DAVIS_ASSET ASSET JOIN DAVIS_CODE CODE
+	          			ON ASSET.CODE_ID = CODE.CODE_ID
+	   AND ASSET.loc_ID =  #{id}
+	   AND CODE.code_Name = 'RACK')) A
+	   ORDER BY codeName, ISNULL(startPosition), startPosition
+	</select>
+	
+	<select id="getServerList" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+					A.assetId,
+					A.assetName,
+					A.codeId,
+					A.modelId,
+					A.mappingYN,
+					A.codeName,
+					A.locId,
+			        A.unitSize,
+			        PLACE.UINDEX unitIndex,
+			        PLACE.START_POS startPosition,
+			        'right' temp
+			FROM(
+			SELECT @ROWNUM := 0 ROWNUM,
+						ASSET.ASSET_ID assetId,
+						ASSET.ASSET_NAME assetName,
+						ASSET.CODE_ID codeId,
+						ASSET.MODEL_ID modelId,
+						IF(ISNULL(ASSET.MODEL_ID), 0, 1) mappingYN,
+	     				CODE.CODE_NAME codeName,
+	     				ASSET.LOC_ID locId,
+	     				ASSET.UNIT_SIZE unitSize
+					FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE
+	          			ON ASSET.CODE_ID = CODE.CODE_ID
+					) A LEFT JOIN davis_rack_place PLACE ON A.assetId = PLACE.ASSET_ID
+	 	 WHERE 1=1
+     AND A.codeName = 'SERVER'
+     AND PLACE.parent_asset_id is null
+	</select>
+	
+	<select id="getRackServerList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+						A.assetId,
+						A.assetName,
+						A.codeId,
+						A.modelId,
+						A.codeName,
+						A.locId,
+		        A.unitSize,
+		        PLACE.UINDEX unitIndex,
+		        PLACE.START_POS startPosition,
+	          PLACE.parent_asset_id parentId,
+		        'left' temp
+				FROM(
+				SELECT @ROWNUM := 0 ROWNUM,
+							ASSET.ASSET_ID assetId,
+							ASSET.ASSET_NAME assetName,
+							ASSET.CODE_ID codeId,
+							ASSET.MODEL_ID modelId,
+		     				CODE.CODE_NAME codeName,
+		     				ASSET.LOC_ID locId,
+		     				ASSET.UNIT_SIZE unitSize
+						FROM DAVIS_ASSET ASSET LEFT JOIN DAVIS_CODE CODE
+		          			ON ASSET.CODE_ID = CODE.CODE_ID
+						) A LEFT JOIN davis_rack_place PLACE ON A.assetId = PLACE.ASSET_ID
+	          WHERE 1=1
+	          AND PLACE.parent_asset_id = #{id}
+	          ORDER BY ISNULL(PLACE.start_pos), PLACE.start_pos
+	</select>
+	
+	<select id="getAvailabilityList" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+			      assetId,
+			      assetName,
+			      codeId,
+						modelId,
+			 			codeName,
+			 			locId,
+			 			unitSize,
+			      unitIndex,
+			      startPosition,
+			      parentId
+			FROM(SELECT @ROWNUM := 0 ROWNUM,
+			              place.asset_id assetId,
+			              asset.asset_name assetName,
+			              asset.code_id codeId,
+			              asset.model_id modelId,
+			              CODE.code_name codeName,
+			              ASSET.loc_id locId,
+			              ASSET.unit_size unitSize,
+			              place.uindex unitIndex,
+			              place.start_pos startPosition,
+			              place.parent_asset_id parentId
+			      from DAVIS_RACK_PLACE place left join davis_asset asset on place.asset_id = asset.asset_id left join davis_code code on asset.code_id = code.code_id
+			      where place.parent_asset_id is null) A
+			ORDER BY codeName, assetName
+	</select>
+</mapper>

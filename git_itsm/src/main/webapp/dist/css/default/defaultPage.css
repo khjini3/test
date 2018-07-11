@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#defaultPage div#mainContents{
+	width:100%;
+	height:100%;
+    background: radial-gradient(rgb(6, 13, 41), rgba(12, 22, 49, 0.67), rgba(255, 255, 255, 0));
+}

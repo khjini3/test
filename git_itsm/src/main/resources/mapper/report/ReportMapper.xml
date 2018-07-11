@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.job.report">
+
+	<!-- 리포트 Job, scheduler start -->
+	
+	<select id="selectReportList" resultType="com.yescnc.core.entity.db.ReportVO">
+		select * from davis_report
+	            where parent_id = 0
+	              and scheduling != -1
+	              and (schedule_end is NULL or schedule_end > now() )		
+	</select>
+	
+	<select id="selectSubReportList" parameterType="com.yescnc.core.entity.db.ReportVO"  
+									 resultType="com.yescnc.core.entity.db.ReportVO">
+		select * from davis_report
+	            where parent_id = #{report_id}
+	</select>
+	
+	<update id="updateNextRunDate" parameterType="com.yescnc.core.entity.db.ReportVO">
+		UPDATE davis_report 
+		   SET next_run_date=#{next_run_date},
+		   	   scheduling = #{scheduling}
+		 WHERE report_id=#{report_id}
+	</update>
+	
+	<!-- 리포트 Job, scheduler end -->
+	
+	
+	<!-- 리포트 History start -->
+	<insert id="insertReportHistory" parameterType="com.yescnc.core.entity.db.ReportVO">
+		
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(MAX(history_id),0)+1 from davis_report_history;
+		</selectKey>
+			
+		insert into davis_report_history 
+				 (  history_id, 
+					report_id, 
+					report_type, 
+					status, 
+					message,
+					run_date, 
+					reserve_int, 
+					reserve_str, 
+					email_status, 
+					email_address,
+					report_name )
+		 values (	#{max_id},
+		 			#{report_id},
+		 			#{report_type},
+		 			#{status},
+		 			#{message},
+		 			#{run_date},
+		 			#{reserve_int},
+		 			#{reserve_str},
+		 			#{email_status},
+		 			#{email_address},
+		 			#{report_name}
+				)
+	</insert>
+	
+	<select id="selectReportDeleteHistory" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="com.yescnc.core.entity.db.ReportVO" >
+		SELECT history_id, report_id, message, report_type
+		  FROM davis_report_history 
+		<where>
+			report_id = #{report_id}
+			and run_date <![CDATA[<]]> date_format(now() - interval #{delete_interval} day, '%Y-%m-%d %H:00:00');
+		</where>
+	</select>
+	
+	
+	<delete id="deleteReportHistory" parameterType="com.yescnc.core.entity.db.ReportVO">
+		delete from davis_report_history
+		 where history_id = #{history_id}
+	</delete>
+	
+	<!-- 리포트 History  end -->
+	
+	
+	
+	
+	
+	<!--  아래 부터는 리포트 Data Query  -->
+	
+	<select id="selectLevel2View" resultType="java.util.HashMap">
+		select * from cm_v_level2
+	</select>
+	
+	
+	<select id="test_mybatis" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="java.util.HashMap">
+		select * from cm_t_ftp
+		WHERE
+		0=0
+        <if test="conditions != null">
+	     	${conditions}
+	    </if>
+	    
+	</select>
+	
+	
+	<select id="insertLevel2Tail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from cm_t_ftp
+		<where>
+             <if test="conditions != null">
+		     	#{conditions}
+		     </if>
+        </where>
+	</select>
+	
+	<select id="selectFmStatistics_hourly" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT date_format(alarm_time,'%Y-%m-%d %H:%i') ITEM, 
+			   SUM(IF(severity=1,1,0)) CRITICAL, 
+			   SUM(IF(severity=2,1,0)) MAJOR, 
+			   SUM(IF(severity=3,1,0)) MINOR 
+	      FROM davis_fm_t_hourly_alarms 
+		<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+        	GROUP BY DATE_FORMAT(alarm_time, '%Y-%m-%d %H:%i')
+        	ORDER BY DATE_FORMAT(alarm_time, '%Y-%m-%d %H:%i')
+    </select>
+    <select id="selectFmStatistics_hourly_sub_line" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT date_format(alarm_time,'%H:%i') ITEM, 
+			   SUM(IF(severity=1,1,0)) CRITICAL, 
+			   SUM(IF(severity=2,1,0)) MAJOR, 
+			   SUM(IF(severity=3,1,0)) MINOR
+	      FROM davis_fm_t_hourly_alarms 
+		<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+        	GROUP BY alarm_time
+        	ORDER BY alarm_time
+    </select>
+    <select id="selectFmAlarmSummary" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT IFNULL(SUM(IF(SEVERITY=1,1,0)), 0) CRITICAL,
+    		   IFNULL(SUM(IF(SEVERITY=2,1,0)), 0) MAJOR, 
+    		   IFNULL(SUM(IF(SEVERITY=3,1,0)), 0) MINOR, 
+    		   IFNULL(SUM(IF(SEVERITY=4,1,0)), 0) WARNING,
+    		   IFNULL(SUM(IF(SEVERITY=5,1,0)), 0) INDETERMINATE,
+    		   (select count(*) from davis_fm_t_cur_alarms where clear_time IS NULL) TOTAL 
+    	  FROM davis_fm_t_cur_alarms
+    	 WHERE clear_time IS NULL
+    </select>
+    
+    <select id="selectSmOperationHistory" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT loginId, category, actionType, DATE_FORMAT(requestTime, '%Y-%m-%d %H:%i:%S') as request_time,
+		command, result 
+		FROM davis_operation_history
+		<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+        ORDER BY DATE_FORMAT(requestTime, '%Y-%m-%d %H:%i:%S')
+    </select>
+    
+    <select id="selectSmOperationHistory_sub_line" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT count(category) as category, DATE_FORMAT(requestTime, '%Y-%m-%d %H') as request_time FROM davis_operation_history 
+		<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+		group by request_time
+    </select>
+    
+    <select id="selectSmLoginHistory" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT loginId, loginTime, ipAddress, failReason, logoutReason, result FROM davis_login_history
+    	<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+        ORDER BY DATE_FORMAT(loginTime, '%Y-%m-%d %H:%i')
+    </select>
+    
+    <select id="selectSmLoginHistory_sub_line" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT count(loginId) as loginId, DATE_FORMAT(loginTime, '%Y-%m-%d %H') as loginTime from davis_login_history 
+    	<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+        GROUP BY DATE_FORMAT(loginTime, '%Y-%m-%d %H')
+        ORDER BY DATE_FORMAT(loginTime, '%Y-%m-%d %H')
+    </select>
+    <select id="selectSmLoginHistory_sub_pie" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT count(loginId) as count, loginId  from davis_login_history 
+    	<where>
+             <if test="conditions != null">
+		     	${conditions}
+		     </if>
+        </where>
+        GROUP BY loginId
+    </select>
+    
+     <select id="selectFmAlarmhistory" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT location, serverity, alarm_time FROM davis_alarm_history
+    	<where>
+             <if test="conditions != null">
+		     	#{conditions}
+		     </if>
+        </where>
+        ORDER BY DATE_FORMAT(alarm_time, '%Y-%m-%d %H:%i')
+    </select>
+    
+    <select id="selectEstimate" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+			CUSTOMER.site_name siteName
+			,ESTIMATE.registration_date registrationDate
+            ,CODE.code_name codeName
+			,USER.userName userName
+            ,USER.phone phone
+            ,SITE.company_number companyNumber
+            ,SITE.ceo_name ceoName
+            ,SITE.address address
+            ,SITE.main_phone mainPhone
+            ,SITE.fax fax
+			,ESTIMATE.estimate_title estimateTitle
+            ,PRODUCTINFO.product_name productName
+            ,PRODUCTINFO.spec spec
+            ,PRODUCTQUANTITY.quantity quantity
+            ,PRODUCTQUANTITY.u_price uPrice
+            ,PRODUCTQUANTITY.amount amount
+			,ESTIMATE.total_amount totalAmount
+			,ESTIMATE.warranty warranty
+			,ESTIMATE.payment payment
+			,ESTIMATE.note note
+		FROM itsm_estimate_info ESTIMATE
+			left join 
+				itsm_project_info PROJECT
+			on
+				ESTIMATE.project_id = PROJECT.project_id
+			left join
+				itsm_site_manager CUSTOMER
+			on
+				ESTIMATE.customer_site = CUSTOMER.site_id
+			left join
+				itsm_estimate_product_info PRODUCTQUANTITY
+			on
+				ESTIMATE.estimate_id = PRODUCTQUANTITY.estimate_id
+			left join
+				itsm_product_info PRODUCTINFO
+			on
+				PRODUCTINFO.product_id = PRODUCTQUANTITY.product_id
+			left join
+				(select * from davis_code where davis_code.parent_code_id = 'y-335934ae-a8c6-7b8a-cacf-f35bc74f2650') CODE
+			on 
+				CODE.col1 = ESTIMATE.validity
+			left join
+				davis_user USER
+			on 
+				USER.userId = ESTIMATE.user_id
+			left join
+				(select * from itsm_site_manager where itsm_site_manager.site_id = 'y-6e98cf7c-4362-cea4-4ff4-a3b8bc28dd62') SITE
+			on 
+				SITE.site_id = ESTIMATE.customer_site  
+    	<where>
+             <if test="conditions != null">
+		     	ESTIMATE.estimate_id = #{conditions} 
+		     </if>
+        </where>
+    </select>
+    
+    <select id="selectOrder" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+       SELECT userInfo.userName_eng, 
+       		  userInfo.phone, 
+       		  corpSite.site_name corp_site_name, 
+       		  userInfo.email, 
+       		  siteManager.site_name o_site_name, 
+       		  orderInfo.order_end_date, 
+       		  customInfo.customer_name o_name, 
+       		  orderInfo.o_payment, 
+       		  orderInfo.o_delivery_term, 
+       		  orderInfo.o_note,
+       		  orderInfo.total_amount,
+			  orderProductInfo.quantity, 
+			  orderProductInfo.u_price, 
+			  orderProductInfo.amount, 
+			  productInfo.product_name, 
+			  productInfo.spec, 
+			  productInfo.product_type
+			  <!-- orderInfo.order_id, 
+			  orderInfo.estimate_id, 
+			  orderInfo.project_id, 
+			  orderInfo.o_site_id, 
+			  orderProductInfo.product_id -->
+		FROM itsm_order_info orderInfo
+		LEFT JOIN itsm_order_product_info orderProductInfo 
+			ON orderInfo.order_id = orderProductInfo.order_id
+		LEFT JOIN itsm_product_info productInfo 
+			ON productInfo.product_id = orderProductInfo.product_id
+		LEFT JOIN itsm_site_manager siteManager 
+			ON siteManager.site_id = orderInfo.o_site_id
+		LEFT JOIN itsm_custom_info customInfo 
+			ON customInfo.customer_id = orderInfo.o_manager
+		LEFT JOIN davis_user userInfo 
+			ON userInfo.userId = orderInfo.user_id
+		LEFT JOIN itsm_site_manager corpSite 
+			ON corpSite.site_id = "y-6e98cf7c-4362-cea4-4ff4-a3b8bc28dd62"
+		WHERE orderInfo.order_id = #{conditions};
+    </select>
+    
+    <select id="selectTT_week" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select "column1" as column1, "column2"  as column2, "column3"  as column3, actionType as column4, "12312" as column5, result as column6, 
+	result as column7, result as column8, result as column9,  result as column10, result as column11 from davis_operation_history order by requestTime desc limit 10;
+    </select>
+    <select id="selectTT_month" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select loginId as column1, result+id as column2, command  as column3, actionType as column4, result as column5, result as column6, 
+	result as column7, result as column8, result as column9,  result as column10 from davis_operation_history order by requestTime desc limit 10;
+    </select>
+    <select id="selectTT_week_sub_table1" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select id as column1, loginId as column2, privilege as column3, ipAddress as column4, category as column5 from davis_operation_history limit 1;
+    </select>
+    <select id="selectTT_month_sub_table1" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select id as column1, loginId as column2, privilege as column3, ipAddress as column4, category as column5 from davis_operation_history limit 1;
+    </select>
+</mapper>

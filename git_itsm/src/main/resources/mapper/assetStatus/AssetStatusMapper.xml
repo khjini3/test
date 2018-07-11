@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.assetStatus.AssetStatusMapper">
+	<select id="getLocationList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 id,
+			       loc_name,
+       			   loc_id
+		FROM(
+		SELECT
+		      @ROWNUM := 0 ROWNUM,
+					loc.LOC_NAME loc_name,
+					loc.LOC_ID loc_id
+				FROM
+					DAVIS_LOCATION loc left join davis_code code
+		      on loc.code_id = code.code_id
+		    WHERE code.code_id = '86de14ba-5ea3-43c7-e264-7a06cb550336') A
+	</select>
+	
+	<select id="getProductList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+		SELECT 
+			CODE_NAME name
+		FROM 
+			DAVIS_CODE
+		WHERE
+			PARENT_CODE_ID = "9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca"; <!-- Asset -->
+	</select>
+	
+	<select id="getAssetStatus" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid, asset.asset_id
+			,asset.asset_name
+			,asset.code_id
+			,asset.model_id
+			,asset.loc_id
+			,asset.unit_size
+			,asset.product_model
+			,asset.serial_number
+			,asset.revision
+			,asset.hw_version
+			,asset.fw_version
+			,date_format(asset.receipt_date,"%Y-%m-%d") receipt_date
+     		,date_format(asset.release_date,"%Y-%m-%d") release_date
+			,asset.status
+			,code.code_name
+			,loc.loc_name
+		FROM 
+			davis_itsm.davis_asset asset left join davis_itsm.davis_code code
+			on asset.code_id = code.code_id left join davis_itsm.davis_location loc 
+			on asset.loc_id = loc.loc_id, (SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<where>
+			<if test="location != ''">
+				AND asset.loc_id = #{location}
+			</if>
+			<if test="productName != 'All'">
+				AND code.code_id =
+					(SELECT CODE_ID FROM DAVIS_CODE WHERE CODE_NAME=#{productName})
+			</if>
+			<if test="model.size != 0">
+				AND asset.product_model IN
+				<foreach item="item" index="index" collection="model" open="(" separator="," close=")">
+		       		#{item}
+				</foreach>	
+			</if>
+			<!-- <if test="status != 0">
+				AND asset.status=#{status}
+			</if> -->
+			<if test="searchType == 1"> <!-- 일간 -->
+				<if test="status == 0 or status == 1"> <!-- All, 입고  -->
+					AND asset.receipt_date <![CDATA[ <= ]]> #{searchDayMonth}
+				</if>
+				<if test="status == 2"> <!-- 재고 -->
+					AND asset.receipt_date <![CDATA[ <= ]]> date_format(#{searchDayMonth}, '%Y-%m-%d')
+					AND (asset.release_date <![CDATA[ >= ]]> date_format(#{searchDayMonth}, '%Y-%m-%d') or asset.release_date is null)
+				</if>				
+				<if test="status == 3"> <!-- 출고 -->
+					AND asset.release_date <![CDATA[ <= ]]> #{searchDayMonth}
+				</if>
+			</if>
+			<if test="searchType == 2"> <!-- 월간 -->
+				<if test="status == 0 or status == 1"> <!-- All, 입고 -->
+					AND date_format(asset.receipt_date, '%Y-%m') = #{searchDayMonth}
+				</if>
+				<if test="status == 2"> <!-- 재고 -->
+					AND date_format(asset.receipt_date, '%Y-%m') = #{searchDayMonth}
+					AND (date_format(asset.release_date, '%Y-%m') = #{searchDayMonth} or asset.release_date is null)
+				</if>
+				<if test="status == 3"> <!-- 출고 -->
+					AND date_format(asset.release_date, '%Y-%m') = #{searchDayMonth}
+				</if>
+			</if>
+			<if test="searchType == 3"> <!-- 기간 -->
+				<if test="status == 0 or status == 1"> <!-- All, 입고 -->
+					AND asset.receipt_date BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d')
+				</if>
+				<if test="status == 2"> <!-- 재고 -->
+					AND asset.receipt_date BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d')
+					AND (asset.release_date BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d') or asset.release_date is null)
+				</if>
+				<if test="status == 3"> <!-- 출고 -->
+					AND asset.release_date BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d')
+				</if>
+			</if>
+		</where>
+		limit #{startRow}, #{endRow}
+	</select>
+	
+	<select id="getRowCount" resultType="Integer">
+		select FOUND_ROWS()
+	</select>
+</mapper>
+

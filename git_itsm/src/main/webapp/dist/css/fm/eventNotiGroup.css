@@ -1,0 +1,95 @@
+@CHARSET "UTF-8";
+
+#eventNotiGroup .contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#eventNotiGroup .contentsCls > div {
+	z-index: 98;
+}
+
+#eventNotiGroup div#leftContents,
+#eventNotiGroup div#mainContents{
+	width:100%; height:100%;padding-left: 10px;
+}
+
+#eventNotiGroup div#mainTop, div#rightTop, div#leftTop{
+	height:35px;
+	text-align: right;
+}
+
+#eventNotiGroup div#rightContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#eventNotiGroup div#leftBottom, div#mainSubLeftBottom, div#mainSubRightBottom{
+	width : 100%;
+	height : calc(100vh - 176px); /* height:calc(100% - 92px); */ /* modify youngyee */
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+/* SVG ICON */
+#eventNotiGroup svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#eventNotiGroup svg.link.icon {
+	cursor: pointer;
+}
+
+#eventNotiGroup svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+/* Disabled SVG ICON */
+/* #menuManager svg.icon:hover {
+	opacity: 1!important
+} */
+
+#eventNotiGroup svg.icon {
+	cursor: default;
+	color: #8e8c8c;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+#eventNotiGroup .groupBtn {
+	position: relative;
+    bottom: 6px;
+    padding-right: 3px;
+}
+
+#eventNotiGroup .editGroupBtn{
+	position: relative;
+	bottom: 6px;
+	display: none;	
+	padding-right: 3px;
+}
+
+#eventNotiGroup .targetSubButtons, .userSubButtons {
+	position: relative;
+    bottom: 6px;
+    padding-right: 3px;
+}
+
+#eventNotiGroup #notiGtoupSaveBtn {
+	width: 0.990em !important;
+}
+
+#eventNotiGroup #notiGroupCancelBtn {
+	width: 0.880em !important;
+}
+
+#eventNotiGroup .stepCls {
+	float: right;
+    padding-right: 7px;
+}
+
+#eventNotiGroup .onOff{
+ 	cursor : default;
+ }

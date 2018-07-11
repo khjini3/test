@@ -1,0 +1,114 @@
+ @CHARSET "UTF-8";
+
+/*
+ ******************************
+ * 통합
+ ******************************
+ */
+.contentsCls > div {
+	z-index: 98;
+}
+
+#ipmanager .contentsCls{
+	 width: 100%; 
+	 height: 100%; 
+	 background-color: rgba(255,0,0,0);
+	 float:left;
+}
+
+#mainContents div#mainTop{
+	height:35px;
+	text-align: right;
+	padding: 8px 10px 5px 10px;
+}
+
+#ipmanager div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#ipmanager div#mainSubBottom{
+	width: 100%;
+	height:calc(100vh - 255px);
+}
+
+#ipmanager div#mainBottom{
+	width:100%;
+	padding: 0px 10px 5px 10px;
+}
+
+#ipContentList{
+	padding: 5px 10px 5px 10px;
+}
+
+/* SVG ICON */
+#ipmanager svg.icon.link:hover {
+	opacity: 1!important;
+}
+
+#ipmanager svg.link.icon {
+	cursor: pointer;
+}
+
+#ipmanager svg.icon.link {
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+/* Disabled SVG ICON */
+#ipmanager svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+#ipmanager svg.icon {
+	cursor: default;
+}
+/* ------------------------------------- */
+
+#ipmanager .pagination{
+	margin: 0;	
+}
+
+#ipAddPopup option,
+#ipEditPopup option {
+	background-color: rgb(3, 14, 34);
+}
+
+/* 필수값 표시 */
+/* #ipAddPopup li:nth-child(-n+1) > div:nth-child(even):before{
+	content: '*';
+    position: absolute;
+    margin-top: 5px;
+    margin-left: -11px;
+    color: #ff525a;
+}
+
+#ipEditPopup li:nth-child(-n+1) > div:nth-child(even):before{
+	content: '*';
+    position: absolute;
+    margin-top: 5px;
+    margin-left: -11px;
+    color: #ff525a;
+} */
+
+/* #ipmanager input:-ms-input-placeholder { color: white; }
+#ipmanager ::-webkit-input-placeholder { color: white; } */
+
+#ipmanager #ipBtnGroup {
+    position: relative;
+    bottom: 6px;
+}
+
+#ipmanager #searchIpArea {
+	height: 55px;
+    position: relative;
+    top: -5px;
+}
+#ipmanager #ipSearchBtn {
+    position: relative;
+    left: -3px;
+}

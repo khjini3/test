@@ -1,0 +1,177 @@
+@CHARSET "UTF-8";
+
+#itsmAsset .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#itsmAsset .contentsCls > div {
+	z-index: 98;
+}
+
+#itsmAsset div#searchContents {
+	width : 100%;
+	padding : 4px 10px;
+}
+
+#itsmAsset div#leftContents {
+	width : 100%;
+	padding-left: 10px;
+	padding-right: 5px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#itsmAsset div#mainContents {
+	width : 100%;
+	padding-left: 5px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#itsmAsset div#searchBottom {
+	width : 100%;
+	height : calc(10vh - 8px);
+}
+
+#itsmAsset div#mainTop {
+	width : 100%;
+	padding: 4px 0px 0px 10px;
+}
+
+#itsmAsset div#mainTop .align-left-btn {
+	float : left;
+}
+
+#itsmAsset div#mainTop .align-right-btn {
+	float : right;
+}
+
+#itsmAsset #searchBottom .search-options.border {
+	height: 60px;
+	float: left; 
+	margin-left: 0px;
+    border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+#itsmAsset #searchBottom .search-options.nonBorder {
+	height: 60px;
+	float: left; 
+	margin-left: 0px;
+}
+
+#searchBottom .inputArea {
+    margin-left: 60px;
+}
+
+#searchBottom .w2ui-field > label {
+	width : 65px;
+}
+
+#itsmAsset div#companyMainBottom {
+	width : 100%;
+	height : calc(100vh - 253px);
+}
+
+#itsmAsset div#mainBottom {
+	width : 100%;
+	height : calc(100vh - 253px);
+}
+.w2ui-node-group{
+   display : none;
+}
+
+/* SVG ICON */
+#itsmAsset svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#itsmAsset svg.link.icon {
+	cursor: pointer;
+}
+
+#itsmAsset svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-left: 8px; */
+}
+
+#itsmAsset .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	padding: 0px 5px 7px 5px;
+}
+
+#assetImportBtn {
+	padding: 2px 4px 8px 9px !important;
+}
+
+
+#assetExportBtn {
+	padding: 3px 6px 8px 0px !important;
+}
+
+#itsmAsset .svg-inline--fa.fa-w-14 {
+	width: 0.875em;
+	padding: 0px 5px 5px 5px;
+}
+
+#itsmAsset .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:2px;
+}
+
+/* Disabled SVG ICON */
+#itsmAsset svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#itsmAsset svg.icon{
+	cursor: default;
+}
+
+#assetMgrImportWrap .w2ui-list{
+	text-align: left;
+	padding-left: 10px;
+	left: 48px;
+	border: 0px solid #777777;
+}
+
+#assetMgrImportWrap .w2ui-field.w2ui-span3 > div {
+    margin-left: 0;
+}
+
+#assetMgrImportWrap input#file{
+	display: none;
+}
+
+svg.icon.link#assetMgrImportDelBtn:hover {
+	opacity: 1;
+}
+
+svg.link.icon#assetMgrImportDelBtn {
+	cursor: pointer;
+}
+
+svg.icon.link#assetMgrImportDelBtn {
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+svg.icon#assetMgrImportDelBtn {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+svg.icon#assetMgrImportDelBtn {
+	cursor: default;
+}
+
+div#assetMgrImportWrap {
+	background-color: #434343;
+}

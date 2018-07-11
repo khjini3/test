@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.davisMonitor.DavisMonitorMappper">
+	<select id="getEventBrowerData" resultType="com.yescnc.jarvis.entity.db.EventListVO">
+	SELECT @ROWNUM := @ROWNUM + 1 AS recid,
+		       MSG_GRP msgGrp,
+		       NAME name,
+		       APPLICATION app,
+		       OBJECT obj,
+		       SEVERITY severity,
+		       UPDATE_TIME updateTime,
+		       DUPLICATION dupplication,
+		       IP
+		  FROM (SELECT @ROWNUM := 0 ROWNUM,
+		               MSG_GRP,
+		               NAME,
+		               APPLICATION,
+		               OBJECT,
+		               SEVERITY,
+		               UPDATE_TIME,
+		               DUPLICATION,
+		               IP
+		          FROM DAVIS_EVENT) a
+	</select>
+	
+	<select id="getAssetInfo" parameterType="String" resultType="java.util.HashMap">
+		SELECT 
+			ASSET.asset_id
+			,ASSET.asset_name
+			,ASSET.code_id
+			,ASSET.model_id
+			,ASSET.ip
+			,ASSET.loc_id
+			,ASSET.unit_size
+			,ASSET.product_model
+			,ASSET.serial_number
+			,ASSET.revision
+			,ASSET.hw_version
+			,ASSET.fw_version
+			,ASSET.receipt_date
+			,ASSET.release_date
+			,ASSET.status
+			,ASSET.symbol_seq_id
+			,RACKPLACE.uindex
+			,RACKPLACE.start_pos
+			,p_status.code_desc
+			,LOCATION.loc_name
+			,CODE.code_name
+			,CODE.inout_status
+			,SYMBOL.symbol_svg
+		FROM
+			davis_asset ASSET
+		LEFT JOIN davis_rack_place RACKPLACE ON  ASSET.asset_id = RACKPLACE.asset_id
+		LEFT JOIN (select * from davis_code where davis_code.parent_code_id = 'af2e3ac7-b88c-a8f4-e10b-f985dd72e91d') p_status ON ASSET.status = p_status.col1
+		LEFT JOIN davis_location LOCATION ON ASSET.loc_id = LOCATION.loc_id
+		LEFT JOIN davis_code CODE ON ASSET.code_id = CODE.code_id
+		LEFT JOIN davis_symbol SYMBOL on SYMBOL.seq_id = ASSET.symbol_seq_id
+		WHERE 
+			ASSET.asset_id = #{param};
+	</select>
+	
+	<select id="getEventViewerList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.EventListVO">
+		SELECT @ROWNUM := @ROWNUM + 1 AS recid
+			,MSG_GRP msgGrp
+			,NAME name
+			,PARENT_NAME parentName
+			,APPLICATION app
+			,OBJECT obj
+			,SEVERITY severity
+			,UPDATE_TIME updateTime
+			,DUPLICATION dupplication
+			,IP ip
+		FROM (SELECT @ROWNUM := 0 ROWNUM
+				,MSG_GRP
+				,NAME
+				,PARENT_NAME
+				,APPLICATION
+				,OBJECT
+				,SEVERITY
+				,UPDATE_TIME
+				,DUPLICATION
+				,IP
+				FROM DAVIS_EVENT) A
+		WHERE A.NAME = #{param}
+	</select>
+</mapper>

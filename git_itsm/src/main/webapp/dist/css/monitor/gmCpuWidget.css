@@ -1,0 +1,23 @@
+.gmCpuWidget .gm-chart {
+	width : calc(100% - 10px);
+	height : calc(100% - 10px);
+	margin : 5 5 5 5;
+}
+
+.gmCpuWidget .gm-chart-bar {
+	width : 50%;
+	height : 100%;
+	float: left;
+}
+
+.gmCpuWidget .gm-chart-line {
+	width : 50%;
+	height : 100%;
+	float: left;
+	left: 30px;
+}
+
+.gm-chart-avg {
+    top: -110px;
+    position: relative;
+}

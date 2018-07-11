@@ -1,0 +1,1699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.lib.fm.dao.FmDao">
+   
+    <resultMap id="FmClientResultMap" type="com.yescnc.core.entity.db.FmClientVO">
+        <result property="clientId" column="client_id" />
+        <result property="lastSeqWithMsId" column="last_seq_with_ms_id" />
+        <result property="lastUpdateTime" column="last_time" />
+        <result property="clientType" column="client_type" />
+        <result property="strIpAddr" column="ip_addr" />
+    </resultMap>
+
+    <resultMap id="FmSeqNoResultMap" type="com.yescnc.core.entity.db.FmSeqNoDto">
+        <result property="seqNo" column="seq_no" />
+        <result property="alarmTime" column="alarm_time" />
+        <result property="severity" column="severity" />
+        <result property="alarmGroup" column="alarm_group" />
+        <result property="neId" column="ne_id" />
+        <result property="clearTime" column="clear_time" />
+    </resultMap>
+
+  <resultMap id="FmSeqNoPageResultMap" type="com.yescnc.core.entity.db.FmSeqNoPageDto">
+        <result property="seqNo" column="seq_no" />
+        <result property="key1" column="key1" />
+        <result property="key2" column="key2" />
+  </resultMap>
+    
+    <resultMap id="FmEventDtoResultMap" type="com.yescnc.core.entity.db.FmEventVO">
+        <result property="seqNo" column="seq_no" />
+        <result property="neType" column="ne_type" />
+        <result property="neVersion" column="ne_version" />
+        <result property="msgName" column="msg_name" />
+        <result property="lvl1Id" column="level1_id" />
+        <result property="lvl2Id" column="level2_id" />
+        <result property="lvl3Id" column="level3_id" />
+        <result property="lvl4Id" column="level4_id" />
+        <result property="lvl5Id" column="level5_id" />
+        <result property="lvl6Id" column="level6_id" />
+        <result property="lvl7Id" column="level7_id" />
+        <result property="lvl8Id" column="level8_id" />
+        <result property="lvl9Id" column="level9_id" />
+        <result property="lvl10Id" column="level10_id" />
+        <result property="lloc" column="lloc" />
+        <result property="locationAlias" column="location_alias" />
+        <result property="eventType" column="event_type" />
+        <result property="displayType" column="display_type" />
+        <result property="alarmTime" column="alarm_time" />
+        <result property="severity" column="severity" />
+        <result property="serviceAffect" column="service_affect" />
+        <result property="alarmGroup" column="alarm_group" />
+        <result property="alarmId" column="alarm_id" />
+        <result property="probcauseInt" column="probcause_int" />
+        <result property="probcauseStr" column="probcause_str" />
+        <result property="additionalText" column="additional_text" />
+        <result property="reserveInt" column="reserve_int" />
+        <result property="reserveStr" column="reserve_str" />
+        <result property="operatorInfo" column="operator_info" />
+        <result property="gencount" column="gen_count" />
+        <result property="clearType" column="clear_type" />
+        <result property="ackType" column="ack_type" />
+        <result property="ackUser" column="ack_user" />
+        <result property="ackTime" column="ack_time" />
+        <result property="clearUser" column="clear_user" />
+        <result property="clearTime" column="clear_time" />
+        <result property="clearSeq" column="cleared_by_seq_no" />
+        <result property="serviceStatus" column="service_status" />
+        <result property="sysType" column="sys_type" />
+        <result property="bandClass" column="band_class" />
+        <result property="neId" column="ne_id" />
+        <result property="alarmPosition" column="alarm_position" />
+        <result property="alarmIdPosition" column="alarm_id_position" />
+        <result property="ackSystem" column="ack_system" />
+        <result property="clearSystem" column="clear_system" />
+        <result property="techInfo" column="tech_info" />
+    </resultMap>
+        
+    <!-- 
+        ///////////////////////////////////////////////////////////////
+        //                  Managing client Query                    //
+        ///////////////////////////////////////////////////////////////
+     -->
+	<insert id="insertFmClient" parameterType="com.yescnc.core.entity.db.FmClientVO">
+		INSERT INTO davis_fm_t_client
+						(last_seq_with_ms_id, last_time, client_type, ip_addr)
+		VALUES (#{lastSeqWithMsId}, now(), #{clientType}, #{strIpAddr})
+	    <selectKey keyProperty="clientId" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	
+	<update id="updateFmClient" parameterType="com.yescnc.core.entity.db.FmClientVO">
+		UPDATE davis_fm_t_client
+		SET last_seq_with_ms_id = #{lastSeqWithMsId}, last_time = now() where client_id = #{clientId}
+	</update>
+
+	<delete id="deleteFmClient" parameterType="java.lang.Integer">
+		DELETE from davis_fm_t_client
+		where client_id = #{clientId}
+	</delete>
+        
+    <select id="selectFmClient" parameterType="java.lang.Integer" resultMap="FmClientResultMap">
+       select * from davis_fm_t_client where client_id = #{clientId}
+    </select>
+    
+    <select id="selectAllFmClient" resultMap="FmClientResultMap">
+       select * from davis_fm_t_client
+    </select>
+    
+    <!-- 
+        ///////////////////////////////////////////////////////////////
+        //                 Managing FM Table Query                   //
+        ///////////////////////////////////////////////////////////////
+     -->
+    <insert id="insertFmHist" parameterType="com.yescnc.core.entity.db.FmEventVO">
+        INSERT into davis_fm_t_hist
+        SET
+        seq_no = #{seqNo}, ne_type = #{neType}, ne_version = #{neVersion}, msg_name = #{msgName},
+        level1_id = #{lvl1Id}, level2_id = #{lvl2Id}, level3_id = #{lvl3Id},
+        level4_id = #{lvl4Id}, level5_id = #{lvl5Id}, level6_id = #{lvl6Id},
+        level7_id = #{lvl7Id}, level8_id = #{lvl8Id}, level9_id = #{lvl9Id}, level10_id = #{lvl10Id},
+        lloc = #{lloc}, location_alias = #{locationAlias}, event_type = #{eventType}, display_type = #{displayType},
+        alarm_time = STR_TO_DATE(#{alarmTime},'%Y-%m-%d %H:%i:%S'), severity = #{severity},
+        service_affect = #{serviceAffect}, alarm_group = #{alarmGroup},
+        alarm_id = #{alarmId}, probcause_int = #{probcauseInt}, probcause_str = #{probcauseStr}, additional_text = #{additionalText},
+        clear_type = #{clearType}, reserve_int = #{reserveInt}, reserve_str = #{reserveStr}, operator_info = #{operatorInfo},
+        ack_type = #{ackType}, ack_user = #{ackUser}, ack_time = #{ackTime},
+        clear_user = #{clearUser}, clear_time = #{clearTime}, cleared_by_seq_no = #{clearSeq},
+        service_status = #{serviceStatus}, sys_type = #{sysType}, band_class = #{bandClass}, ne_id = #{neId},
+        alarm_position = #{alarmPosition}, alarm_id_position = #{alarmIdPosition}, 
+        ack_system = #{ackSystem}, clear_system = #{clearSystem}, tech_info = #{techInfo}
+    </insert>
+
+    <insert id="insertFmCurAlarms" parameterType="com.yescnc.core.entity.db.FmEventVO">
+        INSERT into davis_fm_t_cur_alarms
+        SET
+        seq_no = #{seqNo}, ne_type = #{neType}, ne_version = #{neVersion}, msg_name = #{msgName},
+        level1_id = #{lvl1Id}, level2_id = #{lvl2Id}, level3_id = #{lvl3Id},
+        level4_id = #{lvl4Id}, level5_id = #{lvl5Id}, level6_id = #{lvl6Id},
+        level7_id = #{lvl7Id}, level8_id = #{lvl8Id}, level9_id = #{lvl9Id}, level10_id = #{lvl10Id},
+        lloc = #{lloc}, location_alias = #{locationAlias}, event_type = #{eventType}, display_type = #{displayType},
+        alarm_time = STR_TO_DATE(#{alarmTime},'%Y-%m-%d %H:%i:%S'), severity = #{severity},
+        service_affect = #{serviceAffect}, alarm_group = #{alarmGroup},
+        alarm_id = #{alarmId}, probcause_int = #{probcauseInt}, probcause_str = #{probcauseStr}, additional_text = #{additionalText},
+        clear_type = #{clearType}, reserve_int = #{reserveInt}, reserve_str = #{reserveStr}, operator_info = #{operatorInfo},
+        ack_type = #{ackType}, ack_user = #{ackUser}, ack_time = #{ackTime},
+        clear_user = #{clearUser}, clear_time = #{clearTime}, cleared_by_seq_no = #{clearSeq},
+        service_status = #{serviceStatus}, sys_type = #{sysType}, band_class = #{bandClass}, ne_id = #{neId},
+        alarm_position = #{alarmPosition}, alarm_id_position = #{alarmIdPosition}, 
+        ack_system = #{ackSystem}, clear_system = #{clearSystem}, tech_info = #{techInfo}
+    </insert>
+    
+    <delete id="deleteFmCurAlarmsBySeq" parameterType="java.lang.Long">
+        delete from davis_fm_t_cur_alarms where seq_no = #{seq_no}
+    </delete>
+    
+    <delete id="deleteFmHistBySeq" parameterType="java.lang.Long">
+        delete from davis_fm_t_hist where seq_no = #{seq_no}
+    </delete>    
+    
+    <select id="selectFmCurAlarmsBySeq" parameterType="java.lang.Long" resultMap="FmEventDtoResultMap">
+        SELECT
+            *
+        FROM davis_fm_t_cur_alarms where seq_no = #{seqNo}
+    </select>
+    
+	<select id="selectFmHistByClearedBySeq" parameterType="hashmap" resultMap="FmEventDtoResultMap">
+        (
+            SELECT
+               *
+            FROM davis_fm_t_cur_alarms where level3_id = #{level3_id} and cleared_by_seq_no = #{seqNo}
+        )
+        UNION ALL
+        (
+            SELECT
+               *
+            FROM davis_fm_t_hist where level3_id = #{level3_id} and cleared_by_seq_no = #{seqNo}
+        )
+    </select>
+    
+	<select id="selectHistByAlarmIdPosition" parameterType="hashmap" resultMap="FmEventDtoResultMap">
+        (
+	        SELECT
+	           *
+	        FROM davis_fm_t_cur_alarms where level3_id = #{level3_id} and alarm_id_position = #{alarm_id_position}
+        )
+        UNION ALL
+        (
+        	SELECT
+	           *
+	        FROM davis_fm_t_hist where level3_id = #{level3_id} and alarm_id_position = #{alarm_id_position}
+        )
+    </select>
+    
+    <select id="selectFmCurAlarmsByDn" parameterType="hashmap" resultMap="FmEventDtoResultMap">
+        SELECT
+	        *
+        FROM davis_fm_t_cur_alarms
+        <where>
+
+            <if test="level1_id != null">
+                AND LEVEL1_ID = #{level1_id}
+            </if>
+            
+            <if test="level2_id != null">
+                AND LEVEL2_ID = #{level2_id}
+            </if>
+            
+            <if test="level3_id != null">
+                AND LEVEL3_ID = #{level3_id}
+            </if>
+            
+        </where>
+        
+    </select>
+    
+    <select id="selectFmCurAlarmsByDnForAudit" parameterType="hashmap" resultMap="FmEventDtoResultMap">
+        SELECT
+	        *
+        FROM davis_fm_t_cur_alarms
+        <where>
+        	AND CLEAR_TYPE = 1
+
+            <if test="level3_id != null">
+                AND LEVEL3_ID = #{level3_id}
+            </if>
+            
+        </where>
+        
+    </select>
+    
+    <select id="selectFmCurAlarmsByMsgName" parameterType="java.lang.String" resultMap="FmEventDtoResultMap">
+        SELECT
+            *
+        FROM davis_fm_t_cur_alarms
+        WHERE msg_name = #{strMsgName}
+          AND CLEAR_TYPE = 1
+          AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+          AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+    </select>
+    
+    <select id="selectFmCurAlarmsByDnAndAlarmId" parameterType="map" resultMap="FmEventDtoResultMap">
+        SELECT
+            *
+        FROM davis_fm_t_cur_alarms
+        <where>
+            ALARM_ID IN
+            <foreach collection="alAlarmId" item="strAlarmId" index="index"
+                     open="(" close=")" separator=",">
+                #{strAlarmId}
+            </foreach>
+            <if test="alLvl3 != null">
+                AND LEVEL3_ID IN
+                <foreach collection="alLvl3" item="strLvl3" index="index"
+                         open="(" close=")" separator=",">
+                    ${strLvl3}
+                </foreach>
+            </if>
+            AND CLEAR_TYPE = 1
+            AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+        </where>
+    </select>
+    
+     <select id="selectEventsByDnAndAlarmIdTimeRange" parameterType="map" resultMap="FmEventDtoResultMap">
+       
+       (
+        SELECT  *  FROM davis_fm_t_cur_alarms
+        <where>
+            ALARM_ID IN
+            <foreach collection="alAlarmId" item="strAlarmId" index="index"
+                     open="(" close=")" separator=",">
+                #{strAlarmId}
+            </foreach>
+            <if test="alLvl3 != null">
+                AND LEVEL3_ID IN
+                <foreach collection="alLvl3" item="strLvl3" index="index"
+                         open="(" close=")" separator=",">
+                    ${strLvl3}
+                </foreach>
+            </if>
+            <if test="strFromTime != null">
+		            AND ALARM_TIME >= #{strFromTime}
+		     </if>
+		     <if test="strToTime != null">
+		            AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+		     </if>
+		    AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+        </where>
+        
+        ) UNION ALL (
+        
+        SELECT  *  FROM davis_fm_t_hist
+        <where>
+            ALARM_ID IN
+            <foreach collection="alAlarmId" item="strAlarmId" index="index"
+                     open="(" close=")" separator=",">
+                #{strAlarmId}
+            </foreach>
+            <if test="alLvl3 != null">
+                AND LEVEL3_ID IN
+                <foreach collection="alLvl3" item="strLvl3" index="index"
+                         open="(" close=")" separator=",">
+                    ${strLvl3}
+                </foreach>
+            </if>
+            <if test="strFromTime != null">
+		            AND ALARM_TIME >= #{strFromTime}
+		     </if>
+		     <if test="strToTime != null">
+		            AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+		     </if>
+		    AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+        </where>
+        
+        )
+        
+    </select>
+     
+     
+     
+     
+    <select id="selectEventFmTableBySeq" parameterType="map" resultMap="FmEventDtoResultMap">
+    
+        <if test="strWhereCond.equals('seq_no')">
+	        SELECT * FROM davis_fm_t_cur_alarms
+	        WHERE
+	            ${strWhereCond} ${strOper}
+	            <if test="nSeq != null">
+	                #{nSeq}
+	            </if>
+	            <if test="alSeq != null">
+	                <foreach collection="alSeq" item="nInSeq" index="index" open="(" close=")" separator=",">
+	                    #{nInSeq}
+	                </foreach>
+	            </if>
+	        UNION
+        </if>
+        SELECT * FROM davis_fm_t_hist
+        WHERE
+            ${strWhereCond} ${strOper}
+            <if test="nSeq != null">
+                #{nSeq}
+            </if>
+            <if test="alSeq != null">
+                <foreach collection="alSeq" item="nInSeq" index="index" open="(" close=")" separator=",">
+                    #{nInSeq}
+                </foreach>
+            </if>
+        <if test="strWhereCond.equals('cleared_by_seq_no')">
+            ORDER BY cleared_by_seq_no
+        </if>
+        
+    </select>
+    
+    <select id="selectAllUnclearedAlarms" parameterType="com.yescnc.core.entity.db.CurAlarmSearchCondVO" resultMap="FmEventDtoResultMap">
+       SELECT * from davis_fm_t_cur_alarms
+      
+       <where>
+             LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+         AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+       
+         <if test="alLvl3Ids != null">
+				AND LEVEL3_ID IN
+	            <foreach collection="alLvl3Ids" item="nLvl3Id" index="index" open="(" close=")" separator=",">
+					#{nLvl3Id}
+	            </foreach>
+			</if>
+          <if test="lastSeq != -1">
+			AND seq_no <![CDATA[ <= ]]> #{seqNo}
+          </if>
+            
+       </where>
+
+       ORDER BY ALARM_TIME DESC,SEQ_NO DESC
+
+       <if test= "nRowCntInSelection != -1">
+       		LIMIT #{nRowCntInSelection}
+       </if>
+       
+    </select>
+    
+    <select id="selectHistoryAlarms" parameterType="com.yescnc.core.entity.db.CurAlarmSearchCondVO" resultMap="FmEventDtoResultMap">
+       SELECT * from davis_fm_t_hist
+       <where>
+             EVENT_TYPE = 1
+         AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+         AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+         
+          <if test="alLvl3Ids != null">
+			 AND LEVEL3_ID IN
+	            <foreach collection="alLvl3Ids" item="nLvl3Id" index="index" open="(" close=")" separator=",">
+					#{nLvl3Id}
+	            </foreach>
+		</if>
+            
+       </where>
+        
+       ORDER BY ALARM_TIME DESC,SEQ_NO DESC
+       
+       <if test= "nRowCntInSelection != -1">
+       		LIMIT #{nRowCntInSelection}
+       </if>
+       
+    </select>
+    
+    <select id="selectCurAlarmsByCondition" parameterType="com.yescnc.core.entity.db.CurAlarmSearchCondVO" resultMap="FmEventDtoResultMap">
+        SELECT * from davis_fm_t_cur_alarms
+        <where>
+            AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 ) 
+            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+            
+            <!-- 
+            <if test="isIncludeEmsAlarm == true and alLvl3Ids == null">
+				DO Nothing : Just Select ALL
+			</if>
+			-->
+			
+            <if test="isIncludeEmsAlarm == true and alLvl3Ids != null">
+				<!-- -1 needs to be added to alLvl3Ids -->
+				AND LEVEL3_ID IN
+	            <foreach collection="alLvl3Ids" item="nLvl3Id" index="index" open="(" close=")" separator=",">
+					#{nLvl3Id}
+	            </foreach>
+			</if>
+			
+            <if test="isIncludeEmsAlarm == false and alLvl3Ids == null">
+				AND LEVEL2_ID != -1 and LEVEL3_ID != -1
+			</if>
+			
+			<if test="isIncludeEmsAlarm == false and alLvl3Ids != null">
+				AND LEVEL3_ID IN
+	            <foreach collection="alLvl3Ids" item="nLvl3Id" index="index" open="(" close=")" separator=",">
+					#{nLvl3Id}
+	            </foreach>
+			</if>
+			
+            <if test="alSeverity != null">
+				AND SEVERITY IN
+	            <foreach collection="alSeverity" item="nSeverity" index="index" open="(" close=")" separator=",">
+					#{nSeverity}
+	            </foreach>
+	        </if>
+	        
+            <if test="alAlarmGroup != null">
+                AND ALARM_GROUP IN
+                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index" open="(" close=")" separator=",">
+                    #{nAlarmGroup}
+                </foreach>
+            </if>
+            
+            <if test="alAlarmId != null">
+                AND ALARM_ID IN
+                <foreach collection="alAlarmId" item="nAlarmId" index="index" open="(" close=")" separator=",">
+					#{nAlarmId}
+                </foreach>
+            </if>
+            
+            <if test="ackType == 1">
+                AND ACK_TYPE != 2
+            </if>
+            
+            <if test="ackType == 2">
+				AND ACK_TYPE = 2
+			</if>
+       </where>
+       ORDER BY ${strSortColumn} ${strSortOrder}
+       LIMIT #{nRowCntInSelection}
+    </select>
+    
+    <select id="selectMaxSeqNo" resultType="java.lang.Long" >
+       select ifnull(max(seq_no),0) seq_no from ( select max(seq_no) seq_no from davis_fm_t_cur_alarms UNION ALL select max(seq_no) seq_no from davis_fm_t_hist) a
+    </select>
+    
+    
+    <select id="selectCurAlarmCount" parameterType="com.yescnc.core.entity.db.CurAlarmCountCondVO" resultType="map">
+        SELECT
+	        level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id,
+			ifnull(min(severity),0) alarm,
+			CAST( sum(case severity when 1 then 1 when 11 then -1 else 0 end) AS SIGNED) critical_cnt,
+			CAST( sum(case severity when 2 then 1 when 12 then -1 else 0 end) AS SIGNED) major_cnt,
+			CAST( sum(case severity when 3 then 1 when 13 then -1 else 0 end) AS SIGNED) minor_cnt,
+			CAST( sum(case severity when 4 then 1 when 14 then -1 else 0 end) AS SIGNED) warning_cnt
+        FROM davis_fm_t_cur_alarms
+		WHERE clear_type=1
+		  AND event_type=1
+		  AND seq_no <![CDATA[ <= ]]> #{seqNo}
+		  AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+		  AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+		  <if test="alLvl3Ids != null">
+		  AND LEVEL3_ID IN
+		      <foreach collection="alLvl3Ids" item="nLvl3Id" index="index" open="(" close=")" separator=",">
+		      #{nLvl3Id}
+		      </foreach>
+		  </if>
+		GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+    </select>
+    
+   <select id="selectUnAckAlarmCountFromCurAlarm" parameterType="com.yescnc.core.entity.db.CurAlarmCountCondVO" resultType="map">
+		SELECT
+            COUNT(ack_type) unack_cnt, severity,
+		    level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+		FROM davis_fm_t_cur_alarms
+		WHERE event_type = 1
+		  AND ack_type = 1
+		  AND clear_type = 1
+		  AND seq_no <![CDATA[ <= ]]> #{seqNo}
+		  AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+		  AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 ) 
+		  <if test="alLvl3Ids != null">
+		  AND LEVEL3_ID IN
+		      <foreach collection="alLvl3Ids" item="nLvl3Id" index="index" open="(" close=")" separator=",">
+		      #{nLvl3Id}
+		      </foreach>
+		  </if>
+		GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id, severity
+    </select>
+        
+    <select id="selectUnAckAlarmCount" parameterType="java.lang.Long" resultType="map">
+        SELECT
+	        SUM(unack_cnt) unack_cnt,
+	        level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+        FROM
+        (
+	        (
+		        SELECT
+		            COUNT(ack_type) unack_cnt,
+		            level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+		        FROM davis_fm_t_cur_alarms
+		        WHERE event_type = 1
+		          AND ack_type = 1
+		          AND seq_no <![CDATA[ <= ]]> #{seqNo}
+		          AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+		          AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 ) 
+		        GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+	        )
+	        UNION ALL
+	        (
+	            SELECT
+	                COUNT(ack_type) unack_cnt,
+	                level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+	            FROM davis_fm_t_hist
+	            WHERE event_type = 1
+	              AND ack_type = 1
+	              AND seq_no <![CDATA[ <= ]]> #{seqNo}
+	              AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+	              AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 ) 
+	            GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+	        )
+        ) UnionTable
+        
+        GROUP BY level1_id, level2_id, level3_id, level4_id, level5_id, level6_id,level7_id, level8_id, level9_id, level10_id
+    </select>
+    
+    <update id="updateAckInfo" parameterType="hashmap">
+        UPDATE ${strTableName}
+        SET ack_type = #{ackType}, ack_user = #{ackUser}, ack_time = #{ackTime}, ack_system = #{ackSystem}
+        <where>
+            <if test="alSeqNo != null">
+                AND SEQ_NO IN
+                <foreach collection="alSeqNo" item="nSeqNo" index="index"
+                         open="(" close=")" separator=",">
+                    #{nSeqNo}
+                </foreach>
+            </if>
+        </where>
+    </update>
+    
+    <update id="updateCurAlarmBySeq" parameterType="com.yescnc.core.entity.db.FmEventVO">
+        UPDATE davis_fm_t_cur_alarms
+        SET
+            probcause_str = #{probcauseStr}, additional_text = #{additionalText},
+            service_status = #{serviceStatus}, sys_type = #{sysType}, band_class = #{bandClass}, ne_id = #{neId},
+            alarm_position = #{alarmPosition}, alarm_id_position = #{alarmIdPosition},
+            clear_time = #{clearTime}, cleared_by_seq_no = #{clearSeq}, clear_type = #{clearType},
+            clear_user = #{clearUser}, clear_system = #{clearSystem}
+        WHERE seq_no = #{seqNo}
+    </update>
+    
+    <!-- 
+        ///////////////////////////////////////////////////////////////
+        //                 Below Event History                       //
+        ///////////////////////////////////////////////////////////////
+     -->
+    
+    <!-- Get Count From Tables -->
+    <!-- 
+    <select id="selectHistCountFromNewTable" parameterType="com.yescnc.core.entity.db.EventSearchCondDto" resultType="java.lang.Integer">
+        SELECT A.COUNT + B.COUNT TOTAL_ROW
+        FROM
+            (
+		        SELECT COUNT(SEQ_NO) COUNT FROM fm_t_cur_alarms
+		        <where>
+		        
+		            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+		            
+		            <if test="isEmsEventOnly == true">
+		                AND LEVEL3_ID = -1
+		            </if>
+		            
+		            <if test="isNeEventOnly == true">
+		                AND LEVEL3_ID != -1
+		            </if>
+		        
+		            <if test="alLvl3Ids != null">
+		                AND LEVEL3_ID IN
+		                <foreach collection="alLvl3Ids" item="nLvl3Id" index="index"
+		                         open="(" close=")" separator=",">
+		                    #{nLvl3Id}
+		                </foreach>
+		            </if>
+		            
+		            <if test="strFromTime != null">
+		                AND ALARM_TIME >= #{strFromTime}
+		            </if>
+		            
+		            <if test="strToTime != null">
+		                AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+		            </if>
+		            
+		            <if test="eventType != -1">
+		                AND EVENT_TYPE = #{eventType}
+		            </if>
+		            
+		            <if test="alSeverity != null">
+		                AND SEVERITY IN
+		                <foreach collection="alSeverity" item="nSeverity" index="index"
+		                         open="(" close=")" separator=",">
+		                    #{nSeverity}
+		                </foreach>
+		            </if>
+		            
+		            <if test="alAlarmGroup != null">
+		                AND ALARM_GROUP IN
+		                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index"
+		                         open="(" close=")" separator=",">
+		                    #{nAlarmGroup}
+		                </foreach>
+		            </if>
+		            
+		            <if test="alAlarmId != null">
+		                AND ALARM_ID IN
+		                <foreach collection="alAlarmId" item="nAlarmId" index="index"
+		                         open="(" close=")" separator=",">
+		                    #{nAlarmId}
+		                </foreach>
+		            </if>
+		            
+		            <if test="ackType == 1">
+		                AND ACK_TYPE != 2
+		            </if>
+		            
+		            <if test="ackType == 2">
+                        AND ACK_TYPE = 2
+                    </if>
+		            
+                    <if test="clearType == 1">
+                        AND CLEAR_TYPE = 1
+                    </if>
+                    
+                    <if test="clearType == 0">
+                        AND CLEAR_TYPE > 1
+                    </if>
+		                       
+		        </where>
+            ) A,
+            (
+                SELECT COUNT(SEQ_NO) COUNT FROM fm_t_hist
+                <where>
+                
+                    AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+                    AND ( EVENT_TYPE = 3 OR EVENT_TYPE = 1 OR (EVENT_TYPE=2 AND DISPLAY_TYPE <![CDATA[ < ]]> 0 ) )
+                     
+		            <if test="isEmsEventOnly == true">
+		                AND LEVEL3_ID = -1
+		            </if>
+		            
+		            <if test="isNeEventOnly == true">
+		                AND LEVEL3_ID != -1
+		            </if>
+                
+		            <if test="alLvl3Ids != null">
+		                AND LEVEL3_ID IN
+		                <foreach collection="alLvl3Ids" item="nLvl3Id" index="index"
+		                         open="(" close=")" separator=",">
+		                    #{nLvl3Id}
+		                </foreach>
+		            </if>
+                    
+                    <if test="strFromTime != null">
+                        AND ALARM_TIME >= #{strFromTime}
+                    </if>
+                    
+                    <if test="strToTime != null">
+                        AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+                    </if>
+                    
+                    <if test="eventType != -1">
+                        AND EVENT_TYPE = #{eventType}
+                    </if>
+                    
+                    <if test="alSeverity != null">
+                        AND SEVERITY IN
+                        <foreach collection="alSeverity" item="nSeverity" index="index"
+                                 open="(" close=")" separator=",">
+                            #{nSeverity}
+                        </foreach>
+                    </if>
+                    
+                    <if test="alAlarmGroup != null">
+                        AND ALARM_GROUP IN
+                        <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index"
+                                 open="(" close=")" separator=",">
+                            #{nAlarmGroup}
+                        </foreach>
+                    </if>
+                    
+                    <if test="alAlarmId != null">
+                        AND ALARM_ID IN
+                        <foreach collection="alAlarmId" item="nAlarmId" index="index"
+                                 open="(" close=")" separator=",">
+                            #{nAlarmId}
+                        </foreach>
+                    </if>
+                    
+                    <if test="ackType == 1">
+                        AND ACK_TYPE != 2
+                    </if>
+                    
+                    <if test="ackType == 2">
+                        AND ACK_TYPE = 2
+                    </if>
+                    
+		            <if test="clearType == 1">
+		                AND CLEAR_TYPE = 1
+		            </if>
+		            
+		            <if test="clearType == 0">
+		                AND CLEAR_TYPE > 1
+		            </if>
+                               
+                </where>
+            ) B
+    </select>
+    
+    Get Paged Sequence Number From Tables
+    
+    <select id="selectPagingSeqFromNewTable" parameterType="com.yescnc.core.entity.db.EventSearchCondDtO" resultMap="FmSeqNoResultMap">
+        
+        (
+        
+	        SELECT
+	            seq_no, alarm_time, severity, alarm_group, lpad(if( ne_id is null or ne_id='' or ne_id='N/A',0,ne_id),10,'0') ne_id, clear_time
+	        FROM fm_t_cur_alarms
+	        
+	        <where>
+	        
+	            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+	            
+	            <if test="isEmsEventOnly == true">
+	                AND LEVEL3_ID = -1
+	            </if>
+	            
+	            <if test="isNeEventOnly == true">
+	                AND LEVEL3_ID != -1
+	            </if>
+	        
+	            <if test="alLvl3Ids != null">
+	                AND LEVEL3_ID IN
+	                <foreach collection="alLvl3Ids" item="nLvl3Id" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nLvl3Id}
+	                </foreach>
+	            </if>
+	            
+	            <if test="strFromTime != null">
+	                AND ALARM_TIME >= #{strFromTime}
+	            </if>
+	            
+	            <if test="strToTime != null">
+	                AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+	            </if>
+	            
+	            <if test="eventType != -1">
+	                AND EVENT_TYPE = #{eventType}
+	            </if>
+	            
+	            <if test="alSeverity != null">
+	                AND SEVERITY IN
+	                <foreach collection="alSeverity" item="nSeverity" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nSeverity}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmGroup != null">
+	                AND ALARM_GROUP IN
+	                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmGroup}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmId != null">
+	                AND ALARM_ID IN
+	                <foreach collection="alAlarmId" item="nAlarmId" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmId}
+	                </foreach>
+	            </if>
+	            
+	            <if test="ackType == 1">
+	                AND ACK_TYPE != 2
+	            </if>
+	            
+	            <if test="ackType == 2">
+	                AND ACK_TYPE = 2
+	            </if>
+	            
+	            <if test="clearType == 1">
+	                AND CLEAR_TYPE = 1
+	            </if>
+	            
+	            <if test="clearType == 0">
+	                AND CLEAR_TYPE > 1
+	            </if>
+	                       
+	        </where>
+	    
+        )
+        
+        UNION ALL
+        
+        (
+        
+	        SELECT
+	            seq_no, alarm_time, severity, alarm_group,lpad(if( ne_id is null or ne_id='' or ne_id='N/A',0,ne_id),10,'0') ne_id, clear_time
+	        FROM fm_t_hist
+	        
+	        <where>
+	        
+	           AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+	           
+	           AND ( EVENT_TYPE= 3 OR EVENT_TYPE = 1 OR (EVENT_TYPE=2 AND DISPLAY_TYPE <![CDATA[ < ]]> 0 ) )
+	            
+	            <if test="isEmsEventOnly == true">
+	                AND LEVEL3_ID = -1
+	            </if>
+	            
+	            <if test="isNeEventOnly == true">
+	                AND LEVEL3_ID != -1
+	            </if>
+	        
+	            <if test="alLvl3Ids != null">
+	                AND LEVEL3_ID IN
+	                <foreach collection="alLvl3Ids" item="nLvl3Id" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nLvl3Id}
+	                </foreach>
+	            </if>
+	            
+	            <if test="strFromTime != null">
+	                AND ALARM_TIME >= #{strFromTime}
+	            </if>
+	            
+	            <if test="strToTime != null">
+	                AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+	            </if>
+	            
+	            <if test="eventType != -1">
+	                AND EVENT_TYPE = #{eventType}
+	            </if>
+	            
+	            <if test="alSeverity != null">
+	                AND SEVERITY IN
+	                <foreach collection="alSeverity" item="nSeverity" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nSeverity}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmGroup != null">
+	                AND ALARM_GROUP IN
+	                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmGroup}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmId != null">
+	                AND ALARM_ID IN
+	                <foreach collection="alAlarmId" item="nAlarmId" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmId}
+	                </foreach>
+	            </if>
+	            
+	            <if test="ackType == 1">
+	                AND ACK_TYPE != 2
+	            </if>
+	            
+	            <if test="ackType == 2">
+	                AND ACK_TYPE = 2
+	            </if>
+	            
+	            <if test="clearType == 1">
+	                AND CLEAR_TYPE = 1
+	            </if>
+	            
+	            <if test="clearType == 0">
+	                AND CLEAR_TYPE > 1
+	            </if>
+	                       
+	        </where>
+        
+        )
+        
+        <choose>
+		  Alarm time
+			<when test="strSortColumn == 'ALARM_TIME'">
+				ORDER BY ${strSortColumn} ${strSortOrder}, seq_no ${strSortOrder}  
+		  </when>
+			
+			 alarm_group
+			<when test="strSortColumn == 'ALARM_GROUP'">
+				 ORDER BY ${strSortColumn} ${strSortOrder}, alarm_time desc,seq_no desc  
+		   </when>
+		  
+		  severity
+		  <when test="strSortColumn == 'SEVERITY'">
+			 ORDER BY ${strSortColumn} ${strSortOrder}, alarm_time desc,seq_no desc 
+		  </when>
+		  
+		  NE ID
+		  <when test="strSortColumn == 'NE_ID'">
+			 ORDER BY ${strSortColumn} ${strSortOrder}, alarm_time desc,seq_no desc 
+		  </when>
+		  
+		  Clear Time
+		  <when test="strSortColumn == 'CLEAR_TIME'">
+			 ORDER BY ${strSortColumn} ${strSortOrder}, alarm_time desc,seq_no desc 
+		  </when>
+		  
+	   </choose>
+        
+        LIMIT #{nStartRow}, #{nRowCntPerPage}
+        
+    </select>
+       -->  
+    <!-- Get Real Data by Sequence Number, sorting will be done in code as ne_id needs to be sorted based on int -->
+
+    <select id="selectFmHistFromNewTable" parameterType="map" resultMap="FmEventDtoResultMap">
+        (
+            SELECT * FROM davis_fm_t_cur_alarms
+            WHERE
+                SEQ_NO IN
+                <foreach collection="alSeq" item="nInSeq" index="index" open="(" close=")" separator=",">
+                    #{nInSeq}
+                </foreach>
+        )
+        
+        UNION ALL
+        
+        (
+            SELECT * FROM davis_fm_t_hist
+            WHERE
+                SEQ_NO IN
+                <foreach collection="alSeq" item="nInSeq" index="index" open="(" close=")" separator=",">
+                    #{nInSeq}
+                </foreach>
+        )
+        
+    </select>
+    
+    <!-- 
+        ///////////////////////////////////////////////////////////////
+        //                 Below Alarm Statistics                    //
+        ///////////////////////////////////////////////////////////////
+     -->
+	<!-- FM Statistics get Level3 Alias -->
+	<select id="selectLevel3Alias" parameterType="hashmap" resultType="string">
+		SELECT GETALIASWITHLEVEL3ID (#{strLvl1Id}, #{strLvl2Id}, #{strLvl3Id}, #{strLvl4Id}, -1, -1, -1, -1, -1, -1) ALIAS
+	</select>
+
+    <!-- FM Statistics Search -->    
+    <select id="selectFmTop10Codes" parameterType="hashmap" resultType="hashmap">
+    
+	    SELECT
+	           ALARM_ID,
+	           SUM( IFNULL(COUNT,0) ) SUMMARY
+	    FROM 
+			  <choose>
+                  <!-- Hourly or Hourly Sum -->
+				  <when test="timeType == 1 or timeType == 11">
+				      davis_fm_t_hourly_alarms
+				  </when>
+				  <!-- Daily or Daily Sum -->
+				  <when test="timeType == 2 or timeType == 12">
+				      davis_fm_t_daily_alarms
+				  </when>
+				  <!-- Monthly or Monthly Sum -->
+				  <when test="timeType == 3 or timeType == 13">
+				      davis_fm_t_monthly_alarms
+				  </when>
+			  </choose>
+			  
+        <where>
+             
+	       <if test="isEmsEventOnly == true">
+	           AND LEVEL2_ID=-1 AND LEVEL3_ID=-1
+	       </if>
+	      
+	        <!-- Alarm Rank flow, ems alarms is not supported. rank flow nLimit will be -1 -->
+	       <if test="isEmsEventOnly == false and nLimit == null">
+	           AND NOT (LEVEL1_ID=-1 and LEVEL2_ID=-1 and LEVEL3_ID=-1)
+	       </if>
+	     
+	        <if test="alLvl3IdList != null">
+        		AND LEVEL3_ID IN
+        		<foreach collection="alLvl3IdList" item="nlevel3Id" index="index" open="(" close=")" separator=",">
+           			#{nlevel3Id}
+        		</foreach>
+            </if>
+             <if test="alSeverity != null">
+                AND SEVERITY IN
+                <foreach collection="alSeverity" item="nSeverity" index="index" open="(" close=")" separator=",">
+                    #{nSeverity}
+                </foreach>
+            </if>
+            	      
+	       <if test="alAlarmGroup != null">
+                AND ALARM_GROUP IN
+                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index" open="(" close=")" separator=",">
+                    #{nAlarmGroup}
+                </foreach>
+            </if>
+            <if test="alAlarmId != null">
+                AND ALARM_ID IN
+                <foreach collection="alAlarmId" item="strCode" index="index" open="(" close=")" separator=",">
+                    #{strCode}
+                </foreach>
+            </if> 
+            
+	       AND ALARM_TIME BETWEEN #{strFromTime} AND #{strToTime}
+			AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+         
+          <!-- Alarm rank flow nLimit will be -1 and ems event will be false. display only target alarms -->
+	       <if test="isEmsEventOnly == false and nLimit != null">
+	           AND LEVEL3_ID > 0
+	       </if>
+	           
+         </where>
+
+         GROUP BY ALARM_ID
+         ORDER BY SUMMARY DESC
+         
+         <if test="nLimit == null">
+        	  LIMIT 10 
+         </if>
+        
+    </select>
+    
+    <!-- FM Statistics Search -->
+    <select id="selectFmStat" parameterType="hashmap" resultType="hashmap">
+    
+        SELECT
+            
+            <choose>
+                <!-- ITEM : Time -->
+                <when test="item == 1">
+		            <choose>
+		                 <!-- Hourly -->
+		                 <when test="timeType == 1">
+		                     date_format(alarm_time,'%Y-%m-%d %H') ITEM,
+		                 </when>
+		                 <!-- Daily -->
+		                 <when test="timeType == 2">
+		                     date_format(alarm_time,'%Y-%m-%d') ITEM,
+		                 </when>
+		                 <!-- Monthly -->
+		                 <when test="timeType == 3">
+		                     date_format(alarm_time,'%Y-%m') ITEM,
+		                 </when>
+		                 <!-- Hourly Sum -->
+		                 <when test="timeType == 11">
+		                     date_format(alarm_time,'%H') ITEM,
+		                 </when>
+		                 <!-- Daily Sum -->
+		                 <when test="timeType == 12">
+		                     date_format(alarm_time,'%d') ITEM,
+		                 </when>
+		                 <!-- Monthly Sum -->
+		                 <when test="timeType == 13">
+		                     date_format(alarm_time,'%m') ITEM,
+		                 </when>
+		            </choose>                
+                </when>
+                
+                 <!-- ITEM : Location -->
+                <when test="item == 2">
+                    <choose>
+                        <!-- Select ALL Case -->
+                        <when test="nLvl1Id == -2 and nLvl2Id == -2 and nLvl3Id == -2 and isEmsEventOnly == false">
+                            LEVEL1_ID,
+                        </when>
+                        <!-- Select Level1 Node -->
+                        <when test="nLvl1Id != -2 and nLvl2Id == -2 and nLvl3Id == -2 ">
+                            LEVEL1_ID, LEVEL2_ID,
+                        </when>
+                        <!-- Select Level2 Node -->
+                        <when test="nLvl1Id != -2 and nLvl2Id != -2 and nLvl3Id == -2 ">
+                            LEVEL1_ID, LEVEL2_ID, LEVEL3_ID,
+                        </when>
+                        <!-- Select Level3 Node -->
+                        <when test="nLvl1Id != -2 and nLvl2Id != -2 and nLvl3Id != -2 ">
+                            LEVEL1_ID, LEVEL2_ID, LEVEL3_ID, LEVEL4_ID,
+                        </when>
+                        <!-- Select EMS Only Case -->
+                        <when test="nLvl1Id == -2 and nLvl2Id == -2 and nLvl3Id == -2 and isEmsEventOnly == true">
+                            LEVEL1_ID, LEVEL2_ID, LEVEL3_ID, LEVEL4_ID,
+                        </when>                        
+                    </choose>
+                </when>
+            </choose>
+            
+            
+            <choose>
+                <!-- SERIES : SEVERITY -->
+                <when test="series == 1 and alSeverity != null">
+	                <foreach collection="alSeverity" item="nSeverity" index="index" open="" close="" separator=",">
+	                   <if test="nSeverity == 1">
+	                       SUM(IF(SEVERITY=1,COUNT,0)) CRITICAL
+	                   </if>
+	                   <if test="nSeverity == 2">
+                           SUM(IF(SEVERITY=2,COUNT,0)) MAJOR
+                       </if>
+                       <if test="nSeverity == 3">
+                           SUM(IF(SEVERITY=3,COUNT,0)) MINOR
+                       </if>
+                       <if test="nSeverity == 4">
+                            SUM(IF(SEVERITY=4,COUNT,0)) WARNING
+                       </if>
+                       <if test="nSeverity == 5">
+                           SUM(IF(SEVERITY=5,COUNT,0)) INDETERMINATE
+                       </if>
+	                </foreach>
+                </when>
+                
+                <!-- SERIES : SEVERITY -->
+                <when test="series == 1 and alSeverity == null">
+	                SUM(IF(SEVERITY=1,COUNT,0)) CRITICAL,
+		            SUM(IF(SEVERITY=2,COUNT,0)) MAJOR,
+		            SUM(IF(SEVERITY=3,COUNT,0)) MINOR,
+		            SUM(IF(SEVERITY=4,COUNT,0)) WARNING,
+		            SUM(IF(SEVERITY=5,COUNT,0)) INDETERMINATE
+                </when>
+                
+                 <!-- SERIES : CODE -->
+                <when test="series == 2">
+                    <foreach collection="alAlarmId" item="strCode" index="index" open="" close="" separator=",">
+                        SUM( IF(ALARM_ID=#{strCode},COUNT,0) ) "${strCode}"
+                    </foreach>
+                </when>                
+                
+            </choose>
+            
+        FROM
+        
+        <choose>
+            <!-- Hourly or Hourly Sum -->
+            <when test="timeType == 1 or timeType == 11">
+                davis_fm_t_hourly_alarms
+            </when>
+            <!-- Daily or Daily Sum -->
+            <when test="timeType == 2 or timeType == 12">
+                davis_fm_t_daily_alarms
+            </when>
+            <!-- Monthly or Monthly Sum -->
+            <when test="timeType == 3 or timeType == 13">
+                davis_fm_t_monthly_alarms
+            </when>
+        </choose>
+        
+        <!-- WHERE CLAUSE -->
+        <where>
+                    
+            <if test="isEmsEventOnly == true">
+                AND LEVEL2_ID=-1 AND LEVEL3_ID=-1
+            </if>
+            
+            <if test="isEmsEventOnly == false">
+                AND NOT (LEVEL1_ID=-1 and LEVEL2_ID=-1 and LEVEL3_ID=-1)
+            </if>
+                        
+            <if test="alLvl3IdList != null">
+        		AND LEVEL3_ID IN
+        		<foreach collection="alLvl3IdList" item="nlevel3Id" index="index" open="(" close=")" separator=",">
+           			#{nlevel3Id}
+        		</foreach>
+            </if>
+            
+            AND ALARM_TIME BETWEEN #{strFromTime} AND #{strToTime}
+  
+            <if test="alSeverity != null">
+                AND SEVERITY IN
+                <foreach collection="alSeverity" item="nSeverity" index="index" open="(" close=")" separator=",">
+                    #{nSeverity}
+                </foreach>
+            </if>
+                                  
+            <if test="alAlarmGroup != null">
+                AND ALARM_GROUP IN
+                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index" open="(" close=")" separator=",">
+                    #{nAlarmGroup}
+                </foreach>
+            </if>
+            
+            <if test="alAlarmId != null">
+                AND ALARM_ID IN
+                <foreach collection="alAlarmId" item="strCode" index="index" open="(" close=")" separator=",">
+                    #{strCode}
+                </foreach>
+            </if>            
+             AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+ 
+        </where>
+        
+        <!-- ORDER, GROUP BY Clause -->
+        <choose>
+	        <!-- ITEM : Time -->
+	        <when test="item == 1">
+	            <choose>
+		            <!-- Hourly -->
+		            <when test="timeType == 1">
+		                GROUP BY DATE_FORMAT(ALARM_TIME, '%Y-%m-%d %H')
+		                ORDER BY DATE_FORMAT(ALARM_TIME, '%Y-%m-%d %H')
+		            </when>
+		            <!-- Daily -->
+		            <when test="timeType == 2">
+		                GROUP BY DATE_FORMAT(ALARM_TIME, '%Y-%m-%d')
+		                ORDER BY DATE_FORMAT(ALARM_TIME, '%Y-%m-%d')
+		            </when>
+		            <!-- Monthly -->
+		            <when test="timeType == 3">
+		                GROUP BY DATE_FORMAT(ALARM_TIME, '%Y-%m')
+		                ORDER BY DATE_FORMAT(ALARM_TIME, '%Y-%m')
+		            </when>
+		            <!-- Hourly Sum -->
+		            <when test="timeType == 11">
+		                GROUP BY DATE_FORMAT(ALARM_TIME, '%H')
+		                ORDER BY DATE_FORMAT(ALARM_TIME, '%H')
+		            </when>
+		            <!-- Daily Sum -->
+		            <when test="timeType == 12">
+		                GROUP BY DATE_FORMAT(ALARM_TIME, '%d')
+		                ORDER BY DATE_FORMAT(ALARM_TIME, '%d')
+		            </when>
+		            <!-- Monthly Sum -->
+		            <when test="timeType == 13">
+		                GROUP BY DATE_FORMAT(ALARM_TIME, '%m')
+		                ORDER BY DATE_FORMAT(ALARM_TIME, '%m')
+		            </when>
+	            </choose>
+	        </when>
+	        
+	        <!-- ITEM : Location -->
+            <when test="item == 2">
+                <choose>
+                    <!-- Select ALL Case -->
+                    <when test="nLvl1Id == -2 and nLvl2Id == -2 and nLvl3Id == -2 and isEmsEventOnly == false">
+                        GROUP BY LEVEL1_ID
+                    </when>
+                    <!-- Select Level1 Node -->
+                    <when test="nLvl1Id != -2 and nLvl2Id == -2 and nLvl3Id == -2 ">
+                        GROUP BY LEVEL1_ID, LEVEL2_ID
+                    </when>
+                    <!-- Select Level2 Node -->
+                    <when test="nLvl1Id != -2 and nLvl2Id != -2 and nLvl3Id == -2 ">
+                        GROUP BY LEVEL1_ID, LEVEL2_ID, LEVEL3_ID
+                    </when>
+                    <!-- Select Level3 Node -->
+                    <when test="nLvl1Id != -2 and nLvl2Id != -2 and nLvl3Id != -2 ">
+                        GROUP BY LEVEL1_ID, LEVEL2_ID, LEVEL3_ID, LEVEL4_ID
+                    </when>
+                    <!-- Select EMS Only Case -->
+                    <when test="nLvl1Id == -2 and nLvl2Id == -2 and nLvl3Id == -2 and isEmsEventOnly == true">
+                        GROUP BY LEVEL1_ID, LEVEL2_ID, LEVEL3_ID, LEVEL4_ID
+                    </when>                        
+                </choose>
+            </when>
+        </choose>
+    
+    </select>
+
+
+    <!-- FM Statistics Search -->
+    <select id="selectFmStatRank" parameterType="hashmap" resultType="hashmap">
+    
+    	 <!-- Item always as Location for Rank and only level3 based, no ems alarm supported -->
+       
+        SELECT LEVEL1_ID, LEVEL2_ID, LEVEL3_ID,
+            <choose>
+                <!-- SERIES : SEVERITY -->
+                <when test="series == 1 and alSeverity != null">
+	                <foreach collection="alSeverity" item="nSeverity" index="index" open="" close="" separator=",">
+	                   <if test="nSeverity == 1">
+	                       SUM(IF(SEVERITY=1,COUNT,0)) CRITICAL
+	                   </if>
+	                   <if test="nSeverity == 2">
+                           SUM(IF(SEVERITY=2,COUNT,0)) MAJOR
+                       </if>
+                       <if test="nSeverity == 3">
+                           SUM(IF(SEVERITY=3,COUNT,0)) MINOR
+                       </if>
+                       <if test="nSeverity == 4">
+                            SUM(IF(SEVERITY=4,COUNT,0)) WARNING
+                       </if>
+                       <if test="nSeverity == 5">
+                           SUM(IF(SEVERITY=5,COUNT,0)) INDETERMINATE
+                       </if>
+	                </foreach>
+	                ,SUM(IF(SEVERITY IN
+	                <foreach collection="alSeverity" item="nSeverity" index="index" open="(" close=")" separator=",">
+           				#{nSeverity}
+        			</foreach>
+        			 ,COUNT,0)) TOTAL
+                </when>
+                
+                <!-- SERIES : SEVERITY -->
+                <when test="series == 1 and alSeverity == null">
+	                SUM(IF(SEVERITY=1,COUNT,0)) CRITICAL,
+		            SUM(IF(SEVERITY=2,COUNT,0)) MAJOR,
+		            SUM(IF(SEVERITY=3,COUNT,0)) MINOR,
+		            SUM(IF(SEVERITY=4,COUNT,0)) WARNING,
+		            SUM(IF(SEVERITY=5,COUNT,0)) INDETERMINATE,
+		            SUM(IF(SEVERITY IN(1,2,3,4,5),COUNT,0)) TOTAL
+                </when>
+                
+                 <!-- SERIES : CODE -->
+                <when test="series == 2">
+                    <foreach collection="alAlarmId" item="strCode" index="index" open="" close="" separator=",">
+                        SUM( IF(ALARM_ID=#{strCode},COUNT,0) ) "${strCode}"
+                    </foreach>
+                    ,SUM( IF(ALARM_ID IN 
+                    <foreach collection="alAlarmId" item="strCode" index="index" open="(" close=")" separator=",">
+                        #{strCode}
+                    </foreach>
+                    ,COUNT,0) ) TOTAL
+                </when>                
+                
+            </choose>
+            
+        FROM
+        
+        <choose>
+            <!-- Hourly or Hourly Sum -->
+            <when test="timeType == 1 or timeType == 11">
+                davis_fm_t_hourly_alarms
+            </when>
+            <!-- Daily or Daily Sum -->
+            <when test="timeType == 2 or timeType == 12">
+                davis_fm_t_daily_alarms
+            </when>
+            <!-- Monthly or Monthly Sum -->
+            <when test="timeType == 3 or timeType == 13">
+                davis_fm_t_monthly_alarms
+            </when>
+        </choose>
+        
+        <!-- WHERE CLAUSE -->
+        <where>
+                        
+            <if test="alLvl3IdList != null">
+        		AND LEVEL3_ID IN
+        		<foreach collection="alLvl3IdList" item="nlevel3Id" index="index" open="(" close=")" separator=",">
+           			#{nlevel3Id}
+        		</foreach>
+            </if>
+            
+            AND ALARM_TIME BETWEEN #{fromTime} AND #{toTime}
+  
+            <if test="alSeverity != null">
+                AND SEVERITY IN
+                <foreach collection="alSeverity" item="nSeverity" index="index" open="(" close=")" separator=",">
+                    #{nSeverity}
+                </foreach>
+            </if>
+                                  
+            <if test="alAlarmGroup != null">
+                AND ALARM_GROUP IN
+                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index" open="(" close=")" separator=",">
+                    #{nAlarmGroup}
+                </foreach>
+            </if>
+            
+            <if test="alAlarmId != null">
+                AND ALARM_ID IN
+                <foreach collection="alAlarmId" item="strCode" index="index" open="(" close=")" separator=",">
+                    #{strCode}
+                </foreach>
+            </if>            
+             AND LEVEL3_ID NOT IN ( SELECT LEVEL3_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL3_ID != -1 )
+	         AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM DAVIS_COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 ) 
+	         AND LEVEL3_ID > 0
+        </where>
+        
+        <!-- ORDER, GROUP BY Clause -->
+        
+	        <!-- ITEM Will be location always for rank data-->
+   		GROUP BY LEVEL1_ID, LEVEL2_ID, LEVEL3_ID 
+   		ORDER BY TOTAL DESC
+    
+    </select>
+<!-- 
+ <select id="selectPagingIndexFromNewTable" parameterType="com.yescnc.core.entity.db.EventSearchCondDto" resultMap="FmSeqNoPageResultMap">
+        
+        (
+        
+	        SELECT
+	             seq_no,
+	        
+	        <choose>
+			  Alarm time
+				<when test="strSortColumn == 'ALARM_TIME'">
+					  UNIX_TIMESTAMP(alarm_time) as  key1,
+					  0 as key2
+			  </when>
+				
+				 alarm_group
+				<when test="strSortColumn == 'ALARM_GROUP'">
+					  alarm_group  as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			   </when>
+			  
+			  severity
+			  <when test="strSortColumn == 'SEVERITY'">
+				  	  severity  as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			  </when>
+			  
+			  NE id
+			  <when test="strSortColumn == 'NE_ID'">
+				  	  CAST(if( ne_id is null or ne_id='' or ne_id='N/A',0,ne_id)   as unsigned ) as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			  </when>
+			  
+			  Clear time
+			  <when test="strSortColumn == 'CLEAR_TIME'">
+				  	  if( clear_time is null or clear_time='' or clear_time='N/A',0,unix_timestamp(clear_time))  as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			  </when>
+			  
+			  
+			</choose>
+				 
+	        FROM fm_t_cur_alarms
+	        
+	        <where>
+	        
+	            AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+	            
+	            <if test="isEmsEventOnly == true">
+	                AND LEVEL3_ID = -1
+	            </if>
+	            
+	            <if test="isNeEventOnly == true">
+	                AND LEVEL3_ID != -1
+	            </if>
+	        
+	            <if test="alLvl3Ids != null">
+	                AND LEVEL3_ID IN
+	                <foreach collection="alLvl3Ids" item="nLvl3Id" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nLvl3Id}
+	                </foreach>
+	            </if>
+	            
+	            <if test="strFromTime != null">
+	                AND ALARM_TIME >= #{strFromTime}
+	            </if>
+	            
+	            <if test="strToTime != null">
+	                AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+	            </if>
+	            
+	            <if test="eventType != -1">
+	                AND EVENT_TYPE = #{eventType}
+	            </if>
+	            
+	            <if test="alSeverity != null">
+	                AND SEVERITY IN
+	                <foreach collection="alSeverity" item="nSeverity" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nSeverity}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmGroup != null">
+	                AND ALARM_GROUP IN
+	                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmGroup}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmId != null">
+	                AND ALARM_ID IN
+	                <foreach collection="alAlarmId" item="nAlarmId" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmId}
+	                </foreach>
+	            </if>
+	            
+	            <if test="ackType == 1">
+	                AND ACK_TYPE != 2
+	            </if>
+	            
+	            <if test="ackType == 2">
+	                AND ACK_TYPE = 2
+	            </if>
+	            
+	            <if test="clearType == 1">
+	                AND CLEAR_TYPE = 1
+	            </if>
+	            
+	            <if test="clearType == 0">
+	                AND CLEAR_TYPE > 1
+	            </if>
+	                       
+	        </where>
+	    
+        )
+        
+        UNION ALL
+        
+        (
+	        SELECT
+	            seq_no, 
+
+	        <choose>
+			  Alarm time
+				<when test="strSortColumn == 'ALARM_TIME'">
+					  UNIX_TIMESTAMP(alarm_time) as  key1,
+					  0 as key2
+			  </when>
+				
+				 alarm_group
+				<when test="strSortColumn == 'ALARM_GROUP'">
+					  alarm_group  as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			   </when>
+			  
+			  severity
+			  <when test="strSortColumn == 'SEVERITY'">
+				  	  severity  as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			  </when>
+			  
+			   NE id
+			  <when test="strSortColumn == 'NE_ID'">
+				  	  CAST(if( ne_id is null or ne_id='' or ne_id='N/A',0,ne_id)   as unsigned ) as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			  </when>
+			  
+			  Clear time
+			  <when test="strSortColumn == 'CLEAR_TIME'">
+				  	  if( clear_time is null or clear_time='' or clear_time='N/A',0,unix_timestamp(clear_time))  as key1,
+					  UNIX_TIMESTAMP(alarm_time) as  key2
+			  </when>
+			  
+			  
+			</choose>			  
+			  
+	        FROM fm_t_hist
+	        
+	        <where>
+	        
+	           AND LEVEL1_ID NOT IN ( SELECT LEVEL1_ID FROM COMMON_T_DELETED_NE_LIST WHERE LEVEL2_ID = -1 AND LEVEL3_ID = -1 )
+	           
+	           AND ( EVENT_TYPE =3 OR EVENT_TYPE = 1 OR (EVENT_TYPE=2 AND DISPLAY_TYPE <![CDATA[ < ]]> 0 ) )
+	            
+	            <if test="isEmsEventOnly == true">
+	                AND LEVEL3_ID = -1
+	            </if>
+	            
+	            <if test="isNeEventOnly == true">
+	                AND LEVEL3_ID != -1
+	            </if>
+	        
+	            <if test="alLvl3Ids != null">
+	                AND LEVEL3_ID IN
+	                <foreach collection="alLvl3Ids" item="nLvl3Id" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nLvl3Id}
+	                </foreach>
+	            </if>
+	            
+	            <if test="strFromTime != null">
+	                AND ALARM_TIME >= #{strFromTime}
+	            </if>
+	            
+	            <if test="strToTime != null">
+	                AND ALARM_TIME <![CDATA[ < ]]> #{strToTime}
+	            </if>
+	            
+	            <if test="eventType != -1">
+	                AND EVENT_TYPE = #{eventType}
+	            </if>
+	            
+	            <if test="alSeverity != null">
+	                AND SEVERITY IN
+	                <foreach collection="alSeverity" item="nSeverity" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nSeverity}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmGroup != null">
+	                AND ALARM_GROUP IN
+	                <foreach collection="alAlarmGroup" item="nAlarmGroup" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmGroup}
+	                </foreach>
+	            </if>
+	            
+	            <if test="alAlarmId != null">
+	                AND ALARM_ID IN
+	                <foreach collection="alAlarmId" item="nAlarmId" index="index"
+	                         open="(" close=")" separator=",">
+	                    #{nAlarmId}
+	                </foreach>
+	            </if>
+	            
+	            <if test="ackType == 1">
+	                AND ACK_TYPE != 2
+	            </if>
+	            
+	            <if test="ackType == 2">
+	                AND ACK_TYPE = 2
+	            </if>
+	            
+	            <if test="clearType == 1">
+	                AND CLEAR_TYPE = 1
+	            </if>
+	            
+	            <if test="clearType == 0">
+	                AND CLEAR_TYPE > 1
+	            </if>
+	                       
+	        </where>
+        
+        )
+        
+        <choose>
+			  Alarm time
+				<when test="strSortColumn == 'ALARM_TIME'">
+					ORDER BY key1 ${strSortOrder}, seq_no ${strSortOrder}  
+			  </when>
+				
+				 alarm_group
+				<when test="strSortColumn == 'ALARM_GROUP'">
+					 ORDER BY key1 ${strSortOrder}, key2 desc,seq_no desc  
+			   </when>
+			  
+			  severity
+			  <when test="strSortColumn == 'SEVERITY'">
+				 ORDER BY key1 ${strSortOrder}, key2 desc,seq_no desc 
+			  </when>
+			  
+			   NE ID
+			  <when test="strSortColumn == 'NE_ID'">
+				 ORDER BY key1 ${strSortOrder}, key2 desc,seq_no desc 
+			  </when>
+			  
+			  Clear Time
+			  <when test="strSortColumn == 'CLEAR_TIME'">
+				 ORDER BY key1 ${strSortOrder}, key2 desc,seq_no desc 
+			  </when>		  
+	   	</choose>
+    </select>    
+   -->  
+    <select id="getLevel123Alias" parameterType="java.lang.Integer" resultType="String">
+    	SELECT 
+    			getAliasWithLevel3Id( #{levle1_id}, #{levle2_id}, #{levle3_id},-1, -1, -1, -1, -1, -1, -1 ) ALIAS
+    			   			
+	</select>
+
+  	<select id="getLevel1Alias" parameterType="java.lang.Integer" resultType="String">
+    	SELECT 
+    			getAliasWithLevel3Id( #{levle1_id}, -1, -1,-1, -1, -1, -1, -1, -1, -1 ) ALIAS
+    			   			
+	</select>
+	
+
+</mapper>

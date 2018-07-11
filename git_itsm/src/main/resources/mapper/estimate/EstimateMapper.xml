@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.project.itsm.db.estimate.EstimateMapper">
+	<select id="getModelList" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			product_id
+			,product_name
+			,spec
+			,product_type
+		FROM 
+			itsm_product_info
+			,(SELECT @ROWNUM:=0) recid
+	</select>
+	
+	<select id="getModelTypeList" resultType="java.util.HashMap">
+		SELECT 
+			CODE_ID codeId
+			,CODE_NAME codeName
+			,CODE_DESC codeDesc
+			,PARENT_CODE_ID parentCodeId
+			,SORT_ORDER sortOrder
+			,COL1 col1
+			,COL2 col2
+			,ICON icon
+		FROM DAVIS_CODE
+		WHERE DAVIS_CODE.PARENT_CODE_ID = '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca'
+		ORDER BY SORT_ORDER
+	</select>
+	
+	<select id="getValidityList" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 id, code_name text 
+		FROM davis_code, (SELECT @ROWNUM:=0) id 
+		WHERE parent_code_id='y-335934ae-a8c6-7b8a-cacf-f35bc74f2650'
+		ORDER BY sort_order asc
+	</select>
+	
+	<select id="getMailStatusList" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 value, code_name text 
+		FROM davis_code, (SELECT @ROWNUM:=-1) value 
+		WHERE parent_code_id="y-8b8dfcae-8ef5-a2d5-59f5-41a5dbde72c3" 
+		ORDER BY sort_order asc
+	</select>
+	
+	<select id="getPeriodList" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 id, code_name text 
+		FROM davis_code, (SELECT @ROWNUM:=0) id 
+		WHERE parent_code_id="y-a6e758a3-6a0b-f0a1-3083-e1eb28f1a958" 
+		ORDER BY sort_order asc
+	</select>
+	
+	<select id="getYearList" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 id, DATE_FORMAT(registration_date, '%Y') text 
+		FROM itsm_estimate_info ,(SELECT @ROWNUM:=0) id
+		GROUP BY text
+		ORDER BY text desc
+	</select>
+	
+	<select id="getYearData" parameterType="String" resultType="java.util.HashMap">
+		SELECT COUNT(CASE WHEN status=1 THEN 1 END) AS 'send',
+			   COUNT(CASE WHEN status=2 THEN 1 END) AS 'unsend'
+		FROM itsm_estimate_info 
+		WHERE date_format(registration_date, '%Y') = #{year}
+	</select>
+	
+	<select id="searchEstimate" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+		SELECT SQL_CALC_FOUND_ROWS * , @totalRownum := @totalRownum+1 recid FROM (
+			SELECT
+				PROJECT.project_id projectId
+				,PROJECT.project_name projectName
+				,SITE.site_id siteId
+				,SITE.site_name siteName
+				,CUSTOM.customer_id customerId
+				,CUSTOM.phone phone
+				,CUSTOM.email email
+				,CUSTOM.customer_name customerName
+				,PREVIEW.preview_id previewId
+				,ESTIMATE.estimate_id estimateId
+				,ESTIMATE.validity
+				,ESTIMATE.payment payment
+				,ESTIMATE.warranty warranty
+				,ESTIMATE.estimate_title estimateTitle
+				,ESTIMATE.note note
+				,ESTIMATE.registration_date registrationDate
+				,ESTIMATE.comfirmed_date comfirmedDate
+				,ESTIMATE.status status
+				,ESTIMATE.edition edition
+				,ESTIMATE.total_amount totalAmount
+			FROM (
+				SELECT @rownum := @rownum+1 as num, projectId
+					FROM(
+						SELECT project_id projectId, registration_date r_date, @rownum := 0 as num
+						FROM itsm_estimate_info
+						WHERE edition = 1
+						ORDER BY registration_date DESC
+					) a 
+				) a 
+			RIGHT JOIN 
+				itsm_estimate_info ESTIMATE 
+			ON 
+				a.projectId = ESTIMATE.project_id
+			LEFT JOIN 
+			  itsm_project_info PROJECT
+			ON
+			  ESTIMATE.project_id = PROJECT.project_id
+			LEFT JOIN
+			  itsm_site_manager SITE
+			ON
+			  ESTIMATE.customer_site = SITE.site_id
+		  	LEFT JOIN
+			  itsm_custom_info CUSTOM
+			ON
+			  CUSTOM.customer_id = ESTIMATE.customer_id
+			LEFT JOIN
+			  itsm_preview_info PREVIEW
+			ON
+			  PREVIEW.preview_id = ESTIMATE.estimate_id,
+			  (SELECT @ROWNUM:=0 ROWNUM) recid
+			<where>
+				<if test="searchType == 1"><!-- 일간 -->
+					AND date_format(ESTIMATE.registration_date, '%Y-%m-%d') = #{searchDayMonth}
+				</if>
+				<if test="searchType == 2"><!-- 월간 -->
+					AND date_format(ESTIMATE.registration_date, '%Y-%m') = #{searchDayMonth}
+				</if>
+				<if test="searchType == 3"><!-- 기간 -->
+					AND date_format(ESTIMATE.registration_date, '%Y-%m-%d') BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d')
+				</if>
+				<if test="siteName.size != 0">
+					AND SITE.site_name IN
+					<foreach item="item" index="index" collection="siteName" open="(" separator="," close=")">
+			       		#{item}
+					</foreach>	
+				</if>
+				<if test="manager.size != 0">
+					AND CUSTOM.customer_name IN
+					<foreach item="item" index="index" collection="manager" open="(" separator="," close=")">
+			       		#{item}
+					</foreach>	
+				</if>
+				<if test="status != 0">
+					AND ESTIMATE.status = #{status}
+				</if>
+			</where>
+				ORDER BY a.num, ESTIMATE.edition) A, (SELECT @totalRownum:=0 totalRownum) recid LIMIT #{startRow}, #{endRow}
+	</select>
+	
+	<select id="getSiteList" resultType="com.yescnc.project.itsm.entity.db.SiteManagerCompanyVO">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 recid,
+			site_id 
+			,site_name 
+			,main_phone 
+			,fax 
+			,parent_site_id 
+			,ceo_name 
+			,company_number 
+			,area 
+			,address
+		FROM itsm_site_manager, (SELECT @ROWNUM:=0) recid
+		ORDER BY site_id
+	</select>
+	
+	<select id="selectItemList" parameterType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO"  resultType="com.yescnc.project.itsm.entity.db.SiteManagerCustomerVO">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			CUSTOM.customer_name
+			,CUSTOM.customer_id
+			,CUSTOM.phone
+			,CUSTOM.mobile_phone
+			,CUSTOM.email
+			,CUSTOM.rank
+			,CUSTOM.department
+			,CUSTOM.task
+			,SITE.site_id
+			,SITE.site_name
+		FROM itsm_custom_info CUSTOM 
+		LEFT JOIN 
+			itsm_site_manager SITE
+		ON 
+			CUSTOM.site_id = SITE.site_id
+		,(SELECT @ROWNUM:=0) recid
+		<if test="site_id != null">
+			WHERE CUSTOM.site_id = #{site_id}
+		</if>
+		<if test="parent_site_id != null">
+			WHERE CUSTOM.parent_site_id = #{parent_site_id}
+		</if>
+	</select>
+	
+	<select id="selectAllEstimate" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM itsm_estimate_info
+		WHERE estimate_id = #{estimate_id}
+	</select>
+	
+	<select id="selectAllProject" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM itsm_project_info
+		WHERE project_id = #{project_id}
+	</select>
+	
+	<select id="getEstimateProductList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid, 
+			   productQuantity.estimate_id, 
+			   productQuantity.quantity, 
+			   productQuantity.u_price, 
+			   productInfo.product_name, 
+			   productInfo.spec,
+			   productInfo.product_id,
+			   productInfo.product_type
+		FROM itsm_estimate_product_info productQuantity
+		LEFT JOIN itsm_product_info productInfo 
+		ON productQuantity.product_id = productInfo.product_id, (SELECT @ROWNUM:=0) recid
+		WHERE estimate_id = #{estimateId}
+		
+	</select>
+	
+	<insert id="insertEstimate" parameterType="java.util.HashMap">
+		INSERT INTO itsm_estimate_info (
+			estimate_id,
+			project_id,
+			customer_site,
+			edition,
+			customer_id,
+			validity,
+			warranty,
+			payment,
+			registration_date,
+			comfirmed_date,
+			status,
+			estimate_title,
+			note,
+			user_id,
+			total_amount
+		)
+		VALUES (
+			#{estimate_id},
+			#{project_id},
+			#{customer_site},
+			#{edition},
+			#{customer_id},
+			#{validity},
+			#{warranty},
+			#{payment},
+			#{registration_date},
+			#{comfirmed_date},
+			#{status},
+			#{estimate_title},
+			#{note},
+			#{user_id},
+			#{total_amount}
+		)
+	</insert>
+	
+	<insert id="insertProject" parameterType="java.util.HashMap">
+		INSERT INTO itsm_project_info (
+			project_id,
+			project_name,
+			registration_date,
+			status,
+			estimate_id
+		)
+		VALUES (
+			#{project_id},
+			#{project_name},
+			#{registration_date},
+			#{status},
+			#{estimate_id}
+		)
+	</insert>
+	
+	<insert id="insertProduct" parameterType="java.util.List">
+		INSERT INTO itsm_estimate_product_info (
+			estimate_id,
+			product_id,
+			quantity,
+			u_price,
+			amount
+		)
+		VALUES 
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.estimate_id},
+			#{item.product_id},
+			#{item.quantity},
+			#{item.u_price},
+			#{item.amount}
+		</foreach>
+	</insert>
+	
+	<update id="updateEstimate" parameterType="java.util.HashMap">
+		UPDATE itsm_estimate_info SET 
+			estimate_id = #{estimate_id},
+			project_id = #{project_id},
+			customer_site = #{customer_site},
+			edition = #{edition},
+			customer_id = #{customer_id},
+			validity = #{validity},
+			warranty = #{warranty},
+			payment = #{payment},
+			registration_date = #{registration_date},
+			comfirmed_date = #{comfirmed_date},
+			status = #{status},
+			estimate_title = #{estimate_title},
+			note = #{note},
+			user_id = #{user_id},
+			total_amount = #{total_amount}
+		where estimate_id = #{estimate_id}
+	</update>
+	
+	<update id="updateProject" parameterType="java.util.HashMap">
+		UPDATE itsm_project_info SET
+			project_name = #{project_name},
+			estimate_id = #{estimate_id}
+		where project_id = #{project_id}
+	</update>
+	
+	<update id="updateProduct" parameterType="java.util.List">
+		UPDATE itsm_estimate_product_info SET
+			<foreach item="item" index="index" collection="list" separator=",">
+				quantity = CASE estimate_id
+					WHEN #{item.estimate_id} THEN #{item.quantity}
+					ELSE quantity
+					END,
+				u_price = CASE estimate_id
+					WHEN #{item.estimate_id} THEN #{item.u_price}
+					ELSE u_price
+					END
+				amount = CASE estimate_id
+					WHEN #{item.estimate_id} THEN #{item.amount}
+					ELSE amount
+					END
+			</foreach>
+		where estimate_id = #{item.estimate_id}
+	</update>
+	
+	<delete id="deleteEstimate" parameterType="String">
+		DELETE FROM itsm_estimate_info	where estimate_id = #{estimateId}
+	</delete>
+	
+	<delete id="deleteEstimateProduct" parameterType="String">
+		DELETE FROM itsm_estimate_product_info where estimate_id = #{estimateId}
+	</delete>
+	
+	<select id="getRowCount" resultType="Integer">
+		select FOUND_ROWS()
+	</select>
+	
+	<!-- select DATE_FORMAT(registration_date, '%Y') year from itsm_estimate_info
+	group by DATE_FORMAT(registration_date, '%Y') 
+	order by DATE_FORMAT(registration_date, '%Y') desc -->
+</mapper>

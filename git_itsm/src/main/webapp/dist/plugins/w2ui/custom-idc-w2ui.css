@@ -1,0 +1,244 @@
+@CHARSET "UTF-8";
+
+/*
+*******************************
+* W2UI Form CSS
+*******************************
+*/
+
+.w2ui-form .w2ui-form-header{
+	text-align: left;
+}
+
+ * .w2ui-field > label{
+	text-align: left;
+	color:#ffffff ;
+}
+
+.w2ui-form {
+	background-color: rgba(1,1,1,0);
+}
+
+.w2ui-form .w2ui-form-header {
+	background-image: -webkit-linear-gradient(#dae6f3, #c2d5ed); */
+    background-image: -moz-linear-gradient(#dae6f3, #c2d5ed);
+    background-image: -ms-linear-gradient(#dae6f3, #c2d5ed);
+    background-image: -o-linear-gradient(#dae6f3, #c2d5ed);
+    /* background-image: linear-gradient(#dae6f3, #c2d5ed); */
+    background-image: linear-gradient(rgba(218,230,243,0.5), rgba(0,0,0,0.5));
+    
+    border-bottom: 1px solid #ffffff !important;
+    color: #ffffff;
+}
+
+/********************************
+* W2UI POPUP CSS
+********************************/
+
+/*******************************
+* 툴바 배경 
+*******************************/
+.w2ui-grid .w2ui-grid-toolbar {
+	background-color: rgba(234, 234, 234, 0)  !important;
+}
+
+/* 팝업 배경 */
+.w2ui-popup .w2ui-popup-body{
+	background-color: rgba(0,0,0,0.5) !important;
+	overflow: hidden !important;
+}
+
+.w2ui-popup {
+	background-color: rgba(0,0,0,0)  !important;
+}
+
+.w2ui-popup .w2ui-popup-title {
+	background-image: -webkit-linear-gradient(#ececec, #dfdfdf);
+    background-image: -moz-linear-gradient(#ececec, #dfdfdf);
+    background-image: -ms-linear-gradient(#ececec, #dfdfdf);
+    background-image: -o-linear-gradient(#ececec, #dfdfdf);
+    /* background-image: linear-gradient(#ececec, #dfdfdf); */
+    
+    border-bottom: 1px solid #bfbfbf !important;
+    color: #ffffff !important;
+    background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1)) !important;
+    text-align: left !important;
+    padding: 6px 6px 6px 0px;
+}
+
+/********************************
+* W2UI Table CSS // Table 마다 다르게 적용 하고 싶으면 앞에 ID를 붙일 것
+* ex) #eventBottom.w2ui-grid .w2ui-grid-body table .w2ui-head 
+*******************************
+*/
+
+.w2ui-col-header {text-align: center;}
+
+/* Event Brower CSS  */
+/* 테이블 홀수 배경 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd {
+    background-color: rgba(0,0,0,0) ;
+}
+
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd.w2ui-record-hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd.w2ui-record-hover{
+	background-color: rgba(182, 213, 255, 0.4) ;
+}
+
+/* 테이블 짝수 배경 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even {
+    /* background-color: rgba(0,0,0,0); !important */
+    background-color: rgba(0,0,0,0) ;
+}
+
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even.w2ui-record-hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even.w2ui-record-hover{
+	background-color: rgba(182, 213, 255, 0.4) ;
+} 
+
+
+.w2ui-grid .w2ui-grid-body {background-color: rgba(255,255,255,0) !important;}
+
+/* 빈테이블  짝수*/
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd.w2ui-empty-record:hover,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd.w2ui-empty-record:hover {
+  background: transparent;
+}
+
+/* 빈테이블 홀수*/
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even.w2ui-empty-record:hover,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even.w2ui-empty-record:hover {
+  background: transparent;
+}
+
+/* Tabel Font 색상 */
+.w2ui-grid .w2ui-grid-body table {
+	color:#ffffff; 
+	/* border-left:1px solid rgba(255, 255, 255, 1);   */
+} 
+
+/* Table 우측 라인과 하단 라인*/
+.w2ui-grid .w2ui-grid-body table td {
+	border-right: 0px solid rgba(255, 255, 255, 0) !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+	/* border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; */
+}
+
+/* Table 테두리 */
+.w2ui-grid .w2ui-grid-body {
+    /* border-style: solid;
+    border-width: 0px 1px 1px 1px;
+    border-color: rgba(255,255,255,0.5); */
+}
+
+/********************************
+ *Table Header
+ ******************************* 
+ */
+.w2ui-grid .w2ui-grid-body table .w2ui-head {
+	/* font-weight :  bold; */
+	color : #ffffff !important;
+	background-image: -webkit-linear-gradient(#707072, #707072) !important;
+    background-image: -moz-linear-gradient(#707072, #707072) !important;
+    background-image: -ms-linear-gradient(#707072, #707072) !important;
+    background-image: -o-linear-gradient(#707072, #707072) !important;
+    background-image: linear-gradient(#707072, #707072) !important;
+/*     background-image: linear-gradient(rgba(255, 255, 255, 0), #707072, rgba(255, 255, 255, 0)) !important; */
+}
+
+/*******************************
+ *테이블 외곽 및 기타 설정 
+ *******************************/
+.w2ui-grid {
+   /*  position: relative;
+    border: 1px solid #c0c0c0;
+    border-radius: 2px;
+    overflow: hidden !important; */
+}
+
+/*******************************
+* 검색 결과 
+******************************
+*/
+.w2ui-marker {
+    color: #ffffff !important;
+    background-color: rgba(252, 244, 161, 0)!important;
+}
+
+/*******************************
+* DropDown List
+******************************
+*/
+.w2ui-overlay{
+	background-color: rgba(252, 244, 161, 0)!important;
+}
+
+/*******************************
+* W2UI Toolbar CSS
+******************************
+*/
+
+.w2ui-toolbar {
+	background-color : rgba(0,0,0,0);
+}
+
+/*******************************
+* W2UI SideBar
+********************************
+*/
+
+/* 슬라이드바 전체 배경 */
+.w2ui-sidebar {
+	background-color:  rgba(255,0,0,0)!important;
+}
+
+/* 그룹 타이틀 */
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node-group {
+	color:#ffffff!important;
+	background-color:  rgba(144,144,144,0.5)!important;
+}
+
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-selected, .w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:hover {
+	background-image: linear-gradient(#000000, #000000)!important;
+	border-top: 1px solid #ffffff!important;
+    border-bottom: 1px solid #ffffff!important;
+}
+
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node:hover {
+    border-top: 1px solid #f9f9f9;
+    border-bottom: 1px solid #f9f9f9;
+    background-color: #d7e1ef;
+}
+
+/* 서브메뉴 배경 */
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node {
+	background-color: rgba(81,141,150,0)!important;
+}
+
+/* 서브메뉴 폰트 */
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node .w2ui-node-caption, .w2ui-sidebar .w2ui-sidebar-div .w2ui-node .w2ui-node-image, .w2ui-sidebar .w2ui-sidebar-div .w2ui-node .w2ui-node-image > span, .w2ui-sidebar .w2ui-sidebar-div .w2ui-node td.w2ui-node-dots {
+	color:white!important;
+}
+
+/* sideBar border */
+.w2ui-sidebar .w2ui-sidebar-div{
+	border: 1px solid #ffffff;
+	padding : 0px;
+}
+
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-selected:before {
+	border: 1px dashed rgba(255,255,255,0);
+}
+
+.w2ui-column-container{
+	display: block !important;
+}
+
+.w2ui-layout > div .w2ui-panel .w2ui-panel-content {
+	background-color: rgba(0,0,0,0)!important;
+}
+
+/* POPUP Message */
+.w2ui-message{
+	background-color: #000000;
+	color: #ffffff;
+}

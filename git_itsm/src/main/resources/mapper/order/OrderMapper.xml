@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.project.itsm.db.order.OrderMapper">
+
+	<select id="getEstimateList" resultType="com.yescnc.project.itsm.entity.db.EstimateVO" parameterType="java.util.HashMap">
+		SELECT * , @totalRownum := @totalRownum+1 recid 
+		FROM(
+			SELECT b.project_id, b.estimate_id, edition, estimate_title, b.status, b.registration_date, 
+				   comfirmed_date, manager.site_name, customInfo.customer_name, project.project_name, validity, 
+				   warranty, payment, b.note, mail_id, reserve_str, user_id, total_amount, file_id, b.customer_id
+			FROM ( 
+				SELECT @ROWNUM := @ROWNUM + 1 num, projectId
+				FROM(
+					SELECT project_id projectId, registration_date r_date
+					FROM itsm_estimate_info
+					WHERE edition = 1
+					ORDER BY registration_date DESC
+				) a 
+			) a 
+			RIGHT JOIN itsm_estimate_info b ON a.projectId = b.project_id
+			LEFT JOIN itsm_site_manager manager ON b.customer_site = manager.site_id
+			LEFT JOIN itsm_custom_info customInfo ON b.customer_id = customInfo.customer_id
+			LEFT JOIN itsm_project_info project ON b.project_id = project.project_id, (SELECT @ROWNUM:=0) num
+	
+			<where>
+				AND b.status = 1
+				
+				<if test="estimateSearchTypePopup == 1"><!-- 일간 -->
+					AND date_format(b.registration_date, '%Y-%m-%d') = #{estimateSearchDayMonthPopup}
+				</if>
+				<if test="estimateSearchTypePopup == 2"><!-- 월간 -->
+					AND date_format(b.registration_date, '%Y-%m') = #{estimateSearchDayMonthPopup}
+				</if>
+				<if test="estimateSearchTypePopup == 3"><!-- 기간 -->
+					AND date_format(b.registration_date, '%Y-%m-%d') BETWEEN date_format(#{estimateSearchFromPeriodPopup}, '%Y-%m-%d') AND date_format(#{estimateSearchToPeriodPopup}, '%Y-%m-%d')
+				</if>
+				<if test="estimateCompanyPopup != ''">
+					AND manager.site_name = #{estimateCompanyPopup}
+				</if>
+				<if test="estimateCompanyManagerPopup != ''">
+					AND customInfo.customer_name = #{estimateCompanyManagerPopup}
+				</if>
+				<!-- <if test="estimateStatusPopup != 1">
+					AND status = #{estimateStatusPopup}
+				</if> -->
+			</where>
+			ORDER BY a.num, b.edition) A,
+		(SELECT @totalRownum:=0 totalRownum) recid;
+	</select>
+	
+	<select id="getCompanyList" resultType="com.yescnc.project.itsm.entity.db.SiteManagerCompanyVO">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 recid,
+			site_id 
+			,site_name 
+			,main_phone 
+			,fax 
+			,parent_site_id 
+			,ceo_name 
+			,company_number 
+			,area 
+			,address
+		FROM itsm_site_manager, (SELECT @ROWNUM:=0) recid
+		ORDER BY site_id
+	</select>
+	
+	<select id="getOrderStatusParam" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 value, code_name text 
+		FROM davis_code, (SELECT @ROWNUM:=0) value 
+		WHERE parent_code_id="y-c9d851f1-555f-0117-e38c-98571da92d1f" 
+		ORDER BY sort_order asc;
+	</select>
+	
+	<select id="getMailStatusParam" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 value, code_name text 
+		FROM davis_code, (SELECT @ROWNUM:=0) value 
+		WHERE parent_code_id="y-8b8dfcae-8ef5-a2d5-59f5-41a5dbde72c3" 
+		ORDER BY sort_order asc; 
+	</select>
+	
+	<select id="getPeriodStatusParam" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 id, code_name text 
+		FROM davis_code, (SELECT @ROWNUM:=0) id 
+		WHERE parent_code_id="y-a6e758a3-6a0b-f0a1-3083-e1eb28f1a958" 
+		ORDER BY sort_order asc; 
+	</select>
+	
+	<select id="getYearList" resultType="java.util.HashMap">
+		SELECT date_format(order_start_date, '%Y') text  
+		FROM itsm_order_info
+		GROUP BY text ORDER BY text desc;
+	</select>
+	
+	<select id="getProductInfo" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid, 
+			   productQuantity.estimate_id, 
+			   productQuantity.quantity, 
+			   productQuantity.u_price, 
+			   productInfo.product_name, 
+			   productInfo.spec,
+			   productInfo.product_id
+		FROM itsm_estimate_product_info productQuantity
+			LEFT JOIN itsm_product_info productInfo 
+			ON productQuantity.product_id = productInfo.product_id, (SELECT @ROWNUM:=0) recid
+		WHERE estimate_id = #{estimateId}
+	</select>
+	
+	<insert id="saveOrderData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_order_info 
+			(order_id, project_id, supplier_site, operator_site, customer_id, customer_site, 
+			status, estimate_id, o_site_id, o_manager, o_payment, o_status, o_delivery_term, o_note, user_id, order_start_date, total_amount)
+		VALUES (#{order_id}, #{project_id}, #{supplier_site}, #{operator_site}, #{customer_id}, #{customer_site}, 
+			#{status}, #{estimate_id}, #{o_site_id}, #{o_manager}, #{o_payment}, #{o_status}, #{o_delivery_term}, #{o_note}, #{user_id}, now(), #{total_amount})
+	</insert>
+	
+	<insert id="saveProductData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_order_product_info (
+			order_id,
+			quantity,
+			u_price,
+			product_id,
+			amount
+		) VALUES 
+			<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+				#{item.order_id},
+				#{item.orderQuantity},
+				#{item.orderUprice},
+				#{item.product_id},
+				#{item.amount}
+			</foreach>
+		
+	</insert>
+	
+	<select id="getOrderData" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT SQL_CALC_FOUND_ROWS
+			   @ROWNUM := @ROWNUM + 1 recid, 
+			   B.order_id, 
+			   B.estimate_id, 
+			   B.project_id, 
+			   B.status, 
+			   B.mail_id, 
+			   B.project_name, 
+			   B.order_end_date,
+			   B.customer_id,
+			   B.total_amount,
+			   B.order_start_date,
+			   B.s_complete,
+			   B.p_complete,
+			   B.c_complete,
+			   B.d_complete, 
+			   siteManager.site_name,
+			   customInfo.customer_name
+		FROM (
+			SELECT A.order_id, 
+				   A.estimate_id, 
+				   A.project_id, 
+				   A.status, 
+				   A.mail_id,
+				   A.order_end_date,
+				   A.customer_id,
+				   A.total_amount,
+				   A.order_start_date,
+				   projectInfo.project_name,
+				   A.s_complete,
+				   A.p_complete,
+				   A.c_complete,
+				   A.d_complete, 
+				   A.customer_site  
+			FROM (
+				SELECT estimateInfo.project_id, 
+					   orderInfo.order_id, 
+					   orderInfo.estimate_id, 
+					   orderInfo.status,
+					   orderInfo.order_end_date, 
+					   orderInfo.customer_id,
+					   orderInfo.total_amount,
+					   orderInfo.order_start_date,
+					   orderInfo.s_complete,
+					   orderInfo.p_complete,
+					   orderInfo.c_complete,
+					   orderInfo.d_complete,
+					   estimateInfo.mail_id, 
+					   estimateInfo.customer_site 
+				FROM itsm_order_info orderInfo 
+				LEFT JOIN itsm_estimate_info estimateInfo on orderInfo.estimate_id = estimateInfo.estimate_id) A
+			LEFT JOIN itsm_project_info projectInfo on A.project_id = projectInfo.project_id) B
+		LEFT JOIN itsm_site_manager siteManager on B.customer_site = siteManager.site_id
+		LEFT JOIN itsm_custom_info customInfo on B.customer_id = customInfo.customer_id, (SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<where>
+			<if test="orderSearchType == 1"><!-- 일간 -->
+				AND date_format(order_start_date, '%Y-%m-%d') = #{orderSearchDayMonth}
+			</if>
+			<if test="orderSearchType == 2"><!-- 월간 -->
+				AND date_format(order_start_date, '%Y-%m') = #{orderSearchDayMonth}
+			</if>
+			<if test="orderSearchType == 3"><!-- 기간 -->
+				AND date_format(order_start_date, '%Y-%m-%d') BETWEEN date_format(#{orderSearchFromPeriod}, '%Y-%m-%d') AND date_format(#{orderSearchToPeriod}, '%Y-%m-%d')
+			</if>
+			<if test="orderCompany != ''">
+				AND site_name = #{orderCompany}
+			</if>
+			<if test="orderCompanyManager != ''">
+				AND customer_name = #{orderCompanyManager}
+			</if>
+			<if test="orderStatus != 1">
+				AND status = #{orderStatus}
+			</if>
+		</where>
+		limit #{startRow}, #{endRow}
+	</select>
+	
+	<select id="getSelectedOrderData" parameterType="String" resultType="java.util.HashMap">
+		SELECT B.supplier_site_name, 
+			   B.operator_site_name, 
+			   B.o_site_name, 
+			   B.registration_date, 
+			   (SELECT customer_name FROM itsm_custom_info WHERE customer_id=B.customer_id) customer_name,
+               (SELECT customer_name FROM itsm_custom_info WHERE customer_id=B.o_manager) orderManager_name,
+			   B.estimate_title, 
+			   B.supplier_site,
+               B.operator_site,
+               B.customer_id,
+               B.o_site_id,
+               B.o_manager,
+			   B.order_id, 
+			   B.project_id, 
+			   B.customer_site, 
+			   B.status, 
+			   B.o_payment, 
+			   B.o_status, 
+			   B.o_delivery_term, 
+			   B.order_start_date,
+			   B.order_end_date,
+			   B.o_note
+		FROM (
+			SELECT (SELECT site_name FROM itsm_site_manager WHERE site_id=A.supplier_site) supplier_site_name, 
+				   (SELECT site_name FROM itsm_site_manager WHERE site_id=A.operator_site) operator_site_name, 
+			       (SELECT site_name FROM itsm_site_manager WHERE site_id=A.o_site_id) o_site_name, 
+			       A.supplier_site, 
+			       A.operator_site, 
+			       A.o_site_id,
+			       A.registration_date, 
+			       A.o_manager, 
+			       A.estimate_title, 
+			       A.order_id, 
+			       A.project_id, 
+			       A.customer_id, 
+			       A.customer_site, 
+			       A.status,
+			       A.order_start_date,
+			       A.order_end_date,
+				   A.o_payment, 
+				   A.o_status, 
+				   A.o_delivery_term, 
+				   A.o_note 
+			FROM (
+				SELECT orderInfo.o_manager, 
+					   estimateInfo.registration_date, 
+					   estimateInfo.estimate_title, 
+					   orderInfo.supplier_site, 
+					   orderInfo.operator_site, 
+					   orderInfo.o_site_id, 
+					   orderInfo.order_id,
+					   orderInfo.project_id, 
+					   orderInfo.customer_id, 
+					   orderInfo.customer_site,
+					   orderInfo.order_start_date,  
+					   orderInfo.order_end_date,
+					   orderInfo.status, 
+					   orderInfo.o_payment, orderInfo.o_status, orderInfo.o_delivery_term, o_note, orderInfo.user_id 
+				FROM itsm_order_info orderInfo
+				LEFT JOIN itsm_estimate_info estimateInfo ON orderInfo.estimate_id = estimateInfo.estimate_id
+			) A
+			LEFT JOIN itsm_site_manager siteManager ON A.o_site_id = siteManager.site_id
+		) B
+		LEFT JOIN itsm_custom_info customInfo ON B.o_manager = customInfo.customer_id WHERE order_id=#{orderId}
+	</select>
+	
+	<select id="getSelectedProductData" parameterType="String" resultType="java.util.HashMap">
+		SELECT a.recid, 
+			   a.estimate_id, 
+			   a.order_id, 
+			   a.product_id, 
+			   a.product_name, 
+			   a.spec, 
+			   a.product_type, 
+			   b.estimateQuantity quantity, 
+			   b.estimateUprice u_price, 
+			   a.orderQuantity, 
+			   a.orderUprice
+		FROM (
+			SELECT @ROWNUM := @ROWNUM + 1 recid, 
+				   seq_id, 
+				   estimate_id, 
+				   order_id, 
+				   product_name, 
+				   spec, 
+				   product_type, 
+				   orderQuantity, 
+				   orderUprice, 
+				   product_id
+			FROM (
+				SELECT @ROWNUM := 0 ROWNUM, 
+					   A.seq_id, 
+					   A.estimate_id, 
+					   A.order_id, 
+					   productInfo.product_name, 
+					   productInfo.spec, 
+					   productInfo.product_type,  
+					   A.quantity orderQuantity, 
+					   A.u_price orderUprice, 
+					   A.product_id 
+				FROM (
+					SELECT seq_id, 
+						   orderInfo.estimate_id, 
+						   orderProductInfo.order_id, 
+						   quantity, 
+						   u_price, 
+						   product_id
+					FROM itsm_order_product_info orderProductInfo 
+					LEFT JOIN itsm_order_info orderInfo ON orderProductInfo.order_id = orderInfo.order_id where orderProductInfo.order_id=#{orderId}
+				) A
+			LEFT JOIN itsm_product_info productInfo ON A.product_id = productInfo.product_id order by A.seq_id asc
+			) a
+		) a
+		LEFT JOIN (
+			SELECT @ROWNUM := @ROWNUM + 1 recid, 
+				   b.order_id, 
+				   b.estimate_id, 
+				   b.product_name, 
+				   b.spec, 
+				   b.product_type, 
+				   b.estimateQuantity, 
+				   b.estimateUprice, 
+				   b.product_id
+			FROM (
+				SELECT @ROWNUM := 0 ROWNUM, 
+					   A.seq_id order_id, 
+					   A.estimate_id, 
+					   productInfo.product_name, 
+					   productInfo.spec, 
+					   productInfo.product_type, 
+					   A.quantity estimateQuantity, 
+					   A.u_price estimateUprice, 
+					   A.product_id 
+				FROM (
+					SELECT seq_id, 
+						   estimate_id, 
+						   quantity, 
+						   u_price, 
+						   product_id 
+					FROM itsm_estimate_product_info
+					WHERE estimate_id = (select estimate_id from davis_itsm.itsm_order_info where order_id=#{orderId})
+				) A 
+				LEFT JOIN itsm_product_info productInfo ON A.product_id = productInfo.product_id order by A.seq_id asc
+			) b 
+		) b on a.recid = b.recid
+	</select>
+	
+	<select id="getSelectedShippingData" parameterType="String" resultType="java.util.HashMap">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+				shipping_id,
+				shippingInfo.order_id,
+				pi,
+				po,
+				pk,
+				invoice,
+				model,
+				quantity,
+				flight_no,
+				mawb,
+				hawb,
+                orderInfo.s_complete
+		FROM itsm_shipping_info shippingInfo
+        LEFT JOIN itsm_order_info orderInfo ON shippingInfo.order_id = orderInfo.order_id, (SELECT @ROWNUM:=0 ROWNUM) recid
+        WHERE shippingInfo.order_id=#{orderId}
+	</select>
+	
+	<!-- <select id="getSelectedPortFltMawbHawbInfo" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			   flight_no, 
+			   mawb, 
+			   hawb, 
+			   order_id 
+		FROM itsm_port_info, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE order_id=#{orderId}
+		GROUP BY flight_no, mawb, hawb
+	</select> -->
+	
+	<select id="getSelectedPortData" parameterType="String" resultType="java.util.HashMap">
+		SELECT  @ROWNUM := @ROWNUM + 1 recid,
+				port_id,
+				portInfo.order_id,
+				shipping_name,
+				eta_date,
+				eta_time,
+				pol,
+				pod,
+				terms,
+				inv_no,
+				po_no,
+				commodity,
+				pkg_qty,
+				gw,
+				cw,
+				remarks,
+				flight_no,
+				mawb,
+				hawb,
+				orderInfo.p_complete
+		FROM itsm_port_info portInfo
+        LEFT JOIN itsm_order_info orderInfo ON portInfo.order_id = orderInfo.order_id, (SELECT @ROWNUM:=0 ROWNUM) recid
+        WHERE portInfo.order_id=#{orderId}
+	</select>
+	
+	<select id="getSelectedCustomsData" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			   customs_id, 
+			   customInfo.order_id, 
+			   product_model product_name, 
+			   hs_code, 
+			   quantity orderQuantity, 
+			   orderInfo.c_cost,
+			   orderInfo.c_complete
+		FROM itsm_customs_info customInfo
+		LEFT JOIN itsm_order_info orderInfo 
+		ON customInfo.order_id = orderInfo.order_id, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE customInfo.order_id = #{orderId}
+	</select>
+	
+	<select id="getSelectedDeliveryData" parameterType="String" resultType="java.util.HashMap">
+		SELECT d_cost,
+			   d_destination,
+			   d_id,
+			   d_phone,
+			   d_user,
+			   delivery_end_date,
+			   delivery_request_date,
+			   d_complete,
+			   order_id
+		FROM itsm_order_info
+		WHERE order_id = #{orderId}
+	</select>
+	
+	<delete id="deleteOrderData" parameterType="java.util.HashMap">
+		DELETE FROM itsm_order_info
+		WHERE order_id IN
+		<foreach item="item" collection="orderId" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="updateOrderData" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			o_delivery_term = #{o_delivery_term},
+			o_manager = #{o_manager},
+			o_note = #{o_note},
+			o_payment = #{o_payment},
+			o_site_id = #{o_site_id},
+			operator_site = #{operator_site},
+			supplier_site = #{supplier_site},
+			user_id = #{user_id},
+			o_status = #{o_status},
+			status = #{status},
+			total_amount = #{total_amount}
+		WHERE order_id = #{order_id}	
+	</update>
+	
+	<update id="updateProductData" parameterType="java.util.List">
+		UPDATE itsm_order_product_info SET
+			<foreach item="item" index="index" collection="list" separator=','>
+				quantity = CASE order_id
+					WHEN #{item.order_id} THEN #{item.orderQuantity}
+					ELSE quantity
+					END,
+				u_price = CASE order_id
+					WHEN #{item.order_id} THEN #{item.orderUprice}
+					ELSE u_price
+					END,
+				amount = CASE order_id
+					WHEN {#item.order_id} THEN #{item.amount}
+					ELSE amount
+					END
+			</foreach>
+		WHERE order_id = #{item.order_id}
+
+
+	</update>
+	
+	<select id="selectOrderData" parameterType="String" resultType="Integer">
+		select count(*) from itsm_order_info where order_id = #{orderId}
+	</select>
+	
+	<insert id="saveSendEmailOrderData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_order_info 
+			(order_id, project_id, supplier_site, operator_site, customer_id, customer_site, 
+			status, estimate_id, o_site_id, o_manager, o_payment, o_status, o_delivery_term, o_note, user_id, order_start_date, order_end_date, shipping_start_date, total_amount)
+		VALUES (#{order_id}, #{project_id}, #{supplier_site}, #{operator_site}, #{customer_id}, #{customer_site}, 
+			#{status}, #{estimate_id}, #{o_site_id}, #{o_manager}, #{o_payment}, #{o_status}, #{o_delivery_term}, #{o_note}, #{user_id}, now(), now(), now(), #{total_amount})
+	</insert>
+	
+	<update id="updateOrderDate" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			o_delivery_term = #{o_delivery_term},
+			o_manager = #{o_manager},
+			o_note = #{o_note},
+			o_payment = #{o_payment},
+			o_site_id = #{o_site_id},
+			operator_site = #{operator_site},
+			supplier_site = #{supplier_site},
+			user_id = #{user_id},
+			o_status = #{o_status},
+			status = #{status},
+			order_end_date = now(),
+			shipping_start_date = now(),
+			total_amount = #{total_amount}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<delete id="deleteShippingData" parameterType="String">
+		DELETE FROM itsm_shipping_info WHERE order_id = #{orderId}
+	</delete>
+	
+	<insert id="saveShippingData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_shipping_info (shipping_id, order_id, pi, po, pk, invoice, model, quantity, flight_no, mawb, hawb)
+		VALUES 
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.shipping_id}, 
+			#{item.order_id}, 
+			#{item.pi}, 
+			#{item.po}, 
+			#{item.pk}, 
+			#{item.invoice}, 
+			#{item.model}, 
+			#{item.quantity}, 
+			#{item.flight_no}, 
+			#{item.mawb}, 
+			#{item.hawb}
+		</foreach>
+	</insert>
+	
+	<update id="updateCompleteShipping" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			status = #{status},
+			s_complete = #{s_complete},
+			shipping_end_date = now()
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<update id="updateNotCompleteShipping" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			s_complete = #{s_complete}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<insert id="insertFltMawbHawbInfo" parameterType="java.util.HashMap">
+		INSERT INTO itsm_port_info (flight_no, mawb, hawb, order_id)
+		VALUES
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.flight_no}, 
+			#{item.mawb}, 
+			#{item.hawb}, 
+			#{item.order_id}
+		</foreach>
+	</insert>
+	
+	<delete id="deleteShipping" parameterType="java.util.HashMap">
+		DELETE FROM itsm_shipping_info
+		WHERE shipping_id IN
+		<foreach item="item" collection="shipping_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<insert id="insertPortData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_port_info (
+			port_id,
+			order_id
+		) VALUES (
+			#{port_id},
+			#{order_id}
+		)
+	</insert>
+	
+	<delete id="deletePortData" parameterType="String">
+		DELETE FROM itsm_port_info WHERE order_id = #{orderId}
+	</delete>
+	
+	<insert id="savePortData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_port_info (
+			port_id, order_id, shipping_name, eta_date, eta_time, pol, pod, terms, inv_no, po_no,
+			commodity, pkg_qty, gw, cw, remarks, flight_no, mawb, hawb
+		)
+		VALUES 
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.port_id}, 
+			#{item.order_id}, 
+			#{item.shipping_name}, 
+			#{item.eta_date}, 
+			#{item.eta_time}, 
+			#{item.pol}, 
+			#{item.pod}, 
+			#{item.terms}, 
+			#{item.inv_no}, 
+			#{item.po_no}, 
+			#{item.commodity},
+			#{item.pkg_qty},
+			#{item.gw},
+			#{item.cw},
+			#{item.remarks},
+			#{item.flight_no},
+			#{item.mawb},
+			#{item.hawb}			
+		</foreach>
+	</insert>
+	
+	<update id="updateCompletePort" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			status = #{status},
+			p_complete = #{p_complete},
+			customs_start_date = now()
+			<!-- shipping_end_date = now() -->
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<update id="updateNotCompletePort" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			p_complete = #{p_complete}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<delete id="deleteCustomsData" parameterType="String">
+		DELETE FROM itsm_customs_info WHERE order_id = #{orderId}
+	</delete>
+	
+	<insert id="saveCustomsData" parameterType="java.util.HashMap">
+		INSERT INTO itsm_customs_info (
+			customs_id, order_id, product_model, hs_code, quantity
+		)
+		VALUES 
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.customs_id}, 
+			#{item.order_id}, 
+			#{item.product_name}, 
+			#{item.hs_code}, 
+			#{item.orderQuantity}
+		</foreach>
+	</insert>
+	
+	<update id="updateCompleteCustoms" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			status = #{status},
+			c_complete = #{c_complete},
+			customs_end_date = now(),
+			delivery_start_date = now(),
+			c_cost = #{c_cost}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<update id="updateNotCompleteCustoms" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			c_complete = #{c_complete},
+			c_cost = #{c_cost}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<update id="saveDeliveryData" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			d_cost = #{d_cost},
+			d_destination = #{d_destination},
+			d_id = #{d_id},
+			d_phone = #{d_phone},
+			d_user = #{d_user},
+			delivery_end_date = #{delivery_end_date},
+			delivery_request_date = #{delivery_request_date}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<update id="updateCompleteDelivery" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			status = #{status},
+			d_complete = #{d_complete},
+			delivery_end_date = #{delivery_end_date}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<update id="updateNotCompleteDelivery" parameterType="java.util.HashMap">
+		UPDATE itsm_order_info SET
+			status = #{status},
+			d_complete = #{d_complete}
+		WHERE order_id = #{order_id}
+	</update>
+	
+	<select id="getStatusCounts" parameterType="String" resultType="java.util.HashMap">
+		select COUNT(CASE WHEN status=2 THEN 1 END) AS 'orderCount',
+			   COUNT(CASE WHEN status=3 THEN 1 END) AS 'shipCount',
+			   COUNT(CASE WHEN status=4 THEN 1 END) AS 'portCount',
+			   COUNT(CASE WHEN status=5 THEN 1 END) AS 'customsCount',
+			   COUNT(CASE WHEN status=6 THEN 1 END) AS 'deliveryCount'
+		from itsm_order_info 
+		where date_format(order_start_date, '%Y') = #{year}
+	</select>
+	
+	<select id="getRowCount" resultType="Integer">
+		select FOUND_ROWS()
+	</select>
+</mapper>

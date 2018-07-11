@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+.itamDash  .contents-area{
+	padding: 5px;
+}
+
+.itamDash div.dashboard-panel{
+	height : 100%;
+}
+
+.itamDash section.pie-chart-area{
+	height : 49.8%;
+	padding: 5px;
+}
+
+.itamDash section.pie-chart-area>.dashboard-panel>.dashboard-contents{
+	background: url('/dist/img/chart_bg.png') no-repeat center bottom -71%;
+	/* background: linear-gradient(172deg , rgba(62, 61, 61,0) 61%, rgb(57, 66, 85)); */ 
+}
+
+.itamDash section.line-chart-area{
+	height : 33.2%;
+	padding: 5px;
+}
+
+
+.itamDash .dashboard-contents{
+	height : calc(100% - 37px);
+}
+
+.itamDash .dashboard-contents>div{
+	width: 100%;
+	height: 100%;
+}
+
+.itamDash div#line-chart1-right-title{
+	float : right;
+}
+
+.itamDash .listGroup {
+	position: relative;
+	bottom: 3px;
+	right: -2px;
+}
+
+.itamDash .drop-down-list{
+    bottom: 2px;
+    position: relative;
+}

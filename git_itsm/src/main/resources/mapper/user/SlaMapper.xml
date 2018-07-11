@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.sla.SlaMapper">
+	
+	<sql id="Column_List">
+		id,name,category_name,type,pi,direction,critical,major,minor,action,alarm_on_off
+	</sql>
+	
+	<insert id="addSlaCategory" parameterType="com.yescnc.core.entity.db.SlaVO">		
+		INSERT INTO davis_sla_category_list
+		(`category_name`,`display_on_off`)
+		VALUES
+		(#{name},#{display_on_off})
+	</insert>
+	
+	<insert id="addSlaType" parameterType="com.yescnc.core.entity.db.SlaVO">		
+		INSERT INTO davis_sla_type_list
+		(`type_name`,`category_pid`,`display_on_off`)
+		VALUES
+		(#{name},#{check_pid},#{display_on_off})
+	</insert>
+	
+	<insert id="addSlaParam" parameterType="com.yescnc.core.entity.db.SlaVO">		
+		INSERT INTO davis_sla_param_list
+		(`param_name`,`type_pid`,`stat_id`,`stat_column`,`critical`,`major`,`minor`,`alarm_on_off`,`direction`,`display_on_off`)
+		VALUES
+		(#{name},#{check_pid},#{stat_id},#{stat_column},#{critical},#{major},#{minor},#{alarm_on_off},#{direction},#{display_on_off})
+	</insert>
+
+	<update id="updateCategoryXmlToDb" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_category_list
+		<set>
+			<if test="display_on_off != null">
+				`display_on_off` = #{display_on_off}
+			</if>
+		</set>
+		WHERE `idx` = #{idx}
+	</update>	
+	
+	<update id="updateTypeXmlToDb" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_type_list
+		<set>
+			<if test="display_on_off != null">
+				`display_on_off` = #{display_on_off}
+			</if>
+		</set>
+		WHERE `idx` = #{idx}
+	</update>	
+	
+	<update id="updatePIXmlToDb" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_param_list
+		<set>
+			<if test="display_on_off != null">
+				`display_on_off` = #{display_on_off}
+			</if>
+		</set>
+		WHERE `idx` = #{idx}
+	</update>
+	
+	<update id="updateBySla" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_param_list
+		SET
+			<if test="direction != null">
+				`direction` = #{direction},
+			</if>
+			<if test="critical != null">
+				`critical` = #{critical},
+			</if>
+			<if test="major != null">
+				`major` = #{major},
+			</if>
+			<if test="minor != null">
+				`minor` = #{minor},
+			</if>
+			<if test="alarm_on_off != null">
+				`alarm_on_off` = #{alarm_on_off}
+			</if>
+			<if test="display_on_off != null">
+				`display_on_off` = #{display_on_off}
+			</if>			
+		WHERE `idx` = #{idx}
+	</update>
+	
+	<update id="updateSlaCategory" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_category_list
+		SET
+			<if test="name != null">
+				`category_name` = #{name}
+			</if>		
+		WHERE `idx` = #{idx}
+	</update>
+	
+	<update id="updateSlaType" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_type_list
+		SET
+			<if test="name != null">
+				`type_name` = #{name}
+			</if>		
+		WHERE `idx` = #{idx}
+	</update>
+	
+	<update id="updateSlaParam" parameterType="com.yescnc.core.entity.db.SlaVO">
+		UPDATE davis_sla_param_list
+		SET
+			<if test="name != null">
+				`param_name` = #{name}
+			</if>
+			<if test="stat_id != null">
+				,`stat_id` = #{stat_id}
+			</if>
+			<if test="stat_column != null">
+				,`stat_column` = #{stat_column}
+			</if>		
+			<if test="direction != null">
+				,`direction` = #{direction}
+			</if>
+		WHERE `idx` = #{idx}
+	</update>
+			
+	<select id="selectSlaList" resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			<include refid="Column_List" />
+		from davis_sla_list
+	</select>
+			
+	<select id="slaLimitList" parameterType="com.yescnc.core.entity.db.SlaVO" 
+	resultType="com.yescnc.core.entity.db.SlaVO">
+		select SQL_CALC_FOUND_ROWS
+			<include refid="Column_List" />
+		from davis_sla_list limit #{startRow},#{endRow}
+	</select>	
+	
+	<select id="slaListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>	
+	
+	<select id="selectCategoryList" resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,category_name,display_on_off
+		from davis_sla_category_list
+	</select>
+	
+	<select id="selectTypeList" resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,type_name,category_pid,display_on_off
+		from davis_sla_type_list
+	</select>
+
+	<select id="selectParameterList" resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,param_name,type_pid,critical,major,minor,alarm_on_off,stat_id,stat_column,direction,display_on_off
+		from davis_sla_param_list
+	</select>
+	
+	<select id="selectSlaTypeList" parameterType="com.yescnc.core.entity.db.SlaVO" 
+	resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,type_name,category_pid,display_on_off
+		from davis_sla_type_list
+		where category_pid = #{category_pid}
+	</select>
+	
+	<select id="selectSlaParamList" parameterType="com.yescnc.core.entity.db.SlaVO" 
+	resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,param_name,type_pid,display_on_off
+		from davis_sla_param_list
+		where type_pid = #{type_pid}
+	</select>
+	
+	<select id="selectSlaParam" parameterType="com.yescnc.core.entity.db.SlaVO" 
+	resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,param_name,type_pid,display_on_off
+		from davis_sla_param_list
+		where idx = #{idx}
+	</select>
+	
+	<select id="selectEnableSlaParameterList" resultType="com.yescnc.core.entity.db.SlaVO">
+		SELECT
+			davis_sla_param_list.idx,
+			davis_sla_param_list.param_name,
+			davis_sla_param_list.type_pid,
+			davis_sla_param_list.critical,
+			davis_sla_param_list.major,
+			davis_sla_param_list.minor,
+			davis_sla_param_list.alarm_on_off,
+			davis_sla_param_list.display_on_off,
+			davis_sla_param_list.stat_id
+		FROM davis_sla_category_list
+			RIGHT JOIN davis_sla_type_list ON davis_sla_category_list.idx = davis_sla_type_list.category_pid
+			RIGHT JOIN davis_sla_param_list ON davis_sla_type_list.idx = davis_sla_param_list.type_pid
+		WHERE
+			davis_sla_category_list.display_on_off = 1 AND 
+			davis_sla_type_list.display_on_off = 1 AND 
+			davis_sla_param_list.display_on_off = 1 AND 
+			davis_sla_param_list.alarm_on_off = 1
+	</select>
+	
+	<select id="slaSearchList" parameterType="com.yescnc.core.entity.db.SlaVO" resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			critical,major,minor,direction
+		from davis_sla_param_list
+		<if test="idx != null">
+			where idx=#{idx}
+		</if>
+	</select>
+	
+	<select id="slaSearchParamList" resultType="com.yescnc.core.entity.db.SlaVO">
+		select
+			idx,param_name,type_pid,critical,major,minor,alarm_on_off,display_on_off,direction,stat_id
+		from davis_sla_param_list
+	</select>
+	
+	<!-- XML List  -->
+	<insert id="insertCategoryList" parameterType="list">
+			INSERT INTO davis_sla_category_list
+			(`idx`,`category_name`,`display_on_off`)
+			VALUES
+			<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+				#{item.idx},
+				#{item.category_name},
+				#{item.display_on_off}
+			</foreach>
+	</insert>
+	
+	<insert id="insertTypeList" parameterType="list">
+			INSERT INTO davis_sla_type_list
+			(`idx`,`type_name`,`category_pid`,`display_on_off`)
+			VALUES
+			<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+				#{item.idx},
+				#{item.type_name},
+				#{item.category_pid},
+				#{item.display_on_off}
+			</foreach>
+	</insert>
+	
+	<insert id="insertParamList" parameterType="list">
+			INSERT INTO davis_sla_param_list
+			(`idx`,`param_name`,`type_pid`,`critical`,`major`,`minor`,`alarm_on_off`,`stat_id`,`stat_column`,`direction`,`display_on_off`)
+			VALUES
+			<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+				#{item.idx},
+				#{item.param_name},
+				#{item.type_pid},
+				#{item.critical},
+				#{item.major},
+				#{item.minor},
+				#{item.alarm_on_off},
+				#{item.stat_id},
+				#{item.stat_column},
+				#{item.direction},
+				#{item.display_on_off}
+			</foreach>
+	</insert>
+	
+	<delete id="deleteCategoryMulti" parameterType="com.yescnc.core.entity.db.SlaVO">
+		delete from davis_sla_category_list		
+		where `idx` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.idx}
+		</foreach>
+	</delete>
+
+	<delete id="deleteTypeMulti" parameterType="com.yescnc.core.entity.db.SlaVO">
+		delete from davis_sla_type_list		
+		where `idx` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.idx}
+		</foreach>
+	</delete>
+
+	<delete id="deleteParamMulti" parameterType="com.yescnc.core.entity.db.SlaVO">
+		delete from davis_sla_param_list		
+		where `idx` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.idx}
+		</foreach>
+	</delete>
+	
+	<update id="slaThresholdUpdate" parameterType="list">
+			UPDATE davis_sla_param_list
+			SET
+		<foreach item="item" index="index" collection="list" separator=",">
+				<if test="item.critical != null">
+					critical = #{item.critical},
+				</if>
+				<if test="item.major != null">
+					major = #{item.major},
+				</if>
+				<if test="item.minor != null">
+					minor = #{item.minor}
+				</if>
+		</foreach>
+		WHERE
+			idx IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.idx}
+			</foreach>
+	</update>
+	
+</mapper>

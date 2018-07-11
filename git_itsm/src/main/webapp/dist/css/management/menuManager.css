@@ -1,0 +1,146 @@
+@CHARSET "UTF-8";
+
+#menuManager .contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#menuManager div#leftContents{width:100%; height:100%;padding-left: 10px;}
+#menuManager div#mainTop,
+#menuManager div#leftTop{
+	height:35px;
+	text-align: right;
+	padding: 4px 0px 0px 10px;
+}
+
+#menuManager div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#menuManager div#mainSubBottom{
+	width: 100%;
+	height: calc(100% - 92px);
+}
+
+#mainBottom .disableClass{
+	width:100%;
+	height:100%;
+	top: 0;
+    background-color: #fff0;
+    position: absolute;
+}
+
+#menuManager div#leftBottom {
+	width:100%;
+	height:-webkit-calc(100% - 92px);
+	padding: 5px 10px 5px 10px;
+}
+
+#menuManager div#leftBottom .w2ui-form-box{
+	width: 419px;
+    height: 809px;
+}
+
+#menuManager .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#menuManager #leftBottom .w2ui-node-group {
+   display: none;
+}
+
+#menuManager div#menuDetailInfo{
+	height:calc(100vh - 173px);
+}
+
+#menuManager #menuDetailInfo.w2ui-reset input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]), 
+#menuManager .w2ui-reset select,
+#menuManager .w2ui-reset textarea{
+	width:100%!important;
+}
+
+/* SVG ICON */
+#menuManager svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#menuManager svg.link.icon {
+	cursor: pointer;
+}
+
+#menuManager svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+/* Disabled SVG ICON */
+/* #menuManager svg.icon:hover {
+	opacity: 1!important
+} */
+
+#menuManager svg.icon {
+	cursor: default;
+}
+
+#menuManager svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+#menuManager #menuMgrSaveBtn.svg-inline--fa.fa-w-14{
+	width: 0.975em;
+	padding-top: 2px;
+}
+
+#menuManager .svg-inline--fa.fa-w-12 {
+	width: 0.85em;
+	padding-top: 2px;
+}
+
+#openCloseStatus > div > label {
+	width: 75px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#openCloseStatus > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+#statusPopup > div > label {
+    width: 81px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#statusPopup > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+.readonlyEffect {
+	width: calc(100% - 8px) !important;
+    margin: 0px 0px 0px 4px !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    height: 21px !important;
+    right: 0px !important;
+    left: 0px !important;
+}

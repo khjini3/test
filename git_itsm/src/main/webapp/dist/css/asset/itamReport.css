@@ -1,0 +1,108 @@
+@CHARSET "UTF-8";
+
+#assetManager .contentsCls{
+	 width: 100%; height: 100%; background-color: rgba(255,0,0,0);
+	 float:left;
+}
+
+#assetManager div#leftContents{width:100%; height:100%; padding-left: 10px; }
+#assetManager div#mainTop{height:30px;text-align: right;padding: 5px 0px 5px 10px;}
+#assetManager div#leftBottom{
+	width:100%;
+	height:calc(100% - 92px);
+}
+
+#assetManager div#mainBottom{
+	width:100%;
+	height:calc(100% - 82px);
+}
+
+#assetManager div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 5px 10px 5px 10px;
+}
+
+#assetManager .w2ui-sidebar .w2ui-sidebar-div{
+	/* border: 1px solid #ffffff; */
+}
+
+#assetManager i.icon:hover,
+i.icon#assetMgrImportDelBtn:hover {
+	opacity: 1!important
+}
+
+#assetManager i.link.icon,
+i.link.icon#assetMgrImportDelBtn {
+	cursor: pointer;
+}
+
+#assetManager i.icon,
+i.icon#assetMgrImportDelBtn {
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+#assetManager .fa-2x,
+.fa-2x#assetMgrImportDelBtn {
+    font-size: 1.5em;
+}
+
+
+/*
+ ******************************
+ * Module BOX
+ ******************************
+ */
+#assetManager .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#assetManager #leftBottom .w2ui-node-group {
+   display: none;
+}
+
+.assetMgr-module-container {
+	width: 100% !important;
+	height: calc(100% - 40px) !important;
+}
+
+.assetMgr-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.assetMgr-module-heading {
+	
+}
+
+.assetMgr-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}
+
+div#assetMgrImportWrap {
+	background-color: #434343;
+}
+
+#assetManager .w2ui-grid {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#assetMgrImportWrap .w2ui-list{
+	text-align: left;
+	padding-left: 10px;
+	left: 48px;
+	border: 0px solid #777777;
+}
+
+#assetMgrImportWrap .w2ui-field.w2ui-span3 > div {
+    margin-left: 0;
+}
+
+#assetMgrImportWrap input#file{
+	display: none;
+}

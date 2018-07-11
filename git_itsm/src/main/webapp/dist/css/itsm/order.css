@@ -1,0 +1,369 @@
+@CHARSET "UTF-8";
+
+#order .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#order .contentsCls > div {
+	z-index: 98;
+}
+
+#order div#mainOrderContents,
+#order div#searchOrderContents{
+	width : 100%;
+	padding : 4px 10px;
+}
+
+#order div#searchOrderBottom,
+#order div#summaryOrderBottom {
+	width : 100%;
+	height : calc(10vh - 8px);
+}
+
+#order div#mainOrderTop {
+	width : 100%;
+	/* height : 35px; */
+	padding: 4px 0px 0px 10px;
+}
+
+#order div#mainOrderBottom {
+	width : 100%;
+	height : calc(86vh - 167px)
+}
+
+#order #summaryOrderBottom .summary-options {
+	/* width : calc(100vh - 860px); */
+	width: 100px;
+	float: left; 
+	margin-left: 11px;
+	margin-top: 8px;
+    border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+#order .first-summary-options {
+	width: 153px; 
+	float: left; 
+	margin-left: 11px;
+	margin-top: 8px;
+}
+
+#order #searchOrderBottom .search-options.border {
+	width: 265px; 
+	float: left; 
+	margin-left: 0px;
+    border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+#order .align-right-btn {
+	float : right;
+}
+
+#order .yearText {
+	font-size: 20px;
+    width: 205px;
+    margin-left: 0px;
+    margin-top: 15px;
+}
+
+#summaryOrderBottom > div > div > div > div > label {
+	text-align:center;
+	margin-left: 5px;
+}
+
+#searchOrderBottom .searchPopupText {
+	width: 76px;
+}
+
+#order #searchOrderBottom .summaryArea{
+	width: 125px !important;	
+}
+
+#searchOrderBottom > div > div > div > div > div > div > label {
+	text-align: center;	
+}
+
+#searchOrderBottom .inputArea{
+	margin-left: 75px;
+}
+/
+/* SVG ICON */
+#order svg.icon.link:hover,
+#searchOrderPopupTabsContents svg.icon.link:hover {
+	opacity: 1!important;
+}
+
+#order svg.link.icon,
+#searchOrderPopupTabsContents svg.link.icon {
+	cursor: pointer;
+}
+
+#order svg.icon.link,
+#searchOrderPopupTabsContents svg.icon.link{
+	color: white;
+	opacity: .5;
+}
+
+#order svg.fa-2x,
+#searchOrderPopupTabsContents svg.fa-2x {
+	font-size: 1.4em !important;
+}
+#order svg,
+#searchOrderPopupTabsContents svg {
+	margin-right: 7px;
+}
+/* 
+#order .svg-inline--fa.fa-w-18{
+    padding: 0px 5px 7px 5px;
+}
+
+#searchOrderPopupTabsContents .svg-inline--fa.fa-w-18 {
+	padding: 0px 1px 0px 4px;
+}
+
+#order .svg-inline--fa.fa-w-16,
+#searchOrderPopupTabsContents .svg-inline--fa.fa-w-16{
+	padding: 0px 5px 4px 5px;
+}
+
+#order .svg-inline--fa.fa-w-14 {
+	padding: 0px 5px 5px 5px;
+}
+
+#searchOrderPopupTabsContents .svg-inline--fa.fa-w-14  {
+	padding: 0px 0px 1px 4px;
+}
+ */
+/* Disabled SVG ICON */
+#order svg.icon,
+#searchOrderPopupTabsContents svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+}
+
+#order svg.icon,
+#searchOrderPopupTabsContents svg.icon{
+	cursor: default;
+}
+ 
+/* Select Estimate Popup */
+#searchEstimatePopupContents .popup-options,
+#searchOrderPopupContents .popup-options,
+#searchOrderPopupTabsContents .popup-options{
+	float: left;
+	margin-right: 20px;
+}
+
+#searchEstimatePopupContents .estimatePopupText{
+	width: 70px;
+}
+#orderProcessPopup .orderPopupText {
+	width: 104px;
+}
+
+#orderProcessPopup .inputArea {
+	margin-left: 101px;	
+}
+
+#orderProcessPopup .popup-options .inputArea > input {
+	width: 353px;
+}
+#searchEstimatePopupContents > div > div > div > div > div > div > div {
+	margin-left: 70px;	
+}
+
+#searchOrderPopupTabsContents {
+	border-bottom: 1px solid silver;
+    border-right: 1px solid silver;
+    border-left: 1px solid silver;
+}
+
+
+#searchOrderPopupTabsContents .popupBtnGroup {
+	float: right;
+}
+
+#searchOrderPopupTabsContents .incomeCheckBoxArea,
+#searchOrderPopupTabsContents .shipCheckBoxArea,
+#searchOrderPopupTabsContents .customsCheckBoxArea,
+#searchOrderPopupTabsContents .deliveryCheckBoxArea{
+	float: left;
+	margin-left: 15px;
+	margin-top: 3px;
+}
+
+#searchOrderPopupTabsContents .incomeCheckBoxArea > label,
+#searchOrderPopupTabsContents .shipCheckBoxArea > label,
+#searchOrderPopupTabsContents .customsCheckBoxArea > label,
+#searchOrderPopupTabsContents .deliveryCheckBoxArea > label {
+	border-bottom-width: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    border-top-width: 0px;
+    padding-right: 0px;
+    border-right-width: 0px;
+}
+
+.hoverDisable {
+	background-color: #314368 !important;
+}
+
+#searchOrderPopupTabsContents .incomeCheckBoxArea > input,
+#searchOrderPopupTabsContents .shipCheckBoxArea > input,
+#searchOrderPopupTabsContents .customsCheckBoxArea > input,
+#searchOrderPopupTabsContents .deliveryCheckBoxArea > input {
+	float: left;
+	margin-top: 6px;
+}
+
+#getSupplyCompany > input,
+#getSupplyCompany > i,
+#getUsingCompany > input,
+#getUsingCompany > i,
+#getOrderCompany > input,
+#getOrderCompany > i{
+ 	cursor: pointer;	
+ }
+ 
+#orderProcessPopup #selectSupplyCompany {
+    top: 52px;
+    /* width: 25px; */
+    color: white;
+    position: absolute;
+    right: 361px;
+}
+
+#orderProcessPopup #selectUsingCompany {
+    color: white;
+    position: absolute;
+    top: 52px;
+    right: 42px;
+}
+
+#orderProcessPopup #selectOrderSite {
+    color: white;
+    position: absolute;
+    width: 25px;
+    right: -5px;
+    top: 9px;
+}
+
+#orderProcessPopup .attamentArea {
+	float: right;
+} 
+
+#orderProcessPopup #dutyPrice {
+	width: 200px;
+    padding: 4px;
+    border: 1px solid #737478;
+    border-radius: 0px;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    line-height: normal;
+    height: 25px;
+} 
+
+#orderProcessPopup #shippingAttachCnt,
+#orderProcessPopup #portAttachCnt,
+#orderProcessPopup #deliveryAttachCnt,
+#orderProcessPopup #customsAttachCnt {
+	cursor: default;
+	margin-top: 4px;
+	float: left;
+	width: 40px;
+    padding: 4px;
+    border: 1px solid #737478;
+    border-radius: 0px;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    line-height: normal;
+    height: 25px;
+    text-align: center;
+} 
+
+#orderProcessPopup #dutyPrice:focus,
+#orderProcessPopup #shippingAttachCnt:focus,
+#orderProcessPopup #portAttachCnt:focus,
+#orderProcessPopup #deliveryAttachCnt:focus,
+#orderProcessPopup #customsAttachCnt:focus {
+	outline: none;
+} 
+
+/* Site Popup */
+#companyPopup #companyAddArea #companyLeftContents {
+	width : 100%;
+	float : left;
+}
+
+#addOrderPopup #orderAddArea #orderLeftContents {
+	width : 35%;
+	float : left;
+}
+
+#addOrderPopup #orderAddArea #siteRightContents {
+	width : 64%;
+	float : right;
+}
+
+#companyPopup #companyAddArea #companyLeftContents #companyLeftBottom,
+#addOrderPopup #orderAddArea #orderLeftContents #orderLeftBottom,
+#addOrderPopup #orderAddArea #siteRightContents #orderRightBottom{
+	height: 400px;
+}
+
+#companyPopup #companyAddArea #companyLeftContents #companyLeftBottom > div{
+	width: 100% !important;
+}
+
+#companyPopup #companyLeftBottom .w2ui-node-group,
+#addOrderPopup #orderLeftBottom .w2ui-node-group{
+	display : none;
+}
+
+/* Ship Popup */
+#addShipBottom .popup-options,
+#addIncomeBottom .popup-options {
+	
+	float: left;
+	margin-right:45px;
+}
+
+/* #addShipBottom .orderPopupText,
+#addIncomeBottom .orderPopupText {
+	width: 80px;
+} */
+
+#addShipBottom .inputArea,
+#addIncomeBottom .inputArea {
+	margin-left: 123px;
+}
+
+#orderProcessPopup .disableClass {
+    width: 100%;
+    height: 51%;
+    top: 0;
+    background-color: #fff0;
+    position: absolute;
+    z-index: 1;
+}
+
+#orderTab .orderDisableClass {
+	width: 100%;
+    height: 100%;
+    background-color: #fff0;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Dialog Alert Popup */
+#orderDoublePopup #dialogAlertPopupArea #dialogAlertPopupContents {
+	padding: 15px 10px 0px 10px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 12px;
+    line-height: 130%;
+}
+
+.orderCustomAlertPopup.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable {
+	top : 298px !important;
+}

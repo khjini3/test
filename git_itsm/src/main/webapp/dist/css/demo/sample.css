@@ -1,0 +1,11 @@
+.charts-demo .module-container .sample-chartarea {
+	top: 60px;
+}
+
+.charts-demo .square {
+	width: 350px;
+    height: 260px;
+    float: left;
+    margin : 3px;
+    border: 1px solid #333;
+}

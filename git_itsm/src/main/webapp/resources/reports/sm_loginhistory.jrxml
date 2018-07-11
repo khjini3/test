@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sm_test" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="bd4de2be-f1c8-40a8-aaf9-7d2c888a9407">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#666666" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF" fill="Solid" fontSize="12">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="PieChartDataset" uuid="bd2de8a3-2dd2-49df-8544-d3423f47df92"/>
+	<subDataset name="Dataset 1" uuid="d6280a8c-94f9-445c-b6d3-cb21bf026fab">
+		<field name="loginId" class="java.lang.String"/>
+		<field name="loginTime" class="java.lang.String"/>
+		<field name="ipAddress" class="java.lang.String"/>
+		<field name="failReason" class="java.lang.String"/>
+		<field name="logoutReason" class="java.lang.String"/>
+		<field name="result" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="subdata1" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="_sub_report1" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="loginId" class="java.lang.String"/>
+	<field name="loginTime" class="java.lang.String"/>
+	<field name="ipAddress" class="java.lang.String"/>
+	<field name="failReason" class="java.lang.String"/>
+	<field name="logoutReason" class="java.lang.String"/>
+	<field name="result" class="java.lang.String"/>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+	</group>
+	<title>
+		<band height="90" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="0" width="597" height="65" forecolor="#006699" backcolor="#006699" uuid="5ed7ae39-b5a0-48ec-914e-fb10770e7682"/>
+				<staticText>
+					<reportElement style="Title" x="247" y="0" width="330" height="65" uuid="1d8a8e1a-4cdc-4f1a-a00b-4e4e43ddfd65"/>
+					<textElement textAlignment="Right">
+						<font size="40" isBold="false" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[YES CORE ]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement x="5" y="70" width="37" height="20" uuid="6f0a90c8-b41f-446e-95d7-19d588117451"/>
+				<text><![CDATA[Date : ]]></text>
+			</staticText>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="42" y="70" width="100" height="20" uuid="b9c313f8-7b45-4ba5-9360-888fbd3f62f7"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_TH" x="0" y="31" width="76" height="20" uuid="eae159e7-4617-4ddb-b926-62b4c40ad3d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[login Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="206" y="31" width="89" height="20" uuid="60091dd6-85b2-4256-ae4a-444b312f84e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IpAddress]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="359" y="31" width="196" height="20" uuid="59e47313-aeab-4dd2-baf4-447f9cb00662"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FailReason]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="76" y="31" width="130" height="20" uuid="435c7a51-2ae9-46d2-b15b-5c5ba4f740d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Login Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="295" y="31" width="64" height="20" uuid="3e8e1202-0bda-4146-9be4-0193a492ecc0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<text><![CDATA[Result]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="81" y="3" width="475" height="24" forecolor="#B89F7D" backcolor="#70A9C6" uuid="1239d2d5-761d-49fb-a2d2-c56580fbcf86"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="1" y="1" width="263" height="23" forecolor="#FFFFFF" uuid="a4544b7c-f985-46bd-8869-ac06471af3b3"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Login History"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TD" x="76" y="0" width="130" height="20" uuid="cd835ae6-4527-4b90-be9a-eebe9b7f7fa6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{loginTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="0" y="0" width="76" height="20" uuid="50b440da-285f-40c7-bb66-f0078a948e0a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{loginId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="206" y="0" width="89" height="20" uuid="776f4660-1e2e-4043-bb00-532fe0effaa2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ipAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="359" y="0" width="196" height="20" uuid="eaf5f92d-7e0f-463a-aeb9-42658b521447"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{failReason} == null? "" : $F{failReason})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="295" y="0" width="64" height="20" uuid="29efaa1a-1c05-4537-ada5-ddcbd090c51f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{result}.equals("1")? "OK" : "NOK"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="c65827f1-78d8-47b1-821e-2bb24942c414"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="28" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="14" width="555" height="14" forecolor="#D0B48E" backcolor="#006699" uuid="459afb55-9901-4380-a6d3-e42513048365"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="500" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="dba80571-934a-481a-b002-66f4d9f684c8"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="420" y="1" width="80" height="13" forecolor="#FFFFFF" uuid="d7286ccd-b040-498d-933b-8df93cc36d6b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="yyyy-MM-dd">
+					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="306b1910-5de1-46de-9751-af6fada297cd"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="136" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="15" width="527" height="119" uuid="b339647b-7084-4bb9-8332-58e80125a577"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource ($P{subdata1}.getData())]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{_sub_report1}]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

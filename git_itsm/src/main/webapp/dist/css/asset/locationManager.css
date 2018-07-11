@@ -1,0 +1,242 @@
+@CHARSET "UTF-8";
+
+#locationManager {
+	color: #ccc;
+}
+
+#LOCATION-MANAGER-MAIN > div{
+	z-index: 99;
+}
+
+#locationManager div#locMgr_leftContents{width: 100%; height: 100%; padding-left: 10px;}
+#locationManager div#locMgr_mainContents_top{height: 30px;text-align: right; padding: 9px 12px 5px 10px;}
+#locationManager div#locMgr_leftContents_top_left{
+	height: 30px;
+	text-align: right;
+	padding: 4px 0px 0px 0px;
+	float: left;
+}
+#locationManager div#locMgr_leftContents_top_right{
+	height: 30px;
+	text-align: right;
+	padding: 4px 0px 0px 10px;
+	float: right;
+}
+
+#locationManager div#locMgr_leftContents_center{
+	width: 100%;
+	height: calc(100vh - 176px);
+	/* height:calc(100% - 92px); */
+	padding: 5px;
+}
+
+#locationManager div#locMgr_mainContents_center{
+	width: 100%;
+	padding: 5px 10px;
+} 
+
+#locationManager div#detailInfo{
+	height: calc(100vh - 167px);
+	/* height:calc(100% - 82px); */
+}
+
+
+.popup-btnGroup {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	right: 4px;
+	/* padding-top: 10px; */
+}
+
+#locationManager #detailInfo.w2ui-reset input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]), #locationManager .w2ui-reset select, #locationManager .w2ui-reset textarea{
+	width: 100% !important;
+}
+
+#locationManager #locMgr_mainContents_center .w2ui-field > div {
+	margin-left: 153px;
+}
+
+#locationManager #locMgr_mainContents_center .w2ui-field > label{
+	width: 140px;
+}
+
+#locationManager .w2ui-sidebar .w2ui-sidebar-div {
+	/* border: 1px solid #ffffff; */
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+/* ICON
+#locationManager i.icon:hover {
+	opacity: 1 !important
+}
+
+#locationManager i.link.icon {
+	cursor: pointer;
+}
+
+#locationManager i.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+
+#locationManager .fa-2x {
+	font-size: 1.5em;
+}
+ */
+ 
+/* SVG ICON */
+#locationManager svg.icon.link:hover {
+	opacity: 1 !important
+}
+
+#locationManager svg.link.icon {
+	cursor: pointer;
+}
+
+#locationManager svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-left: 8px; */
+}
+
+#locationManager .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	/* padding-top:2px; */
+}
+
+#locationManager #locMgr_SaveBtn.svg-inline--fa.fa-w-14 {
+	width:0.975em;
+	padding-top:2px;
+}
+
+#locationManager .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:2px;
+}
+
+
+#locationManager div#locMgr_mainContents_top_toolbar {
+	position: relative;
+	top: -5px;
+}
+
+/* Disabled SVG ICON */
+#locationManager svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#locationManager svg.icon{
+	cursor: default;
+}
+
+#locMgr_locationForm_modelImage_container {
+	display: table;
+	width: calc(100% - 3px);
+	height: calc(100% - 130px);
+	background-color: rgba(14, 29, 57, 0.46);
+	border: 1px solid #737478;
+	border-radius: 5px;
+	/*width: 656px;
+	height: 300px;*/
+	text-align: center;
+	padding: 10px;
+	margin-top: 8px;
+}
+
+#locMgr_locationForm_modelImage_container > div {
+	display: table-cell;
+	vertical-align: middle;
+	background-color: rgba(37, 41, 57, 0.48);
+}
+
+#locMgr_locationForm_EditMode_modelImage_container {
+	display: table;
+	width: calc(100% - 3px);
+	height: calc(100% - 130px);
+	background-color: #242529;
+	border: 1px solid #737478;
+	border-radius: 5px;
+	/*width: 656px;
+	height: 300px;*/
+	text-align: center;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+#locMgr_locationForm_EditMode_modelImage_container > div {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#locMgr_AddLocationPopup_modelImage_container {
+	display: table;
+	padding-top: 9px;
+}
+
+#locMgr_AddLocationPopup_modelImage_container > div {
+	display: table-cell;
+	vertical-align: middle;
+	background-color: rgba(37, 41, 57, 0.48);
+	border: 1px solid #737478;
+	border-radius: 5px;
+	width: 352px;
+	height: 150px;
+	padding: 10px;
+}
+
+.logMgr_modelImage {
+	display: block;
+	margin: auto;
+	width: auto;
+	height: auto;
+	/*
+	max-width: 100%;
+	max-height: 100%;
+	*/
+	max-width: 332px;
+	max-height: 130px;
+}
+
+/*
+ ******************************
+ * Module BOX
+ ******************************
+ */
+#locationManager .w2ui-sidebar .w2ui-sidebar-div{
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#locMgr_leftContents_center .w2ui-node-group {
+   display: none;
+}
+
+.locMgr-module-container {
+	width: 100% !important;
+	height: calc(100% - 40px) !important;
+}
+
+.locMgr-module-box {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.locMgr-module-heading {
+	
+}
+
+.locMgr-module-content {
+	width: 100% !important;
+	height: 100% !important;
+	top: 32px !important;
+	padding: 9 2 !important;
+}
+
+.locationManager img#locMgr_locationForm_modelImage{
+	margin: 0 auto;
+}

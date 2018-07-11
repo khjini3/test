@@ -1,0 +1,74 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#currentAlarm div#leftContents{width:100%; height:100%;padding-left: 10px;}
+#currentAlarm div#mainTop{
+	height:35px;
+	text-align: right;
+	padding-top: 10px;
+}
+
+#currentAlarm div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#currentAlarm div#mainSubBottom{
+	width: 100%;
+	height: calc(100vh - 175px);
+}
+
+#currentAlarm #severityDiv {
+	float: right;
+    padding: 0px;
+    padding-right: 5px;
+}
+
+#currentAlarm .curSeverityBtnCls {
+	width: 76px;
+    height: 26px;
+    float: left;
+    margin-left: 10px;
+}
+
+/* SVG ICON */
+#currentAlarm svg.icon.link:hover {
+	opacity: 1;
+}
+
+#currentAlarm svg.link.icon {
+	cursor: pointer;
+}
+
+#currentAlarm svg.icon.link {
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+/* Disabled SVG ICON */
+#currentAlarm svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#currentAlarm svg.icon {
+	cursor: default;
+}
+
+#currentAlarm #currentBtnGroup{
+	position : relative;
+	bottom : 4px;
+}

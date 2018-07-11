@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sm_test" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bd4de2be-f1c8-40a8-aaf9-7d2c888a9407">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="561"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#666666" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="bd2de8a3-2dd2-49df-8544-d3423f47df92"/>
+	<subDataset name="Dataset 1" uuid="d6280a8c-94f9-445c-b6d3-cb21bf026fab">
+		<field name="loginId" class="java.lang.String"/>
+		<field name="loginTime" class="java.lang.String"/>
+		<field name="ipAddress" class="java.lang.String"/>
+		<field name="failReason" class="java.lang.String"/>
+		<field name="logoutReason" class="java.lang.String"/>
+		<field name="result" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="subdata1" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="_sub_report1" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="subdata2" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="_sub_report2" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="maindata" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="main_report" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="titleParam" class="java.lang.String"/>
+	<field name="loginId" class="java.lang.String"/>
+	<field name="loginTime" class="java.lang.String"/>
+	<field name="ipAddress" class="java.lang.String"/>
+	<field name="failReason" class="java.lang.String"/>
+	<field name="logoutReason" class="java.lang.String"/>
+	<field name="result" class="java.lang.String"/>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+	</group>
+	<title>
+		<band height="94" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="65" forecolor="#006699" backcolor="#006699" uuid="5ed7ae39-b5a0-48ec-914e-fb10770e7682"/>
+				<staticText>
+					<reportElement style="Title" x="7" y="0" width="791" height="65" uuid="1d8a8e1a-4cdc-4f1a-a00b-4e4e43ddfd65"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="40" isBold="false" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[YES CORE ]]></text>
+				</staticText>
+			</frame>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="44" y="74" width="100" height="20" uuid="3cb0ed7d-6375-43c8-aef3-9bda6540e153"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="74" width="37" height="20" uuid="3db135a9-6880-4d52-8fca-46a734b81c18"/>
+				<text><![CDATA[Date : ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="4" y="7" width="798" height="24" forecolor="#B89F7D" backcolor="#70A9C6" uuid="a96330a0-5140-472d-8559-8817d80b8384"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="SubTitle" x="0" y="1" width="263" height="23" forecolor="#FFFFFF" uuid="79b0d3b6-4eed-4d9e-8461-b5400afcd9e5"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA['TEST TRACKER']]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="400" splitType="Stretch">
+			<subreport>
+				<reportElement x="4" y="0" width="798" height="400" uuid="a580d009-9b1b-47c8-8e83-c22d83bf6557"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource ($P{maindata}.getData())]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{main_report}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="494">
+			<subreport>
+				<reportElement x="4" y="0" width="798" height="494" isRemoveLineWhenBlank="true" uuid="b339647b-7084-4bb9-8332-58e80125a577"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource ($P{subdata1}.getData())]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{_sub_report1}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="798" height="1" uuid="c65827f1-78d8-47b1-821e-2bb24942c414"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="19" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="4" y="5" width="798" height="14" forecolor="#D0B48E" backcolor="#006699" uuid="459afb55-9901-4380-a6d3-e42513048365"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="757" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="dba80571-934a-481a-b002-66f4d9f684c8"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="677" y="1" width="80" height="13" forecolor="#FFFFFF" uuid="d7286ccd-b040-498d-933b-8df93cc36d6b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="yyyy-MM-dd">
+					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="306b1910-5de1-46de-9751-af6fada297cd"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

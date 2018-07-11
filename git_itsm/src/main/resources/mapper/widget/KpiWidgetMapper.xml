@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.widget.KpiWidgetMapper">
+	<sql id="Column_List">
+		id, kpiTitle, polling, chartType, query, threshold, tableName, kpiKeys, kpiValues, kpiCondition, description, kpiColumns
+	</sql>
+
+	<insert id="insertKpiWidget" parameterType="com.yescnc.core.entity.db.KpiWidgetVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_kpi_widget
+		</selectKey>
+		INSERT INTO davis_kpi_widget
+			(`id`,`kpiTitle`,`polling`,`chartType`,`query`,`threshold`,`tableName`,`kpiKeys`,`kpiValues`,`kpiCondition`,`description`,`kpiColumns`)
+		VALUES
+			(#{max_id},#{kpiTitle},#{polling},#{chartType},#{query},#{threshold},#{tableName},#{kpiKeys},#{kpiValues},#{kpiCondition},#{description},#{kpiColumns})
+		
+	</insert>
+	
+	<update id="updateByKpiWidgetId" parameterType="com.yescnc.core.entity.db.KpiWidgetVO">
+		UPDATE davis_kpi_widget
+		SET
+			`kpiTitle` = #{kpiTitle},
+			`polling` = #{polling},
+			`chartType` = #{chartType},
+			`query` = #{query},
+			`threshold` = #{threshold},
+			`tableName` = #{tableName},
+			`kpiKeys` = #{kpiKeys},
+			`kpiValues` = #{kpiValues},
+			`kpiCondition` = #{kpiCondition},
+			`description` = #{description},
+			`kpiColumns` = #{kpiColumns}
+		where id = #{id}
+	</update>
+
+	<select id="selectKpiWidget" parameterType="com.yescnc.core.entity.db.KpiWidgetVO" 
+	resultType="com.yescnc.core.entity.db.KpiWidgetVO">
+		select
+			<include refid="Column_List" />
+		from davis_kpi_widget
+		<if test="id != null">
+			where id = #{id}
+		</if>
+	</select>
+	 
+	<select id="selectKpiWidgetList" resultType="com.yescnc.core.entity.db.KpiWidgetVO">
+		select
+			<include refid="Column_List" />
+		from davis_kpi_widget
+	</select>
+	
+	<select id="selectKpiWidgetQuery" resultType="String" parameterType="Integer">
+		select
+			query
+		from 
+			davis_kpi_widget
+		where 
+			id = #{id}
+	</select>
+	
+	<select id="selectKpiWidgetMap" resultType="com.yescnc.core.entity.db.KpiWidgetVO" parameterType="Integer">
+		select
+			id, kpiTitle, polling, chartType, query, threshold, tableName, kpiKeys, kpiValues, kpiCondition, description, kpiColumns
+		from 
+			davis_kpi_widget
+		where 
+			id = #{id}
+	</select>
+	
+	<select id="selectKpiWidgetLimitList" parameterType="com.yescnc.core.entity.db.KpiWidgetVO" 
+		resultType="com.yescnc.core.entity.db.KpiWidgetVO">
+		select SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid, id, kpiTitle, polling, chartType, query, threshold, tableName, kpiKeys, kpiValues, kpiCondition, description, kpiColumns
+		from 
+			davis_kpi_widget ,(SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		order by id desc
+		limit #{startRow},#{endRow}
+		
+	</select>	
+	
+	<select id="selectKpiWidgetListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>	
+	
+	<delete id="deleteByKpiWidgetId" parameterType="com.yescnc.core.entity.db.KpiWidgetVO">
+		delete from davis_kpi_widget
+		where id = #{id}
+	</delete>
+	
+	<delete id="deleteKpiWidgetMuti" parameterType="com.yescnc.core.entity.db.KpiWidgetVO">
+		delete from davis_kpi_widget		
+		where `id` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
+		
+	</delete> 
+	
+</mapper>

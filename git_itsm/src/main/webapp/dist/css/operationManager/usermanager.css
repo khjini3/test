@@ -1,0 +1,18 @@
+.content .wrap .um-gm-total-container { display: block; width: calc(100% - 2px); height: calc(100% - 24px); padding: 12px; overflow: auto; }
+.content .wrap .um-gm-total-container .um-gm-module-container { position: absolute; top: 74px; left: 12px; right: 12px; bottom: 24px; }
+.content .wrap .um-gm-total-container .um-gm-module-container .module-box { position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 9px 11px; border: 1px solid #dfdfdf; }
+.content .wrap .um-gm-total-container .um-gm-module-container .um-module-box { width: 310px; }
+.content .wrap .um-gm-total-container .um-gm-module-container .module-box .line-box { height: calc(100% - 1px); padding: 0 10px 13px; margin: 0 -10px 13px; border-bottom: 1px solid #dfdfdf; }
+.content .wrap .um-gm-total-container .um-gm-module-container .module-box .line-box .module-heading { position: relative; height: 24px; border-bottom: 2px solid #585858; }
+.um-gm-module-container .module-heading .title { color: #2e2e2e; font-size: 13px; font-weight: blod; line-height: 25px; font-family: 'SIF'; }
+h2 { margin: 0; padding: 0; border: 0; font: inherit; }
+.um-gm-total-container .module-heading .button-group { position: absolute; bottom: 2px; right: 0; padding: 0; margin: 0; font-size: 12px;  /*border: 1px solid #dfdfdf;*/ }
+#groupListGrid-container { height: calc(100% - 25px) !important; }
+.ui-widget { font-size: 12px; }
+.ui-edit-container { overflow: hidden; padding: 0 !important; border: 1px solid #cfcfcf; border-radius: 3px; font-weight: normal; }
+.ui-grid { border-bottom: 1px solid #b4c7d5; border-width: 0; }
+.ui-edit-nullvalue, .ui-widget .ui-edit-nullvalue { color: #999; text-shadow: none; }
+.ui-edit .ui-edit-field { border: 0; float: left !important; margin: 0 !important; box-shadow: inset 0 1px 2px #eee; }
+.ui-edit-field, .ui-widget .ui-edit-field { outline: 0; padding: 2px 5px 0px 5px; font-size: 1em; }
+.module-heading > .button-group > button { border: 0 !important; vertical-align: bottom; margin-bottom: 2px; }
+#userInfoListGrid-container { height: calc(100% - 25px) !important; }

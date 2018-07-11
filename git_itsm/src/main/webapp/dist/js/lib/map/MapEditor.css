@@ -1,0 +1,303 @@
+@CHARSET "UTF-8";
+
+/* 배경 */
+.mapEditor{
+	background: url(/dist/img/mapEditor/pattern01.png) repeat padding-box -2px;
+    border: 0.1px solid rgba(255,255,255,0.3);
+}
+
+.mapBtnArea svg.link.icon {
+    opacity: 0.5;
+    width: 20px;
+    cursor: pointer;
+    color: white;
+}
+
+.mapBtnArea svg.link.icon:hover{
+	opacity: 1;
+}
+
+.mapBtnArea svg.icon{
+	color: #8e8c8c;
+	width: 20px;
+	opacity: .5;
+}
+
+.mapBtnArea svg.icon {
+	cursor: default;
+}
+
+div#mapLeftPanel{
+	width : 20%;
+	height : 100%;
+}
+
+#mapLeftPanel .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-group{
+	display: none;
+}
+
+#mapLeftPanel .w2ui-sidebar .w2ui-sidebar-div{
+	border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 0px;
+}
+ 
+div#mapRightPanel{
+	width : calc(100% - 20% - 0.5%);
+	height : 100%;
+}
+div#mapLeftPanel .dashboard-title, div#mapRightPanel .dashboard-title{
+	height : 28px;
+	padding: 6px;
+}
+
+div#mapLeftPanel{
+	height : 100%;
+	float: left;
+}
+
+div#mapRightPanel{
+	float : right;
+}
+
+.yesMapNavi{
+	position: absolute;
+	right : 12px;
+	color: white;
+	margin-top: 5px;
+	/* visibility: hidden; */
+	display : none;
+	user-select: none;
+}
+
+.mapNavi{
+	cursor:pointer;
+	color: #ffffff;
+}
+
+.mapNavi.selectNavi{
+	cursor: default;
+	color: #00ffff;
+}
+
+/*
+ *Map Editor Toolbar Start 
+ */
+.mapEditor div#sidebar{
+	width: 35px;
+	height : 300px; 
+	float : left;
+	z-index: 99;
+}
+
+.mapEditor .ui-widget-content{
+	border: 1px solid rgba(255,255,255,0) !important;
+}
+
+.mapEditor .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-group{
+	background-color: rgba(10, 10, 10, 1);
+    height: 15px;
+}
+
+.mapEditor .w2ui-sidebar .w2ui-sidebar-div{
+	background-color: rgba(42, 42, 42, 0.77);
+}
+
+.mapEditor .w2ui-node-data{
+	cursor:pointer;
+}
+
+.mapEditor .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-group{
+	padding : 0 !important;
+}
+
+/*
+ *Map Editor Toolbar End 
+ */
+ 
+ /* Map Asset Area Start*/
+ .useAsset.w2ui-node-caption{
+ 	color : #ff0000 !important;
+ }
+ 
+ div#mapAssetList, div#propsInfo, div#alignsBox {
+ 	z-index : 999;
+ 	display: none;
+ }
+ 
+ div#mapAssetTitleArea, div#propsTitleArea, div#alignsTitleArea {
+ 	font-size : 12px;
+ 	height : 30px;
+ 	border-radius : 5px 5px 0 0;
+ 	background-color: rgba(10, 10, 10, 1);
+ 	border-top-color: rgba(255, 255, 255, 0.3);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgba(255, 255, 255, 0.3);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgba(255, 255, 255, 0.3);
+    border-left-style: solid;
+    border-left-width: 1px;
+    user-select: none;
+ }
+ 
+ div.mapTitleArea{
+ 	float: left;
+ 	color : #fff;
+ 	padding: 7px 0 0 8px;
+ 	user-select: none;
+ }
+ 
+ div.mapCloseArea{
+ 	float: right;
+ 	padding: 8px 5px 0 0;
+ }
+ 
+ div#propsInfoContents{
+    background-color: rgba(33, 36, 41, 0.8);
+    border: 1.3px solid rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  svg.mapAlign{
+   	cursor: pointer;
+   	color: white;
+	opacity: .5;
+	margin-right: 5px;
+  }
+  
+   svg.mapAlign:hover{
+	opacity: 1;
+	margin-right: 5px;
+  }
+  
+  .partitionCls{
+  	color: white;
+  	margin-right: 5px;
+  }
+  
+  div#alignsBox{
+    background-color: rgba(33, 36, 41, 0.8);
+    width : 165px;
+  }
+  
+  div#alignsBoxContents{
+  	clear: both;
+    position: relative;
+    top: 4px;
+    left: -1px;
+    width: 165px;
+    height: 32px;
+    padding: 5px 0px 5px 5px;
+    border: 1.3px solid rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(33, 36, 41, 0.8);
+  }
+  
+ .mapEditor svg.fa-times{
+ 	color : #fff;
+ 	opacity : 0.5;
+ }
+ 
+ .mapEditor svg.fa-times:hover{
+ 	opacity : 1;
+ }
+ 
+div#mapAssetContents{
+	border-radius: 0 0 3px 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2)
+}
+ 
+ div#mapAssetContents .w2ui-node-group{
+ 	display: none;
+ }
+ 
+ /* Map Asset Area End*/
+ 
+ svg .yesMap{
+ 	width : 100%;
+	height : 100%;
+ }
+ /* 심볼 이미지 */
+svg .severity-bg{
+ 	mix-blend-mode: overlay;
+ 	opacity:0.8;
+ }
+ 
+ /* 심볼 그룹 */
+ svg .yes-symbol{
+ 	cursor:pointer;
+ 	outline: none;
+ }
+ 
+ svg .symbol-text{
+ 	font-size: 12px;
+ 	text-anchor : middle;
+ }
+ 
+ svg .severity-border{
+ 	opacity : 0;
+ }
+ 
+ svg .severity-border-hover{
+ 	opacity : 1;
+ }
+ 
+ svg .severity-border-select{
+ 	opacity : 1 !important;
+ }
+ 
+ svg text {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+svg text::selection {
+    background: none;
+}
+ 
+ svg .severity-critical{
+  	-moz-animation: criticalAny 1.2s ease infinite;
+    -webkit-animation: criticalAny 1.2s ease infinite;
+ }
+ 
+ @-webkit-keyframes criticalAny{
+ 	0% {
+ 		opacity: 1;
+ 	}
+ 	
+ 	50% {
+ 		opacity: 0.1;
+ 	}
+ 	
+ 	100% {
+ 		opacity: 1;
+ 	}
+ }
+ 
+ 
+  @-moz-keyframes criticalAny{
+ 	0% {
+ 		opacity: 1;
+ 	}
+ 	
+ 	50% {
+ 		opacity: 0.1;
+ 	}
+ 	
+ 	100% {
+ 		opacity: 1;
+ 	}
+ }
+ 
+ /* W2UI **/
+ 
+.mapEditor .w2ui-field > label {
+     width: 105px !important;
+}
+
+.mapEditor input#changeName{
+	margin: 0 0 0 -17px !important;
+}

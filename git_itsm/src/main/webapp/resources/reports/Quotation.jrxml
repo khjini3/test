@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Quotation" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="af69b473-2556-4a3c-b320-a0a03e8cd60c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.docx.flexible.row.height" value="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="4235c8be-4aeb-4f22-91bc-015a8b1b5d2b">
+		<field name="note" class="java.lang.String"/>
+		<field name="siteName" class="java.lang.String"/>
+		<field name="registrationDate" class="java.lang.String"/>
+		<field name="codeName" class="java.lang.String"/>
+		<field name="userName" class="java.lang.String"/>
+		<field name="companyNumber" class="java.lang.String"/>
+		<field name="address" class="java.lang.String"/>
+		<field name="mainPhone" class="java.lang.String"/>
+		<field name="fax" class="java.lang.String"/>
+		<field name="ceoName" class="java.lang.String"/>
+		<field name="productName" class="java.lang.String"/>
+		<field name="spec" class="java.lang.String"/>
+		<field name="quantity" class="java.lang.String"/>
+		<field name="uPrice" class="java.lang.String"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="payment" class="java.lang.String"/>
+		<field name="warranty" class="java.lang.String"/>
+	</subDataset>
+	<field name="note" class="java.lang.String"/>
+	<field name="siteName" class="java.lang.String"/>
+	<field name="registrationDate" class="java.lang.String"/>
+	<field name="codeName" class="java.lang.String"/>
+	<field name="userName" class="java.lang.String"/>
+	<field name="companyNumber" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="mainPhone" class="java.lang.String"/>
+	<field name="fax" class="java.lang.String"/>
+	<field name="ceoName" class="java.lang.String"/>
+	<field name="productName" class="java.lang.String"/>
+	<field name="spec" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.String"/>
+	<field name="uPrice" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Integer"/>
+	<field name="payment" class="java.lang.String"/>
+	<field name="warranty" class="java.lang.String"/>
+	<variable name="TOTAL" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="302">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="78" width="100" height="30" backcolor="#CCFFCC" uuid="5e2ed292-b666-4d4b-b12f-245a1987b735"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[주문처]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="108" width="100" height="30" backcolor="#CCFFCC" uuid="aa4e5ba2-1e13-4332-93d0-deeb73e4e3ad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[견적일자]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="138" width="100" height="30" backcolor="#CCFFCC" uuid="4b275ed9-f8e8-423b-b128-50973be803ba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[유효기간]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="168" width="100" height="30" backcolor="#CCFFCC" uuid="ba41d83b-5059-4561-822d-0cc7ed66bde7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[담당자]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="260" y="78" width="100" height="30" backcolor="#CCFFCC" uuid="180da93f-f725-4a8c-96bd-b4cfd2433f38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[사업자등록번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="260" y="108" width="100" height="30" backcolor="#CCFFCC" uuid="0032e071-87a1-4530-8960-5120f068430c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[상호및대표이사]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="260" y="138" width="100" height="60" backcolor="#CCFFCC" uuid="5c035e67-d3c6-4fd6-9a2b-7bf67816e5a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[사업장
+소재지]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="27" width="226" height="42" uuid="9e15ab2b-dc70-4ceb-8c1f-18290f614c81"/>
+				<textElement textAlignment="Center">
+					<font fontName="HY견고딕" size="28" isUnderline="true" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[QUOTATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="210" width="304" height="48" uuid="49ae8979-a1ed-45da-a5a2-7a4d8f947038"/>
+				<textElement textAlignment="Center">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[다음과 같이 견적합니다.
+In compliance with your inquiry, we hereby
+submit our quotation as mentioned hereunder]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="262" width="100" height="20" uuid="f9c15f39-0d0f-4bcb-b14d-d06505aee169"/>
+				<textElement>
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[■ L2 Switch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" mode="Opaque" x="480" y="282" width="80" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="b3de5f3d-e238-4f0d-90db-1968ff777e9b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" mode="Opaque" x="330" y="282" width="70" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="66fd4a9e-da95-431d-ad20-1b646d6e8968"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" mode="Opaque" x="400" y="282" width="80" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="f9a6b992-8da2-44e9-8cbc-f156f6a9a024"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[U/Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" mode="Opaque" x="40" y="282" width="80" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="2b3ef771-395d-4be5-becc-beae93ace09e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Model Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" mode="Opaque" x="10" y="282" width="30" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="26d27dc0-5268-4713-ba91-61f8c2fcfad5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" mode="Opaque" x="120" y="282" width="210" height="20" forecolor="#000000" backcolor="#CCFFCC" uuid="b3e0c0a5-1e06-4686-86ce-5f49ab899cc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Specifications]]></text>
+			</staticText>
+			<image>
+				<reportElement x="19" y="35" width="101" height="30" uuid="091c7363-6d40-406c-b25c-e3dbf9fb8aec"/>
+				<imageExpression><![CDATA["src/main/webapp/resources/reports/img/Report_02_05.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="table" x="110" y="78" width="150" height="30" uuid="5ba09455-b5c8-444c-b972-01a28d61a953"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{siteName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="110" y="108" width="150" height="30" uuid="0157294c-39e4-4cd8-8cdf-caaa548a66e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registrationDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="110" y="138" width="150" height="30" uuid="43fa9de6-bb96-48a2-867a-1007a0c3194d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="110" y="168" width="150" height="30" uuid="889da75b-5c00-4752-891e-33f4988778f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="360" y="78" width="201" height="30" uuid="722a5a2d-a6d5-4b85-9f4d-19c4e8a880b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="360" y="108" width="201" height="30" uuid="f82184e8-707b-4e46-897b-17431434a20e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ceoName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="138" width="201" height="20" uuid="26aebdb9-9b91-48a1-8c04-55fdc6cc9092"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="158" width="201" height="20" uuid="f854e73a-d4aa-4936-a116-2da6b5fd3b2b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mainPhone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="178" width="201" height="20" uuid="178f2b98-b5d0-4d5e-8cdd-2dbe6c7ed3d8"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fax}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="40" y="0" width="80" height="20" uuid="7338fd36-35ce-4b48-8ed7-525d71a3d1ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="120" y="0" width="210" height="20" uuid="7e9b9ab3-b9a1-46a4-a7e8-cafcbd36f2f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="330" y="0" width="70" height="20" uuid="c34bede1-09d3-4bad-b583-4bdbad8015b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="400" y="0" width="80" height="20" uuid="69bfe37d-b6b8-4cfa-9909-1a8fe3172e45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{uPrice}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="480" y="0" width="80" height="20" uuid="3285d916-daa4-4942-b78f-8870e79fe07b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="10" y="0" width="30" height="20" uuid="b6cbd131-1dcb-4f30-9718-9ce182253957"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="226" splitType="Prevent">
+			<staticText>
+				<reportElement style="table_TH" x="10" y="57" width="100" height="20" backcolor="#CCFFCC" uuid="a88dfde0-5ac8-4cbf-aae0-d5dfd93bcfd6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 보증기간]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="77" width="100" height="20" backcolor="#CCFFCC" uuid="16daa09d-8e10-4adf-a699-73869d0d2de8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 대금지불 조건]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="97" width="100" height="20" backcolor="#CCFFCC" uuid="7d4ea620-8dd0-4ebf-b0d9-2732d2b60965"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 견적 유효 기간]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="10" y="117" width="100" height="20" backcolor="#CCFFCC" uuid="776f635b-6f50-4748-9e95-533946b8d027"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="HY견고딕" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 비고]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="10" y="0" width="470" height="20" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#CCFFCC" uuid="e2196c1a-dcbf-4f26-a939-23ff51dd0fc7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="HY견고딕" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<image>
+				<reportElement x="438" y="157" width="122" height="40" uuid="cee4763c-4634-4a7c-a26d-8b12f8be0a42"/>
+				<imageExpression><![CDATA["src/main/webapp/resources/reports/img/Report_02_03.JPG"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="table_TD" x="110" y="117" width="450" height="20" uuid="2cf43e4d-b4f8-469b-b53f-3bf088fb8e46"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{note}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="110" y="97" width="450" height="20" uuid="70d9969b-ac11-465a-aa21-61a3ecd11064"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="110" y="77" width="450" height="20" uuid="b4749332-8073-4188-9b85-556de73b3c27"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="110" y="57" width="450" height="20" uuid="35f47b2e-5ff0-4136-a224-41617af4459f"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{warranty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="480" y="0" width="80" height="20" uuid="dcc04e47-aac2-43e1-b549-bcd2b7cbdede"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="HYGoThic-Medium" pdfEncoding="UniKS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

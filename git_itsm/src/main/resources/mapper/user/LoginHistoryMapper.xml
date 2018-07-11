@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.loginhistory.LoginHistoryMapper">
+	
+	<sql id="Column_List">
+		sessionId,tomcatSession,id,loginId,privilege,ipAddress,loginTime,lastCheckTime,logoutTime,lloc,result,failReason,logoutReason,tomcatIp,sessionType
+	</sql>
+
+	<insert id="insertLoginHistory" parameterType="com.yescnc.core.entity.db.LoginHistoryVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_login_history
+		</selectKey>
+		
+		INSERT INTO davis_login_history
+		(`id`,`sessionId`,`tomcatSession`,`loginId`,`privilege`,`ipAddress`,`loginTime`,`lastCheckTime`,`logoutTime`,`lloc`,`result`,`failReason`,`logoutReason`)
+		VALUES
+		(
+			#{max_id},
+			<if test="sessionId != null">
+				#{sessionId},
+			</if>
+			<if test="sessionId == null">
+				-1,
+			</if>			
+			#{tomcatSession},
+			#{loginId},
+			#{privilege},
+			#{ipAddress},
+			#{loginTime},
+			#{lastCheckTime},
+			#{logoutTime},
+			#{lloc},
+			#{result},
+			#{failReason},
+			#{logoutReason}
+		)
+	</insert>
+	
+	<update id="updateByLoginHistoryId" parameterType="com.yescnc.core.entity.db.LoginHistoryVO">
+		UPDATE davis_login_history
+		SET
+			`loginId` = #{loginId},
+			`ipAddress` = #{ipAddress},
+			`loginTime` = #{loginTime},
+			`logoutTime` = #{logoutTime},
+			`result` = #{result},
+			`failReason` = #{failReason},
+			`logoutReason` = #{logoutReason}
+		WHERE `loginId` = #{loginId}
+	</update>
+	
+	<select id="selectLoginHistory" parameterType="com.yescnc.core.entity.db.LoginHistoryVO" 
+	resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_login_history
+		<if test="loginId != null">
+			where loginId = #{loginId}
+		</if>
+	</select>
+	
+	<select id="selectLoginHistoryForlogin" parameterType="com.yescnc.core.entity.db.LoginHistoryVO" 
+	resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_login_history
+		<if test="loginId != null">
+			where loginId = #{loginId} and logoutTime='1900-01-01 00:00:00'
+		</if>
+	</select>
+	
+	<select id="selectLoginHistoryList" resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_login_history order by loginTime desc
+	</select>
+	
+	<delete id="deleteByLoginHistoryId" parameterType="com.yescnc.core.entity.db.LoginHistoryVO">
+		delete from davis_login_history
+		<if test="id != null">
+			where id = #{id}
+		</if>
+	</delete>
+	
+	<select id="searchLoginHistoryList" parameterType="com.yescnc.core.entity.db.LoginHistoryVO" 
+	resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select <!-- SQL_CALC_FOUND_ROWS -->
+			<include refid="Column_List" />
+		from davis_login_history
+		<choose>
+			<when test="loginId != '' and loginTime == '' and logoutTime == ''">
+				where loginId like CONCAT('%',#{loginId},'%') order by loginTime desc
+			</when>
+			<when test="loginId == '' and loginTime != '' and logoutTime != ''">
+				where loginTime between #{loginTime} and #{logoutTime} order by loginTime desc
+			</when>
+			<when test="loginId != '' and loginTime != '' and logoutTime != ''">
+				where loginId like CONCAT('%',#{loginId},'%') and loginTime between #{loginTime} and #{logoutTime} order by loginTime desc
+			</when>			
+		</choose>
+	</select>
+	
+	<select id="searchLoginHistoryListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select> 
+		
+	<select id="loginHistoryList" resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select
+			<include refid="Column_List" />
+		from davis_login_history where loginTime between #{loginTime} and #{logoutTime} order by loginTime desc
+	</select>
+	
+	<select id="loginHistoryLimitList" parameterType="com.yescnc.core.entity.db.LoginHistoryVO" 
+	resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid, sessionId,tomcatSession,id,loginId,privilege,ipAddress,loginTime,lastCheckTime,logoutTime,lloc,result,failReason,logoutReason,tomcatIp,sessionType
+		from davis_login_history ,(SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<choose>
+			<when test="loginId == '' or loginId == null and loginTime == '' or loginTime == null and logoutTime == '' or logoutTime == null">
+				order by loginTime desc limit #{startRow},#{endRow}
+			</when>
+			<when test="loginId != '' and loginTime == '' and logoutTime == ''">
+				where loginId=#{loginId} order by loginTime desc limit #{startRow},#{endRow}
+				<!-- where loginId like CONCAT('%',#{loginId},'%') order by loginTime desc limit #{startRow},#{endRow} -->
+			</when>
+			<when test="loginId == '' or loginId == null or loginId == 'All' and loginTime != '' and logoutTime != ''">
+				where loginTime between #{loginTime} and #{logoutTime} order by loginTime desc limit #{startRow},#{endRow}
+			</when>
+			<when test="loginId != '' and loginTime != '' and logoutTime != ''">
+				where loginId=#{loginId} and loginTime between #{loginTime} and #{logoutTime} order by loginTime desc limit #{startRow},#{endRow}
+				<!-- where loginId like CONCAT('%',#{loginId},'%') and loginTime between #{loginTime} and #{logoutTime} order by loginTime desc limit #{startRow},#{endRow} -->
+			</when>			
+		</choose>
+	</select>
+	
+	<select id="checkLoginSession" parameterType="com.yescnc.core.entity.db.LoginHistoryVO" 
+	resultType="com.yescnc.core.entity.db.LoginHistoryVO">
+		select
+			sessionId,tomcatSession,loginId
+		from davis_login_history
+			where logoutTime='1900-01-01 00:00:00'
+	</select>				
+</mapper>

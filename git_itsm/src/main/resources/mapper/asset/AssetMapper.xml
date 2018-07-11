@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.yescnc.project.itsm.db.asset.AssetMapper"> 
+     
+     <select id="getModelList" parameterType="com.yescnc.project.itsm.entity.db.AssetVO" resultType="com.yescnc.project.itsm.entity.db.AssetVO">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 recid,
+			asset.asset_id, 
+			asset.asset_name, 
+			asset.product_model, 
+			asset.serial_number, 
+			asset.status, 
+			asset.site_id, 
+            asset.project_id, 
+            asset.product_id, 
+			asset.receipt_date, 
+			asset.release_date, 
+			project.project_name, 
+			product.product_type
+		from 
+			davis_itsm.davis_asset AS asset left JOIN davis_itsm.itsm_project_info AS project ON asset.project_id = project.project_id 
+			left join davis_itsm.itsm_product_info AS product On asset.product_id = product.product_id
+		    ,(SELECT @ROWNUM:=0 ROWNUM) recid
+	</select>
+	
+	<select id="selectModelList" parameterType="com.yescnc.project.itsm.entity.db.AssetVO" resultType="com.yescnc.project.itsm.entity.db.AssetVO">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 recid,
+			asset.asset_id, 
+			asset.asset_name, 
+			asset.product_model, 
+			asset.serial_number, 
+			asset.status, 
+			asset.site_id, 
+            asset.project_id, 
+            asset.product_id, 
+			asset.receipt_date, 
+			asset.release_date, 
+			project.project_name, 
+			product.product_type
+		from 
+			davis_itsm.davis_asset AS asset left JOIN davis_itsm.itsm_project_info AS project ON asset.project_id = project.project_id 
+			left join davis_itsm.itsm_product_info AS product On asset.product_id = product.product_id
+		    ,(SELECT @ROWNUM:=0 ROWNUM) recid
+		    		
+		<foreach item="item" index="index" collection="modelList" open="where (" separator=" or" close=")">
+			asset.site_id=#{item}
+		</foreach>
+	</select>
+	
+	<insert id="csvAsset" parameterType="java.util.HashMap" > <!-- csvAsset -->
+		INSERT INTO davis_asset (asset_id, asset_name, product_model, serial_number, status, receipt_date, release_date, site_id, product_id, project_id)
+		VALUES (
+			#{asset_id}, 
+			#{asset_name}, 
+			#{product_model},
+			#{serial_number},
+			#{status},
+			#{receipt_date},
+			#{release_date},
+			#{site_id},
+			#{product_id},
+			#{project_id}
+		)
+		
+	</insert>
+	
+	<select id="updateAsset" parameterType="java.util.HashMap">
+		UPDATE davis_asset SET  ASSET_NAME = #{assetName}, PRODUCT_MODEL = #{productModel}, SERIAL_NUMBER = #{serialNumber},
+		RECEIPT_DATE = #{receiptDate}, RELEASE_DATE = #{releaseDate}
+		WHERE ASSET_ID = #{assetId}
+	</select>
+	
+	<select id="searchAsset" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+     SELECT 
+			@ROWNUM := @ROWNUM + 1 recid,
+			asset.asset_id, 
+			asset.asset_name, 
+			asset.product_model, 
+			asset.serial_number, 
+			asset.status, 
+			asset.site_id, 
+            asset.project_id, 
+            asset.product_id, 
+			asset.receipt_date, 
+			asset.release_date, 
+			project.project_name, 
+			product.product_type
+		from 
+			davis_itsm.davis_asset AS asset 
+			left JOIN davis_itsm.itsm_project_info AS project ON asset.project_id = project.project_id 
+			left join davis_itsm.itsm_product_info AS product On asset.product_id = product.product_id
+		    ,(SELECT @ROWNUM:=0 ROWNUM) recid
+     
+     	<where>
+     		<if test="searchType == 1"><!-- 일간 -->
+     			AND date_format(asset.receipt_date, '%Y-%m-%d') = #{searchDayMonth}
+     		</if>	
+     		
+     		<if test="searchType == 2"><!-- 월간 -->
+     			AND date_format(asset.receipt_date, '%Y-%m') = #{searchDayMonth}
+     		</if>
+     		
+     		<if test="searchType == 3"><!-- 기간 -->
+     			AND date_format(asset.receipt_date, '%Y-%m-%d') BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d')
+     		</if>
+     		     		
+     		<if test="searchModel != null"><!-- searchModel -->
+     			AND asset.product_model like CONCAT('%',#{searchModel},'%')
+     		</if>
+     		
+     		<if test="searchProject != null"><!-- searchProject -->
+     			AND project.project_name like CONCAT('%',#{searchProject},'%')
+     		</if>
+     		
+     		<if test="searchSerialNumber != null"><!-- searchSerialNumber -->
+     			AND asset.serial_number like CONCAT('%',#{searchSerialNumber},'%')
+     		</if>
+     		
+     		<if test="searchModelType != null"><!-- searchModelType -->
+     			AND product.product_type like CONCAT('%',#{searchModelType},'%')
+     		</if>
+     		
+     	</where>
+    </select>
+     
+</mapper>

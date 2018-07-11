@@ -1,0 +1,29 @@
+/* --- session grid button group --- */
+.loginhistory-total-container { display: block; width: 100%; height: 100%; padding: 12px; overflow: auto; }
+.loginhistory-module-container { height: calc(100% - 20px); position: relative; border: 1px solid #dfdfdf; margin: 1px; }
+.loginhistory-header-button-area { height: 40px; border-bottom: 2px solid #dfdfdf; margin: 5px; }
+.loginhistory-header-button-area .session-header-title { padding: 6px 0 0 5px; }
+.loginhistory-header-button-area .loginhistory-button-area { position: absolute; width: calc(100% - 10px); height: 38px; top: 7px; /*left: calc(100% - 405px);*/ }
+.loginhistory-button-group { float: right; } 
+.loginhistory-search-field-area { width: 140px; height: 34px; display: inline-block; }
+.login-input-search { height: 30px; }
+.loginhistory-search-button-area { width: 60px; height: 34px; display: inline-block; }
+.loginhistory-select-area { width: 140px; height: 34px; display: inline-block; }
+.login-from-select { height: 30px; }
+.select-from-to-hyphen { width: 10px; display: inline-block; }
+.login-to-select { height: 30px; }
+.loginhistory-search-btn { height: 30px; }
+/* --- session grid table --- */
+.login-history-content-container { height: calc(100% - 60px); margin: 0 5px 0 5px; }
+.ui-widget-content { width: calc(100% - 16px); }
+.ui-jqgrid-hdiv { border: 1px solid #dfdfdf; }
+
+.ui-jqgrid-btable { width: calc(100% - 16px); }
+.ui-row-ltr { height: 34px; border-left: 1px solid #dfdfdf; border-right: 1px solid #dfdfdf; border-bottom: 1px solid #dfdfdf; }
+/*.w2ui-popup-title .w2ui-popup-close { display: none; }*/
+.w2ui-popup-title .w2ui-popup-max { display: none; }
+
+.form-control { width: 300px; float: right; }
+label { width: 110px; }
+.loginhistory-select { width: 55px; height: 28px; }
+.ui-dialog-titlebar-close { display: none; }

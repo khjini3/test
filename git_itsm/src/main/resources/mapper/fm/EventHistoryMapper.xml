@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.eventhistory.EventHistoryMapper">
+	
+	<sql id="Column_List">
+		seq_no,ne_type,ne_version,msg_name,level1_id,level2_id,level3_id,level4_id,level5_id,level6_id,level7_id,level8_id,level9_id,level10_id,
+		lloc,location_alias,event_type,display_type,alarm_time,severity,service_affect,alarm_group,alarm_id,probcause_int,probcause_str,additional_text,
+		reserve_int,reserve_str,operator_info,gen_count,clear_type,ack_type,ack_user,ack_time,clear_user,clear_time,cleared_by_seq_no,service_status,
+		sys_type,band_class,ne_id,alarm_position,alarm_id_position,ack_system,clear_system,tech_info
+	</sql>	
+	
+	<select id="eventHistoryLimitList" parameterType="com.yescnc.core.entity.db.EventHistoryVO" 
+	resultType="com.yescnc.core.entity.db.EventHistoryVO">
+	 
+		select SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid, seq_no,ne_type,ne_version,msg_name,level1_id,level2_id,level3_id,level4_id,level5_id,level6_id,level7_id,level8_id,level9_id,level10_id,
+			lloc,location_alias,event_type,display_type,alarm_time,severity,service_affect,alarm_group,alarm_id,probcause_int,probcause_str,additional_text,
+			reserve_int,reserve_str,operator_info,gen_count,clear_type,ack_type,ack_user,ack_time,clear_user,clear_time,cleared_by_seq_no,service_status,
+			sys_type,band_class,ne_id,alarm_position,alarm_id_position,ack_system,clear_system,tech_info
+		from (SELECT @ROWNUM:=#{startRow} ROWNUM) recid,
+		
+		(select * from davis_fm_t_hist
+		<choose>
+			<when test="event_type == 0">
+				where alarm_time between #{ack_time} and #{clear_time} 
+			</when>
+			<when test="event_type == 1 and severity != 0">
+				where event_type = #{event_type} and severity = #{severity} and alarm_time between #{ack_time} and #{clear_time} 
+			</when>
+			<when test="event_type >= 1 and severity == 0">
+				where event_type = #{event_type} and alarm_time between #{ack_time} and #{clear_time}
+			</when>												
+		</choose>
+		
+		UNION ALL
+		
+		select * from davis_fm_t_cur_alarms
+		<choose>
+			<when test="event_type == 0">
+				where alarm_time between #{ack_time} and #{clear_time}
+			</when>
+			<when test="event_type == 1 and severity != 0">
+				where event_type = #{event_type} and severity = #{severity} and alarm_time between #{ack_time} and #{clear_time}
+			</when>
+			<when test="event_type >= 1 and severity == 0">
+				where event_type = #{event_type} and alarm_time between #{ack_time} and #{clear_time}
+			</when>												
+		</choose>) a
+		order by alarm_time desc limit #{startRow},#{endRow}
+		
+	</select>
+	
+	<select id="eventHistoryListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>	
+	
+	<select id="searchEventTypeList" parameterType="com.yescnc.core.entity.db.EventHistoryVO" 
+	resultType="com.yescnc.core.entity.db.EventHistoryVO">
+		select *
+		from (select event_type from davis_fm_t_hist where alarm_time between #{ack_time} and #{clear_time} order by event_type desc) as a group by event_type
+	</select>	
+		
+	<update id="updateEventHistory" parameterType="com.yescnc.core.entity.db.EventHistoryVO">
+		UPDATE davis_fm_t_hist
+		<set>
+			<if test="ne_type != null">`ne_type` = #{ne_type}</if>
+			<if test="ne_version != null">,`ne_version` = #{ne_version}</if>
+			<if test="level1_id != null">,`level1_id` = #{level1_id}</if>				
+			<if test="level2_id != null">,`level2_id` = #{level2_id}</if>
+			<if test="level3_id != null">,`level3_id` = #{level3_id}</if>
+			<if test="level4_id != null">,`level4_id` = #{level4_id}</if>
+			<if test="level5_id != null">,`level5_id` = #{level5_id}</if>
+			<if test="level6_id != null">,`level6_id` = #{level6_id}</if>
+			<if test="level7_id != null">,`level7_id` = #{level7_id}</if>
+			<if test="level8_id != null">,`level8_id` = #{level8_id}</if>
+			<if test="level9_id != null">,`level9_id` = #{level9_id}</if>
+			<if test="level10_id != null">,`level10_id` = #{level10_id}</if>
+			<if test="lloc != null">,`lloc` = #{lloc}</if>
+			<if test="location_alias != null">,`location_alias` = #{location_alias}</if>
+			<if test="event_type != null">,`event_type` = #{event_type}</if>				
+			<if test="display_type != null">,`display_type` = #{display_type}</if>
+			<if test="alarm_time != null">,`alarm_time` = #{alarm_time}</if>
+			<if test="severity != null">,`severity` = #{severity}</if>
+			<if test="alarm_group != null">,`alarm_group` = #{alarm_group}</if>
+			<if test="alarm_id != null">,`alarm_id` = #{alarm_id}</if>
+			<if test="probcause_int != null">,`probcause_int` = #{probcause_int}</if>
+			<if test="probcause_str != null">,`probcause_str` = #{probcause_str}</if>
+			<if test="ack_type != null">,`ack_type` = #{ack_type}</if>
+			<if test="ack_user != null">,`ack_user` = #{ack_user}</if>
+			<if test="ack_time != null">,`ack_time` = #{ack_time}</if>
+			<if test="clear_user != null">,`clear_user` = #{clear_user}</if>
+			<if test="clear_time != null">,`clear_time` = #{clear_time}</if>
+			<if test="cleared_by_seq_no != null">,`cleared_by_seq_no` = #{cleared_by_seq_no}</if>
+			<if test="service_status != null">,`service_status` = #{service_status}</if>
+			<if test="sys_type != null">,`sys_type` = #{sys_type}</if>
+			<if test="band_class != null">,`band_class` = #{band_class}</if>
+			<if test="ne_id != null">,`ne_id` = #{ne_id}</if>				
+			<if test="alarm_position != null">,`alarm_position` = #{alarm_position}</if>
+			<if test="alarm_id_position != null">,`alarm_id_position` = #{alarm_id_position}</if>
+			<if test="ack_system != null">,`ack_system` = #{ack_system}</if>
+			<if test="clear_system != null">,`clear_system` = #{clear_system}</if>
+			<if test="tech_info != null">,`tech_info` = #{tech_info}</if>		
+		</set>
+		WHERE `seq_no` = #{seq_no}
+	</update>	
+	
+	<update id="changeAckType" parameterType="java.util.HashMap">
+		UPDATE ${tableName} SET
+			ack_type = #{ack_type},
+			ack_user = #{ack_user}, 
+			<if test="ack_type == 1">     <!-- Unack -->
+				ack_time = null			
+			</if>
+			<if test="ack_type == 2">     <!-- Ack -->
+				ack_time = now()
+			</if>
+		WHERE seq_no in
+		<foreach item="item" collection="seq_no" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>	
+			
+</mapper>

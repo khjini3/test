@@ -1,0 +1,436 @@
+.content .wrap .content-area .widget-controll {
+	width: 100%;
+	height: 20px;
+	padding: 10px 10px 0 10px;
+}
+
+.content .wrap .content-area .widget-controll #dashSelBox {
+	height: 20px;
+	-ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+	float: left;
+}
+.content .wrap .content-area .widget-controll .widget-cont-element { float: left; }
+.content .wrap .content-area .widget-controll input,
+.content .wrap .content-area .widget-controll select {
+	width: 140px;
+	height: 22px;
+}
+
+.content .wrap .content-area .widget-controll .widget-cont-btn {
+	width: 23px;
+	height: 23px;
+   	cursor: pointer;
+}
+
+.content .wrap .content-area .widget-controll .widget-cont-element {
+	margin-right: 5px;
+	margin-bottom: 3px;
+}
+
+#addPanel-popup li:not(.jqtree_common){
+	height: 30px;
+	width: 100%;
+}
+#addPanel-popup li:not(.report-week-div):not(.jqtree_common)>div{
+	float: left;
+	padding-right: 15px;
+    padding-left: 15px;
+} 
+/* 
+.content .wrap .content-area .widget-controll #save-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -27px 1px;
+}
+
+.content .wrap .content-area .widget-controll #canc-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -55px 1px;
+}
+
+.content .wrap .content-area .widget-controll #del-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -252px 1px;
+}
+
+.content .wrap .content-area .widget-controll #edit-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat 0px 1px;
+}
+
+.content .wrap .content-area .widget-controll #add-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -84px 1px;
+}
+ */
+/* 
+.content .wrap .content-area .widget-controll #fs-start-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -140px 1px;
+}
+ */
+.content .wrap .content-area .widget-controll .fs-start-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -140px 1px;
+} 
+.content .wrap .content-area .widget-controll .fs-stop-btn {
+	background: url(../../img/menu/icon_set.png) no-repeat -168px 1px;
+} 
+/*  
+.content .wrap .content-area .widget-controll #edit-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat 0px -24px;
+}
+
+.content .wrap .content-area .widget-controll #save-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -27px -24px;
+}
+
+.content .wrap .content-area .widget-controll #canc-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -55px -24px;
+}
+
+.content .wrap .content-area .widget-controll #del-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -252px -24px;
+}
+
+.content .wrap .content-area .widget-controll #add-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -84px -24px;
+}
+ */
+/* 
+.content .wrap .content-area .widget-controll #fs-start-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -140px -24px;
+}
+ */
+ 
+.content .wrap .content-area .widget-controll .fs-start-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -140px -24px;
+}
+.content .wrap .content-area .widget-controll .fs-stop-btn:hover {
+	background: url(../../img/menu/icon_set.png) no-repeat -168px -24px;
+}
+
+ 
+.content .wrap .content-area .widget-controll #canc-btn,
+.content .wrap .content-area .widget-controll #panelName,
+.content .wrap .content-area .widget-controll #save-btn,
+.content .wrap .content-area .widget-controll #del-btn {
+	display: none;	
+}
+
+.content .wrap .content-area #dashPanelList {
+    top: 85px;
+    border: 2px solid #767676;
+    box-shadow: 0 5px 15px 2px rgba(0,0,0,.3);
+    position: fixed;
+    background-color: #fff;
+    z-index: 9999;
+    overflow-y: auto;
+    min-width: 250px;
+    display: none;
+    border-radius: 5px;
+    opacity: .9;
+}
+
+.content .wrap .content-area #currentPanelItem {
+	cursor: pointer;
+}
+
+.content .wrap .content-area #dashPanelList ul {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding : 0 0 0 0;
+}
+    
+.content .wrap .content-area #dashPanelList li {
+    font-weight: normal;
+    font-size: 13px;
+    cursor: pointer;
+    position: relative;
+    height: 35px;
+    box-sizing: border-box;
+}
+
+.content .wrap .content-area #currentPanelItem {
+	width: 140px;
+	margin-left: 5;
+	font-weight: bold;
+}
+
+.content .wrap .content-area .list-btn {
+	float: right;
+	margin-right: 10;
+	transform: rotate(180deg);
+	top: 2px;
+    position: relative;
+}
+
+.content .wrap .content-area #dashPanelList .panelItem > div {
+    height:24px; 
+    display:inline-block; 
+    margin-top: 10;
+    margin-left: 20;
+}
+
+.content .wrap .content-area #dashPanelList .panelItem {
+    background: url(../../img/dashboard/icon_bullet.png) no-repeat;
+    background-position-x: 2px;
+    background-position-y: 11px;
+}
+
+.content .wrap .content-area #dashPanelList .panelItem:hover {
+    background-color: #e5f8fd;
+}
+
+.content .wrap .content-area #widgetList {
+	top: 50px;
+	width: 200px;
+    height: 360px;
+    border: 2px solid #767676;
+    display: none;
+    position: fixed;
+    right: 0;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+.content .wrap .content-area #widgetList #widListHeader {
+	border-bottom: 1px solid #dfdfdf;
+	cursor: move;
+	width: 100%;
+    height: 30px;
+}
+
+.content .wrap .content-area #widgetList {
+	cursor: pointer;
+}
+
+.content .wrap .content-area #widgetList .listTitle {
+	font-weight: bold;
+}
+.content .wrap .content-area .gridster {
+	float: left;
+    display: inline-block;
+}
+
+.content .wrap .content-area #content { 
+	height: calc(100% - 40px); 
+	border: 1px solid #ddd; 
+	border-top: 0px;
+	width: calc(100% - 40px);
+	float: left; 
+}
+
+
+.content .wrap .content-area .widget-cont-element .validate-triangle, .content .wrap .content-area .widget-cont-element .yes-core-validate-tooltip {
+	z-index: 99;
+    position: absolute;
+}
+.content .wrap .content-area .widget-cont-element .validate-triangle {
+	top: 15px;
+	border-right: 10px solid transparent;
+    border-bottom: 10px solid red;
+    border-left: 10px solid transparent;
+}
+
+.content .wrap .content-area .widget-cont-element .yes-core-validate-tooltip {
+	top: 35px;
+	left: -10px;
+    width: 185px;
+}  
+
+.table-item {
+	/* background: url(../../img/kpi/icon_set_chart.png) no-repeat; */
+    background-position-x: 2px;
+    background-position-y: 1px;
+    width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+.pie-item {
+	/* background: url(../../img/kpi/icon_set_chart.png) no-repeat; */
+	background-position-x: -88px;
+	background-position-y: 1px;
+	width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+.bar-item {
+	/* background: url(../../img/kpi/icon_set_chart.png) no-repeat; */
+	background-position-x: -58px;
+    background-position-y: 1px;
+    width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+/* ============================================ */
+.stkbar-item {
+    width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+.stkarea-item {
+    width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+.stkline-item {
+    width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+/* ============================================ */
+.line-item {
+	/* background: url(../../img/kpi/icon_set_chart.png) no-repeat; */
+	background-position-x: -28px;
+	background-position-y: 1px;
+	width: 26px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+.video-item {
+	background: url(../../img/kpi/icon_set_chart.png) no-repeat;
+	background-position-x: -208px;
+	background-position-y: 1px;
+	width: 25px;
+    height: 25px;
+    float: left;
+}
+.custom-item {
+	/* background: url(../../img/kpi/icon_set_chart.png) no-repeat; */
+	background-position-x: -239px;
+	background-position-y: 1px;
+	width: 25px;
+    height: 25px;
+    float: left;
+    padding-top: 5px;
+}
+.chartItem:not(.jqtree-title) {
+	margin-left: 10;
+    top: 3px;
+    position: relative;
+}
+#customWidgetList > div, 
+#kpiWidgetList > div,
+#slaWidgetList > div {
+	height: 25px;
+	cursor: pointer;
+}
+
+.widget-buttons .tooltip .tooltip-inner {
+	background-color: #000;
+}
+.widget-buttons .tooltip.top .tooltip-arrow {
+	border-top-color: #000 !important;
+}
+
+#btnTop, #btnDown {
+	cursor: pointer;
+}
+
+/* #dashboard svg {
+	color: white;
+	opacity: .5;
+	width: 20px;
+    height: 20px;
+}
+
+#dashboard svg:hover {
+	opacity: 1;
+} */
+
+#dashboard .dash-svg-btn svg {
+	color: white;
+	opacity: .5;
+	width: 20px;
+    height: 20px;
+}
+
+#dashboard .dash-svg-btn svg:hover {
+	opacity: 1;
+}
+
+#dashboard-panel-name {
+	border: 1px solid #737478;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+#pollingBtn {	
+	background-color: #314368;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    color: white;
+    padding: 2px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 6px;
+    outline: 0;
+    cursor: pointer;
+}
+
+#pollingBtn:hover {	
+	background-color: #5b7bbd;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    color: white;
+    padding: 2px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 6px;
+}
+
+.w2ui-select[readonly] {background-color: rgba(55, 78, 124, 0.76) !important;}
+#Rolling {
+	text-align: left;
+    color: #ffffff;
+    border-radius: 6px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+    width: 67px;
+    margin-right: 40px;
+	padding: 0px 0px 0px 10px; 
+}
+#RollingRight {
+	float : right;
+}
+#dashboard .chart{
+	text-align: left;
+}
+
+/* SVG ICON */
+#dashboard svg.icon.link:hover {
+	opacity: 1;
+}
+
+#dashboard svg.link.icon{
+	cursor: pointer;
+}
+
+#dashboard svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-right: 8px;
+	padding-bottom: 3px; */
+}
+
+#playP, #stopP{
+	margin-bottom: 1px;
+    margin-left: 3px;
+}
+
+#dashboard #screenAtt {
+	margin-left : 50px;
+	color : white;
+}
+
+#dashboard #currentPanelItem {
+	border: 1px solid #737478;
+	padding-left: 5px;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.assetHistory.AssetHistoryMapper">
+	<insert id="insertHistory" parameterType="java.util.HashMap" >
+		insert into davis_asset_history (
+			userId
+			,ip_address
+			,cnt
+			,history_text
+			,asset_list
+			,cTime
+			,status
+		)
+		values(
+		#{userId},
+		#{ip},
+		#{changeCnt},
+		#{historyText},
+		#{assetList},
+		#{cTime},
+		#{status}
+		)
+	</insert>
+	<select id="searchHistory" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid
+			,sequence_id
+			,userId
+			,ip_address
+			,cnt
+			,history_text
+			,asset_list
+			,date_format(cTime, '%Y-%m-%d %H:%i:%S') date
+			,status
+		FROM
+			DAVIS_ASSET_HISTORY, (SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<where> 
+			<if test="historyType != 'All'">
+				AND status = #{historyType}
+			</if>
+			<if test="userId != 'All'">
+				AND userId IN
+				<foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+		       		#{item}
+				</foreach>
+			</if>
+			<if test="searchType == 1"> <!-- 일간 -->
+				<!-- AND date_format(cTime, '%Y-%m-%d') <![CDATA[ <= ]]> #{searchDayMonth} -->
+				AND date_format(cTime, '%Y-%m-%d') = #{searchDayMonth}
+			</if>
+			<if test="searchType == 2"> <!-- 월간 -->
+				AND date_format(cTime, '%Y-%m') = #{searchDayMonth}
+			</if>
+			<if test="searchType == 3"> <!-- 기간 -->
+				AND date_format(cTime, '%Y-%m-%d') BETWEEN date_format(#{searchFromPeriod}, '%Y-%m-%d') AND date_format(#{searchToPeriod}, '%Y-%m-%d')
+			</if>
+		</where>
+		ORDER BY sequence_id DESC
+		limit #{startRow}, #{endRow}
+	</select>
+	
+	<select id="getRowCount" resultType="Integer">
+		select FOUND_ROWS()
+	</select>
+</mapper>

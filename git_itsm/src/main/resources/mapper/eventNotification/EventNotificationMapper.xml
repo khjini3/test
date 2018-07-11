@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.eventNotification.EventNotificationMapper">
+	
+	<select id="getUserList" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			userId, email, phone, userName
+		FROM davis_user, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE userId != "root"
+	</select>
+	
+	<select id="getTargetList" parameterType="com.yescnc.core.entity.db.AssetCoreInfoVO" 
+	resultType="com.yescnc.core.entity.db.AssetCoreInfoVO">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			asset.asset_name assetName, 
+			asset.asset_id assetId,
+			code.code_id codeId, 
+			code.code_name codeName, 
+			asset.serial_number serialNumber, 
+			code.inout_status inOutStatus
+		FROM
+			(SELECT @ROWNUM:=0 ROWNUM) recid, davis_asset asset
+		LEFT JOIN
+			davis_code code
+		ON
+			asset.code_id = code.code_id
+		WHERE
+			inout_status = 1
+	</select>
+	
+	<insert id="saveNotiGroupInfo" parameterType="java.util.List">
+		INSERT INTO davis_noti_group (
+			group_id,
+			group_name,
+			group_status
+		)
+		values
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.uId},
+			#{item.groupName},
+			#{item.onOffStatus}	
+		</foreach>
+		
+	</insert>
+	
+	<insert id="saveNotiTargetInfo" parameterType="java.util.List">
+		INSERT INTO davis_noti_group_target (
+			<!-- code_name,
+			asset_name, -->
+			group_id,
+			asset_id,
+			code_id
+		)
+		values
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			<!-- #{item.codeName},
+			#{item.assetName}, -->
+			#{item.uId},
+			#{item.assetId},
+			#{item.codeId}	
+		</foreach>
+	</insert>
+	
+	<insert id="saveNotiUserInfo" parameterType="java.util.List">
+		INSERT INTO davis_noti_group_user (
+			user_id,
+			e_mail_status,
+			phone_status,
+			group_id,
+			grade
+		)
+		values
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.userId},
+			#{item.emailStatus},
+			#{item.phoneStatus},
+			#{item.uId},
+			#{item.grade}
+		</foreach>
+	</insert>
+	
+	<update id="updateNotiGroupInfo" parameterType="java.util.List">
+		UPDATE davis_noti_group SET
+			<foreach item="item" index="index" collection="list" separator=",">
+				group_name = CASE group_id
+					WHEN #{item.uId} THEN #{item.groupName}
+					ELSE group_name
+					END,
+				group_status = CASE group_id
+					WHEN #{item.uId} THEN #{item.onOffStatus}
+					ELSE group_status
+					END
+			</foreach>
+		WHERE
+			group_id IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.uId}
+			</foreach>
+	</update>
+	
+	<update id="updateNotiUserInfo" parameterType="java.util.List">
+		UPDATE davis_user SET
+			<foreach item="item" index="index" collection="list" separator=",">
+				email = CASE userId
+					WHEN #{item.userId} THEN #{item.email}
+					ELSE email
+					END,
+				phone = CASE userId
+					WHEN #{item.userId} THEN #{item.phone}
+					ELSE phone
+					END
+			</foreach>
+		WHERE
+			userId IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item.userId}
+			</foreach>
+	</update>
+	
+	<select id="getNotiGroupList" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			group_id uId,
+			group_name groupName,
+			group_status onOffStatus
+		FROM
+			davis_noti_group, (SELECT @ROWNUM:=0 ROWNUM) recid
+		ORDER BY sequence_id
+	</select>
+	
+	<select id="getInitGroupList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			group_id uId,
+			group_name groupName,
+			group_status onOffStatus
+		FROM
+			davis_noti_group, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE
+			group_id = #{uId}
+		ORDER BY sequence_id
+	</select>
+	
+	<select id="getInitTargetList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			A.asset_name assetName,
+			A.group_id uId, 
+			A.asset_id assetId, 
+			A.code_id codeId, 
+			code.code_name codeName 
+		FROM
+		(
+			SELECT  @ROWNUM:=0 ROWNUM,
+					groupTarget.sequence_id, 
+					asset.asset_name, 
+					groupTarget.group_id, 
+					asset.asset_id, 
+					groupTarget.code_id
+			FROM davis_noti_group_target groupTarget 
+			LEFT JOIN davis_asset asset
+			ON groupTarget.asset_id = asset.asset_id
+		) A 
+		LEFT JOIN davis_code code 
+		ON A.code_id = code.code_id
+		WHERE group_id = #{uId}
+		ORDER BY sequence_id
+	</select>
+	
+	<select id="getInitUserList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			sequence_id, 
+			user_id userId,
+			user.userName userName,
+			email email, 
+			phone phone, 
+			e_mail_status emailStatus, 
+			phone_status phoneStatus, 
+			groupUser.group_id uId,
+			grade grade
+		FROM
+			davis_noti_group_user groupUser
+		LEFT JOIN 
+			davis_user user
+		ON
+			groupUser.user_id = user.userId, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE
+			groupUser.group_id = #{uId}
+		ORDER BY sequence_id
+	</select>
+	
+	<delete id="deleteGroupList" parameterType="String">
+		DELETE FROM davis_noti_group WHERE group_id = #{uId}
+	</delete>
+	
+	<delete id="deleteNotiTargetList" parameterType="String">
+		DELETE FROM davis_noti_group_target WHERE group_id = #{uId}
+	</delete>
+	
+	<delete id="deleteNotiUserList" parameterType="String">
+		DELETE FROM davis_noti_group_user WHERE group_id = #{uId}
+	</delete>
+	
+	<delete id="deleteNotiGroup" parameterType="java.util.HashMap">
+		DELETE FROM davis_noti_group 
+		WHERE
+			group_id IN
+			<foreach item="item" index="index" collection="recId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
+	
+	<update id="updateNotiGroupStatus" parameterType="java.util.List">
+		UPDATE davis_noti_group SET
+			group_status = #{onOffStatus}
+		WHERE
+			group_id = #{uId}
+	</update>
+	
+	<!-- ======================= USER NOTIFICATION ========================== -->
+	<select id="getAllUserList" parameterType="com.yescnc.core.entity.db.UserVO" 
+	resultType="com.yescnc.core.entity.db.UserVO">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			userId, email, phone, userName
+		FROM davis_user, (SELECT @ROWNUM:=0 ROWNUM) recid
+		WHERE 
+		userId NOT IN (
+			SELECT user_id FROM davis_noti_user
+		) AND
+		userId != "root"
+	</select>
+	
+	<delete id="userDeleteInfo">
+		DELETE FROM davis_noti_user
+	</delete>
+	
+	<!-- <delete id="targetDeleteInfo">
+		DELETE FROM davis_noti_user_target
+	</delete> -->
+	
+	<insert id="userSaveInfo" parameterType="java.util.List">
+		INSERT INTO davis_noti_user (
+			user_id,
+			e_mail_status,
+			phone_status
+		)
+		values
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.userId},
+			#{item.emailStatus},
+			#{item.phoneStatus}
+		</foreach>
+	</insert>
+	
+	<insert id="userTargetSaveInfo" parameterType="java.util.List">
+		INSERT INTO davis_noti_user_target (
+			user_id,
+			asset_id,
+			code_id,
+			grade
+		)
+		values
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.userId},
+			#{item.assetId},
+			#{item.codeId},
+			#{item.grade}
+		</foreach>
+	</insert>
+	
+	<select id="getUser" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			sequence_id, 
+			user_id userId,
+			user.userName userName,
+			user.email email, 
+			phone phone, 
+			e_mail_status emailStatus, 
+			phone_status phoneStatus
+
+		FROM
+			davis_noti_user notiUser
+		LEFT JOIN 
+			davis_user user
+		ON
+			notiUser.user_id = user.userId, (SELECT @ROWNUM:=0 ROWNUM) recid
+	</select>
+	
+	<select id="getUserTargetList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			A.asset_name assetName,
+			A.asset_id assetId, 
+			A.code_id codeId, 
+            A.grade grade,
+            A.user_id userId,
+			code.code_name codeName 
+		FROM
+		(
+			SELECT  @ROWNUM:=0 ROWNUM,
+					userTarget.sequence_id, 
+					asset.asset_name, 
+					asset.asset_id, 
+                    userTarget.user_id,
+					userTarget.code_id,
+                    userTarget.grade
+			FROM davis_noti_user_target userTarget 
+			LEFT JOIN davis_asset asset
+			ON userTarget.asset_id = asset.asset_id
+		) A 
+		LEFT JOIN davis_code code 
+		ON A.code_id = code.code_id
+		where user_id = #{userId}
+        ORDER BY sequence_id
+	</select>
+	
+	<update id="userUpdateInfo" parameterType="java.util.HashMap">
+		UPDATE davis_user SET
+			email = #{email},
+			phone = #{phone}
+		WHERE
+			userId = #{userId}
+	</update>
+	
+	<update id="notiUserUpdateInfo" parameterType="java.util.HashMap">
+		UPDATE davis_noti_user SET
+			e_mail_status = #{emailStatus},
+			phone_status = #{phoneStatus}
+		WHERE
+			user_id = #{userId}
+	</update>
+	
+	<update id="targetUpdateInfo" parameterType="java.util.HashMap">
+		UPDATE davis_noti_user_target SET
+			grade = #{grade}
+		WHERE
+			user_id = #{userId} AND
+			asset_id = #{assetId}
+			
+	</update>
+	
+	<delete id="deleteUser" parameterType="java.util.HashMap">
+		DELETE FROM davis_noti_user
+		WHERE
+			user_id IN
+			<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
+	
+	<delete id="deleteTarget" parameterType="java.util.HashMap">
+		DELETE FROM davis_noti_user_target
+		WHERE
+			user_id = #{userId} AND 
+			asset_id IN
+			<foreach item="item" index="index" collection="target" open="(" separator="," close=")">
+				#{item.assetId}
+			</foreach>
+	</delete>
+	
+ 	<delete id="targetDeleteInfo" parameterType="String">
+		DELETE FROM davis_noti_user_target
+		WHERE
+			user_id = #{userId}
+	</delete>
+	
+	<insert id="targetSaveInfo" parameterType="java.util.List">
+		INSERT INTO davis_noti_user_target (
+			user_id,
+			asset_id,
+			code_id,
+			grade
+		)
+		values
+		<foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+			#{item.userId},
+			#{item.assetId},
+			#{item.codeId},
+			#{item.grade}
+		</foreach>
+	</insert>
+</mapper>
+
+<!-- Search this query when receive events. 'GROUP NOTIFICATION'
+
+select userId, eMailStatus, phoneStatus, group_status, grade, email,phone, assetName, codeName, assetId, codeId from 
+(select 
+notiUser.user_id userId, notiUser.e_mail_status eMailStatus, 
+notiUser.phone_status phoneStatus, notiUser.grade grade, 
+user.email email, user.phone phone, notiUser.group_id groupId 
+from platform_core_itam.davis_noti_group_user notiUser left join platform_core_itam.user user on notiUser.user_id = user.userId) C 
+left join platform_core_itam.davis_noti_group notiGroup on C.groupId = notiGroup.group_id,
+(SELECT A.asset_name assetName, code.code_name codeName, A.group_id groupId, A.asset_id assetId, A.code_id codeId
+FROM (
+	SELECT groupTarget.sequence_id, asset.asset_name, groupTarget.group_id, asset.asset_id, groupTarget.code_id
+	FROM platform_core_itam.davis_noti_group_target groupTarget 
+	LEFT JOIN platform_core_itam.davis_asset asset
+	ON groupTarget.asset_id = asset.asset_id
+	) A 
+LEFT JOIN platform_core_itam.davis_code code 
+ON A.code_id = code.code_id
+ORDER BY sequence_id) D 
+WHERE group_status = 1 and (email != '' or phone != ''); 
+-->
+
+
+
+
+<!-- Search this query when receive events. 'USER NOTIFICATION'
+select B.sequence_id, C.userId, B.asset_id, B.grade, B.code_id, B.code_name, C.e_mail_status, C.phone_status, C.email, C.phone from
+(select A.sequence_id, A.user_id, A.asset_id, A.grade, A.code_id, code.code_name from
+(SELECT userTarget.sequence_id, userTarget.user_id, asset.asset_name, asset.asset_id, userTarget.code_id, userTarget.grade
+	FROM platform_core_itam.davis_noti_user_target userTarget
+	LEFT JOIN platform_core_itam.davis_asset asset
+	ON userTarget.asset_id = asset.asset_id) A left join platform_core_itam.davis_code code
+    on A.code_id = code.code_id) B,
+(select user.userId, notiUser.e_mail_status, notiUser.phone_status, user.email, user.phone from platform_core_itam.davis_noti_user notiUser left join platform_core_itam.user user on notiUser.user_id = user.userId) C
+where B.user_id = C.userId and (email != '' or phone != '');
+-->
+

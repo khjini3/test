@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.agent.CollectMapper">
+	<select id="selectCollectInfoList" resultType="com.yescnc.core.entity.db.AgentCollectVO">
+		SELECT * FROM davis_collect_info
+	</select>
+	<select id="selectDBInfoList" resultType="com.yescnc.core.entity.db.AgentDBInfoVO">
+		SELECT * FROM davis_collect_jdbc_info
+	</select>
+		
+	<insert id="insertCollectInfo" parameterType="com.yescnc.core.entity.db.AgentCollectVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(MAX(idx),0)+1 from davis_collect_info;
+		</selectKey>
+		INSERT INTO davis_collect_info (idx, protocol, period, unit, connect_jdbc, remote_url, remote_id, remote_pwd, query_id, query_get, query_ins, query_param)
+		VALUES (#{max_id}, #{protocol}, #{period}, #{unit}, #{connect_jdbc}, #{remote_url}, #{remote_id}, #{remote_pwd}, #{query_id}, #{query_get}, #{query_ins}, #{query_param})
+	</insert>	
+	
+	<insert id="insertDBInfo" parameterType="com.yescnc.core.entity.db.AgentDBInfoVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(MAX(idx),0)+1 from davis_collect_jdbc_info;
+		</selectKey>
+		INSERT INTO davis_collect_jdbc_info <!-- (idx, name, driver, hostname, id, password, port, schema, description) -->
+		VALUES (#{max_id}, #{name}, #{driver}, #{hostname}, #{db_id}, #{password}, #{port}, #{schema}, #{description})
+	</insert>
+	
+	<update id="updateCollectInfo" parameterType="com.yescnc.core.entity.db.AgentCollectVO">
+		UPDATE davis_collect_info SET 
+		protocol=#{protocol}, 
+		period=#{period}, 
+		connect_jdbc=#{connect_jdbc}, 
+		remote_url=#{remote_url}, 
+		remote_id=#{remote_id}, 
+		remote_pwd=#{remote_pwd}, 
+		query_id=#{query_id}   
+		WHERE idx=#{idx}
+	</update>
+	
+	<update id="updateDBInfo" parameterType="com.yescnc.core.entity.db.AgentDBInfoVO">
+		UPDATE davis_collect_jdbc_info SET 
+		name=#{name},
+		driver=#{driver},
+		hostname=#{hostname},
+		id=#{id},
+		password=#{password},
+		port=#{port},
+		`schema`=#{schema},
+		description=#{description} 
+		where idx=#{idx}
+	</update>
+	
+	<delete id="deleteCollectInfo" parameterType="com.yescnc.core.entity.db.AgentCollectVO">
+		DELETE FROM davis_collect_info where idx=#{idx} 
+	</delete>
+	
+	<delete id="deleteDBInfo" parameterType="com.yescnc.core.entity.db.AgentDBInfoVO">
+		DELETE FROM davis_collect_jdbc_info where idx=#{idx}
+	</delete>
+</mapper>

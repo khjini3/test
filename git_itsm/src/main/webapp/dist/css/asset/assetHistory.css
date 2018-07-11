@@ -1,0 +1,116 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#assetHistory div#leftContents{width:100%; height:100%;padding-left: 10px;}
+#assetHistory div#mainTop,
+#assetHistory div#leftTop{
+	height:35px;
+	text-align: right;
+	padding-top: 10px;
+}
+
+#assetHistory div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#assetHistory div#mainSubBottom{
+	width: 100%;
+	height: calc(100vh - 229px); /* height: calc(100% - 146px); */ /* modify youngyee */
+}
+
+#assetHistory div#leftBottom {
+	width : 100%;
+	height : calc(100vh - 176px); /* height:calc(100% - 92px); */ /* modify youngyee */
+	padding: 5px 10px 5px 10px;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#assetHistory div#leftBottom .w2ui-form-box{
+	width: 419px !important; /* modify youngyee */
+    height: 809px;
+}
+
+#assetHistory div#leftBottom .fromTotime{
+	width: 42px;
+    padding-left: 0px;
+    padding-top: 0px;
+    border-top-width: 2px;
+    height: 21px;
+}
+
+#assetHistory i.icon:hover {
+	opacity: 1!important
+}
+
+#assetHistory i.link.icon {
+	cursor: pointer;
+}
+
+#assetHistory i.icon{
+	color: white;
+	opacity: .5;
+	padding-left: 8px;
+}
+
+#assetHistory .fa-2x {
+    font-size: 1.5em;
+}
+
+/* #assetHistory #userIdtest{
+	cursor: pointer;	
+	background-color: rgba(255, 255, 255, 0.1);
+}	 */
+
+#assetHistory #userId{
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.1);
+}	
+
+#assetHistory #getUserList{
+	cursor: default;
+}
+
+#historySearchFromPeriod, #historySearchToPeriod {
+	width : 217px;
+	background-color: rgba(255, 255, 255, 0.1);
+	cursor : default;
+}
+
+#historySearchDayMonth {
+	background-color: rgba(255, 255, 255, 0.1);
+	cursor : default;
+}
+
+#assetHistory #leftBottom > div > div.w2ui-page.page-0 > div {
+	width : 390px;
+}
+
+#assetHistory #grid_assetHistory_table_records{
+	left: 26px !important;	
+}
+
+#assetHistory .userId_list {
+	padding-right: 10px;
+	width: 25px;
+	position: relative;
+	top: 4px;
+	float: right;
+    color: white;
+}
+
+.ui-datepicker-calendar {
+    background-color : black;
+}
+#ui-datepicker-div > table > thead > tr{
+	color : white;
+}

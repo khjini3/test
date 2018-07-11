@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.report.DbReportMapper">
+
+	<select id="selectAllReports" resultType="com.yescnc.core.entity.db.ReportVO">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 recid,report_id, parent_id, user_id, report_title, report_type, report_sub_type, level1_id, level2_id, level3_id, level4_id, report_view, period_last, period_from, period_to, scheduling, export_type, destination_type, destination_name, schedule_start, schedule_end, recurrence_type, recurrence_interval, next_run_date, last_run_date, conditions, mybatis_id, ui_setting, ui_value, report_key, reportdata_key, cron_expression 
+		FROM 
+			davis_report ,(SELECT @ROWNUM:='0' ROWNUM) recid
+		WHERE 
+			parent_id = 0 order by report_id desc
+	</select>
+	<select id="selectReports"  parameterType="String" resultType="com.yescnc.core.entity.db.ReportVO">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 recid,report_id, parent_id, user_id, report_title, report_type, report_sub_type, level1_id, level2_id, level3_id, level4_id, report_view, period_last, period_from, period_to, scheduling, export_type, destination_type, destination_name, schedule_start, schedule_end, recurrence_type, recurrence_interval, next_run_date, last_run_date, conditions, mybatis_id, ui_setting, ui_value, report_key, reportdata_key, cron_expression 
+		FROM 
+			davis_report ,(SELECT @ROWNUM:='0' ROWNUM) recid
+		<where>
+			parent_id = 0 
+			<if test="_parameter != '-1'">
+				and report_type = ${_parameter}
+			</if>
+			order by report_id desc
+		</where>
+	</select>
+	<select id="selectReportHistory" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="com.yescnc.core.entity.db.ReportVO" >
+		SELECT history_id, report_id, report_type, status, message, report_name,
+		date_format(run_date,"%Y-%m-%d %H:%i:%S") run_date, reserve_str
+		FROM davis_report_history 
+		<where>
+			<if test="report_id != '-1'">
+				report_id = #{report_id}
+			</if>
+		</where>
+		order by run_date desc
+	</select>
+	<select id="searchReportHistory" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="com.yescnc.core.entity.db.ReportVO">
+		SELECT history_id, report_id, report_type, status, message, report_name,
+		date_format(run_date,"%Y-%m-%d %H:%i:%S") run_date, reserve_str
+		FROM davis_report_history
+		<where> 
+			 run_date between date_format(#{schedule_start},"%Y-%m-%d %H:%i:%S") and date_format(#{schedule_end},"%Y-%m-%d %H:%i:%S") 
+			<if test="report_id != '-1'">
+				and report_id = #{report_id}
+			</if>
+		</where>
+		order by run_date desc
+	</select>
+	
+	<select id="getReportHistoryPath" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="java.lang.String">
+		SELECT message
+		  FROM davis_report_history
+		<where> 
+			<if test="history_id != null">
+				and history_id = #{history_id}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertReport" parameterType="com.yescnc.core.entity.db.ReportVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+        SELECT ifnull(MAX(report_id),0)+1 FROM davis_report        
+   		</selectKey>
+		 INSERT INTO davis_report (report_id, parent_id, user_id, report_type, report_title, report_sub_type, scheduling, schedule_start,
+		schedule_end, conditions, mybatis_id, ui_setting, ui_value, cron_expression, report_view, period_last, export_type, destination_name ) VALUES 
+		(#{max_id}, #{parent_id}, #{user_id}, #{report_type}, #{report_title}, #{report_sub_type}, #{scheduling}, #{schedule_start}, #{schedule_end},
+		#{conditions}, #{mybatis_id}, #{ui_setting}, #{ui_value}, #{cron_expression}, #{report_view}, #{period_last}, #{export_type}, #{destination_name})
+		
+		 
+		<!-- INSERT INTO report (report_id, parent_id, report_type, user_id, report_title, report_sub_type, scheduling, schedule_start,
+		schedule_end, conditions, mybatis_id, ui_setting ,ui_value ) VALUES 
+		(#{max_id}, #{parent_id}, #{report_type}, 1, #{title}, #{report_sub_type}, #{scheduling}, #{start_time}, #{end_time},
+		#{condition}, #{query}, #{ui_setting}, #{ui_value}) -->
+	</insert>
+	<insert id="insertSubReport" parameterType="com.yescnc.core.entity.db.ReportVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+        SELECT ifnull(MAX(report_id),0)+1 FROM davis_report        
+   		</selectKey>
+		 INSERT INTO report (report_id, parent_id, user_id, report_sub_type, conditions, mybatis_id, report_key, reportdata_key ) VALUES 
+		(#{max_id}, #{parent_id},#{user_id}, #{report_sub_type}, #{conditions}, #{mybatis_id}, #{report_key},#{reportdata_key}	)
+	</insert>
+	<update id="updateReport" parameterType="com.yescnc.core.entity.db.ReportVO">
+		UPDATE davis_report 
+		   SET scheduling=#{scheduling}, 
+		   	   schedule_start=#{schedule_start},
+			   schedule_end=#{schedule_end}, 
+			   conditions=#{conditions}, 
+			   ui_setting=#{ui_setting}, 
+			   ui_value=#{ui_value},
+			   cron_expression=#{cron_expression},
+			   report_view=#{report_view},
+			   period_last=#{period_last},
+			   export_type=#{export_type},
+			   destination_name=#{destination_name}
+		 WHERE report_id=#{report_id}
+	</update>
+	<update id="updateReportSchedule" parameterType="com.yescnc.core.entity.db.ReportVO">
+		UPDATE davis_report 
+		   SET report_view=#{report_view}
+		 WHERE report_id=#{report_id}
+	</update>
+	<delete id="deleteReport" parameterType="String">
+        DELETE FROM davis_report WHERE report_id=${_parameter} OR parent_id=${_parameter}
+	</delete>
+	<delete id="deleteSubReport" parameterType="String">
+        DELETE FROM davis_report WHERE parent_id=${_parameter}
+	</delete>
+	<delete id="deleteReportHistory" parameterType="String">
+		DELETE FROM davis_report_history WHERE report_id=${_parameter}
+	</delete>
+	
+	<!-- report history list limit -->
+	<select id="selectAllReportHistory" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="com.yescnc.core.entity.db.ReportVO" >
+		SELECT history_id, report_id, report_type, status, message, report_name,
+		date_format(run_date,"%Y-%m-%d %H:%i:%S") run_date, reserve_str
+		
+		FROM davis_report_history 
+		
+		order by run_date desc
+	</select>
+	
+	<select id="reportLimitList" parameterType="com.yescnc.core.entity.db.ReportVO" resultType="com.yescnc.core.entity.db.ReportVO">
+		select SQL_CALC_FOUND_ROWS
+		@ROWNUM := @ROWNUM + 1 recid, history_id, report_id, report_type, status, message, report_name, date_format(run_date,"%Y-%m-%d %H:%i:%S") run_date, reserve_str
+		from davis_report_history ,(SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<!-- <where>
+			<if test="report_id != null">
+				report_id=#{report_id} 
+			</if>
+		</where>
+		order by run_date desc limit #{startRow},#{endRow} -->
+		<choose>
+			<when test="report_id != null and schedule_start == null and schedule_end == null" >
+				where report_id = #{report_id} order by run_date desc limit #{startRow},#{endRow}
+			</when>
+			<when test="report_id != null and schedule_start != null and schedule_end != null">
+				where report_id = #{report_id} and run_date between date_format(#{schedule_start},"%Y-%m-%d %H:%i:%S") and date_format(#{schedule_end},"%Y-%m-%d %H:%i:%S") order by run_date desc limit #{startRow},#{endRow}
+			</when>
+			<when test="report_id == null and schedule_start == null and schedule_end == null">
+				order by run_date desc limit #{startRow},#{endRow}
+			</when>
+			<when test="report_id == null and schedule_start != null and schedule_end != null">
+				where run_date between date_format(#{schedule_start},"%Y-%m-%d %H:%i:%S") and date_format(#{schedule_end},"%Y-%m-%d %H:%i:%S") order by run_date desc limit #{startRow},#{endRow}
+			</when>
+		</choose>
+	</select>	
+	
+	<select id="reportListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>
+	
+</mapper>

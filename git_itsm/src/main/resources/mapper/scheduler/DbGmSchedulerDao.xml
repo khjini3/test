@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.scheduler.DbGmSchedulerDao">
+
+	<select id="getScheduleJobCounter" parameterType="map"    resultType="Integer">
+		SELECT COUNT(*) count
+		FROM davis_gm_t_schedule
+		WHERE id =  #{gm_schedule_cronjob_id}
+	</select>
+
+	<select id="getScheduleJobStatus" parameterType="map"  resultType="Integer">
+		SELECT COUNT(*) count
+		FROM davis_gm_t_schedule
+		WHERE id =    #{gm_schedule_cronjob_id} AND
+		last_exec_time = #{compare_time}
+	</select>
+
+	<update id="updScheduleJobStatus" parameterType="map">
+		UPDATE
+		davis_gm_t_schedule
+		SET last_exec_time = #{last_exec_time}
+		WHERE id =   #{schedule_job_id}
+	</update>
+
+	<delete id="deleteStatData" parameterType="map">
+		DELETE
+		FROM
+		<choose>
+			<!-- FM Hourly table -->
+			<when test="timeType == 101 or timeType  == 14">
+				davis_alarms_hourly
+			</when>
+			<!-- FM Daily table -->
+			<when test="timeType == 102 or timeType == 15">
+				davis_alarms_daily
+			</when>
+			<!-- FM Monthly table -->
+			<when test="timeType == 103 or timeType == 16">
+				davis_alarms_monthly
+			</when>
+
+		</choose>
+
+		<where>
+			<choose>
+				<!-- FM Hourly table -->
+				<when test="timeType == 101 or timeType  == 14">
+					date_format( alarm_time, '%Y-%m-%d %H')  = date_format( #{timeValue}, '%Y-%m-%d %H')
+				</when>
+				<!-- FM Daily table -->
+				<when test="timeType == 102 or timeType == 15">
+					date_format( alarm_time, '%Y-%m-%d' ) = date_format( #{timeValue}, '%Y-%m-%d')
+				</when>
+				<!-- FM Monthly table -->
+				<when test="timeType == 103 or timeType == 16">
+					date_format( alarm_time, '%Y-%m' ) =  date_format( #{timeValue}, '%Y-%m')
+				</when>
+
+			</choose>
+		</where>
+
+	</delete>
+
+	<insert id="insScheduleJobStatus" parameterType="map">
+		INSERT INTO
+		davis_gm_t_schedule
+		VALUES ( #{schedule_job_id}, -1, -1, -1,'*','*','*','*','*',
+				#{schedule_reg_command}, now(), -1,'N/A',
+				#{last_exec_time}
+			)
+	</insert>
+
+	<select id="isGmHourlyDataExists" parameterType="map"
+		resultType="Integer">
+		SELECT date_format(now()-interval 1 hour,'%m') month
+		FROM
+		dual
+	</select>
+
+	<select id="getGmScheduleLogGlag" parameterType="map"	resultType="Integer">
+		SELECT 	
+			log_flag
+		FROM 
+			davis_gm_t_schedule
+		WHERE 
+			id = #{schedule_id}
+
+	</select>
+	
+	
+	<select id="getGmMonthlydata" parameterType="map" resultType="map">
+		SELECT
+		date_format(now() - interval ${deposit_period} month,'%d') day,
+		date_format(now() - interval ${deposit_period} month,'%m') month,
+		date_format(now() - interval ${deposit_period} month,'%y') year
+
+	</select>
+
+	<select id="getGmDepositMonthly" parameterType="map" resultType="map">
+		SELECT
+		<foreach collection="alMonthList" item="nMonth" index="index"
+			open="" close="" separator=",">
+			date_format(now() - interval ${nMonth} month,'%m')
+		</foreach>
+	</select>
+
+</mapper>

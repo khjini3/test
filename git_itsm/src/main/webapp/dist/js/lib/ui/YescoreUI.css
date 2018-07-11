@@ -1,0 +1,475 @@
+.ui-widget-overlay{
+	background: #000000;
+	opacity: 0.55;
+}
+
+.ui-dialog ul{
+   list-style: none;
+   padding: 0 0 0 0;
+}
+
+.ui-dialog .yescore-popup-body {
+    border-radius: 5px;
+}
+
+.ui-dialog .yescore-popup-body .popup-componet {
+	height: 30px;
+	padding: 3 3 3 3;              
+}
+.ui-dialog .yescore-popup-body .popup-componet.formbox {
+	height: 100px;
+}                                   
+.ui-dialog .yescore-popup-body .yescore-label {
+	float: left;
+	height: 25px;
+	width: 50%;                
+}                              
+.ui-dialog .yescore-popup-body .yescore-label label{
+	display: inline;
+	position: relative;
+	top: 2px;
+}                              
+.ui-dialog .yescore-popup-body .yescore-input {
+	float: right;              
+	width: 50%;                
+}                              
+.ui-dialog .yescore-popup-body .yescore-input .popup-form {
+	width: 100%;
+}
+.ui-dialog .yescore-popup-body form{
+	margin-bottom : 0;	
+}
+.ui-dialog .yescore-popup-body .popup-form .radioBtn,
+.ui-dialog .yescore-popup-body .popup-form .checkBtn {
+	margin: 1px 5px 0px 0px;
+	margin-top : 3px;
+	vertical-align : sub;
+	font-size: 11px;
+	color : white;
+	font-weight : 100;
+	background-color : transparent;
+}
+
+.ui-dialog .yescore-popup-body input[type="checkbox"],
+.ui-dialog .yescore-popup-body input[type="radio"]{
+	width : 15px;
+	height : 15px;
+	margin-top : 3px;
+	margin-right : 8px;
+	
+}
+.ui-dialog .yescore-popup-body input[type="radio"]{
+	vertical-align: sub;
+}
+.ui-dialog .yescore-popup-body select,
+.ui-dialog .yescore-popup-body input[type="text"],
+.ui-dialog .yescore-popup-body input[type="email"],
+.ui-dialog .yescore-popup-body input[type="password"]{
+	border: 1px #cfcece solid;	
+	height: 26px;
+	padding-left: 10px;
+}
+.ui-dialog .yescore-popup-body select{
+	padding-right: 30px;
+}
+.ui-dialog .yescore-popup-body label.report-dynamic-label{
+	margin-right: 20px;
+	vertical-align : middle;
+	font: 11px NanumGothic;
+	font-weight: 100;
+	color : white;
+}
+
+.ui-dialog .yescore-popup-body .popup-form.ui-widget-content{	
+	border : 1px #cfcece solid;
+}
+.ui-dialog .yescore-popup-body .popup-form .ui-widget-content{
+	height : 26px;
+	border : 1px #cfcece solid;
+}
+ 
+/* .ui-dialog li:not(.jqtree_common){
+	height: 30px;
+	width: 100%;
+}
+.ui-dialog li:not(.report-week-div):not(.jqtree_common)>div{
+	float: left;
+	padding-right: 15px;
+    padding-left: 15px;
+}   */
+
+.ui-dialog .jqtree-element {
+	float: left;
+}
+.ui-dialog .jqtree_common {
+	height: 25px;
+	color : white !important;
+}
+#slaWidgetList {
+	padding:1em 1em;
+	border-top:0;
+	overflow:auto
+}
+.ui-dialog .yescore-popup-body li:not(.report-week-div)>div:not(.first-div-main):first-child{
+	width: 25%;
+}
+.ui-dialog .yescore-popup-body li:not(.report-week-div):not(.usermanager-severity-div)>div:not(.last-div-main):last-child{
+	width: 75%;
+}
+.ui-dialog .yescore-popup-body li>div:last-child> .popup-form{
+	width: 100%;
+}
+
+.ui-dialog #popup .yescore-popup-body div:not(.first-div-main):first-child{
+	width: 40%;
+}
+.ui-dialog #popup .yescore-popup-body div:not(.last-div-main):last-child{
+	width: 60%;
+}
+.ui-dialog #popup .yescore-popup-body li>div:last-child> .popup-form{
+	width: 100%;
+}
+/*
+	main password
+*/
+
+.ui-dialog .yescore-popup-body li>div.first-div-main{
+	width: 33%;
+}
+.ui-dialog .yescore-popup-body li>div.last-div-main{
+	width: 67%;
+}
+/*
+*/
+.ui-dialog .yescore-confirm-body .popup-form-pw-1{
+	width: 16%;
+}
+.ui-dialog .yescore-confirm-body .popup-form-pw-2{
+	width: 84%;
+}
+.ui-dialog .yescore-confirm-body .popup-form-pw-2 input{
+	width: 100%;
+}
+.ui-dialog .yescore-confirm-body li > div.popup-form-div{
+	width: 100%;
+}
+.radioBtn{
+	float : left;
+}
+
+.ui-dialog .ui-dialog-content{
+	padding: 20px 20px 0 20px;
+	/*background-color : rgba(2, 15, 39, 0.6);*/
+	border : 0px;
+}
+
+.ui-dialog.ui-widget.ui-widget-content {
+	padding : 0px;
+	border : 1px solid #777777;
+	background-color : rgba(2, 15, 39, 0.8);
+	border-radius : 6px;
+	margin : 0px;
+	box-shadow : 0px 0px 25px; /* yypark (original - box-shadow : 0px 0px 25px #555555;) */
+	/* transition: opacity 0.3s, -webkit-transform 0.3s; */
+	/* z-index: 5000 !important; */
+	/* z-index: 2000 !important; */
+}
+.ui-widget-header{
+	border-bottom-left-radius : 0px;
+	border-bottom-right-radius : 0px;
+	/*background : #3c8dbc;
+	border : 1px #3c8dbc solid;
+	text-align : center;*/
+	height : 40px;
+	background : rgba(55, 78, 124, 0.76);
+	border : 0px;
+}
+.ui-widget-header-warning{
+}
+.ui-widget-header-confirm{
+}
+.ui-widget-header-information{
+}
+.ui-dialog-title{
+	font: 16px NanumGothic;
+    font-weight: bold;
+    width: 100% !important;
+    text-align: left;
+    /* padding-left: 10px; */
+    margin: 4px 0 !important;
+}
+.ui-dialog-buttonpane{
+	border : 0px;
+}
+/* 
+	POPUP ADD
+ */
+.ui-widget-shadow {
+    -webkit-box-shadow: 5px 5px rgba(171, 171, 171, 0.5);
+    box-shadow: 5px 5px rgba(171, 171, 171, 0.5);
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+	float: none;
+    text-align: center;
+    padding-right: 34.5px;
+    /*background-color : rgba(2, 15, 39, 0.6);*/
+	background-color : rgba(0, 0, 0, 0) !important;
+}
+
+.ui-dialog-titlebar-close {
+	display: block;
+	border: 0;
+	background-color : transparent;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    padding: 25px 0 25px 30px;
+    margin-bottom : 0px;
+	margin-top : 0px;
+	border-radius: 3px;
+	/*background-color : rgba(2, 15, 39, 0.6);*/
+	background-color : rgba(0, 0, 0. 0) !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+    margin: 2 2 2 2;
+    cursor: pointer;
+    font: 13px NanumGothic;
+    height: 30px;
+    width: 60px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #314368;
+    color: white;
+    border: 1px solid #000000;
+    border-bottom-left-radius : 0px;
+	border-bottom-right-radius : 0px;
+	border-top-left-radius : 0px;
+	border-top-right-radius : 0px;
+	border-radius : 5px;
+	margin-left : 5px
+}
+
+.ui-dialog .ui-dialog-buttonpane button:hover {
+    background-color: #5b7bbd;
+	color: #ffffff;
+	border-radius : 5px;
+	border : 1px solid #000000;
+}
+
+.ui-dialog.ui-widget-warning .ui-dialog-buttonpane button:hover {
+    background-color: #ff8888;
+    color: #81333c;
+    border: 1px solid #ff8888;
+}
+
+.ui-dialog.ui-widget-confirm .ui-dialog-buttonpane button:hover {
+    /* background-color: #ffeab3;
+    color: #a4752b;
+    border: 1px solid #ffeab3; */
+}
+/* 
+.ui-dialog.ui-widget-information .ui-dialog-buttonpane button:hover {
+    background-color: #dcf0ff;
+    color: #346b96;
+    border: 1px solid #dcf0ff;
+}
+ */
+.ui-dialog .yescore-popup-body li{
+	background-color : transparent;
+	color : #ffffff;
+}
+.ui-dialog .yescore-popup-body li:first-child{
+	padding-top : 5px;
+	height : 36px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+.ui-dialog .yescore-popup-body li:last-child{
+	height : 36px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.ui-dialog .yescore-popup-body li>div:first-child:not(.weekDiv)>label{
+	font-family: NanumGothic;
+	font-weight : bold;
+	font-size : 13px;
+	margin-top : 4px;
+}
+.ui-dialog .yescore-popup-body li>div:nth-child(2)>*{
+    font-weight: 100;
+	font: 11px NanumGothic;
+	background : #ffffffa;
+	/*border : 1px solid #737478;*/
+	/* background-color: rgba(255, 255, 255, 0.2); */
+	color : white;
+	outline: none;
+}
+.ui-dialog .yescore-popup-body input[type=text]{
+    font-weight: 100;
+	font: 11px NanumGothic;
+	background : rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.2);
+	border : 1px solid #737478;
+	color : white;
+	outline: none;
+}
+.ui-dialog .yescore-popup-body input[type=radio]{
+	font-weight: 100;
+	font: 11px NanumGothic;
+	background : transparent;
+	color : white;
+}
+
+.ui-dialog .yescore-popup-body select.popup-form:disabled{
+	background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.ui-dialog .yescore-confirm-body .popup-form-div{
+	width: 100%;
+	text-align : center;
+}
+
+.ui-dialog .yescore-confirm-body .popup-form-label{
+	font : 12px NanumGothic;
+	font-weight : 100;
+	color : white;
+}
+
+.ui-dialog .yescore-confirm-body .title-label{
+	margin-top: 4px;
+    margin-left: 30px;
+    font: 12px NanumGothic;
+    font-weight: 100;
+    color: #333333;
+}
+
+.ui-dialog .yescore-confirm-body form{
+	margin-bottom : 0px;
+	margin-top : 15px;
+}
+
+.ui-dialog .yescore-confirm-body input.popup-form{	
+	border : 1px #cfcece solid;
+	height : 31px;
+	width: 80%;
+    text-align: center;
+}
+
+
+/* grid*/
+/*
+.wrap .content-davis .w2ui-grid .w2ui-grid-body table .w2ui-head {
+	height : 40px;
+	background-color : #3c8dbc;
+	border-right : 1px solid #3c8dbc !important;
+	border-bottom : 0px solid #3c8dbc !important;
+	color : #fff !important;
+	background-image : webkit-linear-gradient(#3c8dbc,#3c8dbc) !important;
+	background-image : linear-gradient(#3c8dbc,#3c8dbc) !important;
+}
+
+.content-davis .w2ui-grid .w2ui-grid-body table .w2ui-head.w2ui-col-select{
+	border-bottom : 1px solid #cfcece !important;
+}
+.content-davis .w2ui-grid .w2ui-grid-body .w2ui-grid-columns, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns{
+	box-shadow : 0 0px 0px #ddd!important;
+}
+
+.content-davis .w2ui-grid .w2ui-grid-body table .w2ui-col-select{
+	width : 27px !important;
+}
+
+.content-davis .w2ui-grid .w2ui-grid-body table td.w2ui-grid-data{
+	border-bottom : 1px solid #cfcece !important;
+}
+
+.content-davis .w2ui-grid .w2ui-grid-body table td{
+	border-bottom : 1px solid #cfcece !important;
+}
+.content-davis .w2ui-grid .w2ui-grid-body table td:last-child{
+	border-bottom : 0px solid #cfcece !important;
+}
+
+.content-davis .w2ui-grid .w2ui-grid-body table .w2ui-head>div {
+	font-weight : bold;
+	font-size : 13px;
+	text-align: center;
+}
+
+.content-davis .w2ui-grid .w2ui-grid-body table td.w2ui-grid-data>div {
+    margin-left: 5;
+    margin-right: 5;
+}*/
+.invalid { border: 1px dotted red !important; }
+
+.yes-core-validate-tooltip {
+	position: fixed;
+    margin-left: 10px;
+    padding: 0 5 0 5;
+    color: white;
+    background-color: red;
+    height: 20px;
+    min-width: 120px;
+    font-size: 13px;
+}
+/*
+.tooltip .tooltip-inner:not(.w2ui-grid-data) {
+	max-width: 355px;
+	background-color: red;
+}
+
+.tooltip.top .tooltip-arrow:not(.w2ui-grid-data) {
+	border-top-color: red !important;
+}
+
+.tooltip.bottom .tooltip-arrow:not(.w2ui-grid-data) {
+	border-bottom-color: red;	
+}*/
+
+.pager-table-area {
+	height: 54px !important;
+}
+
+.pager-table-area div:first-child {
+	height: 54px !important;
+}
+
+
+
+.ui-widget-content {
+   background-color:transparent;
+   background-image:none;
+}
+
+.ui-dialog .yescore-popup-body li{
+   background-color : transparent;
+}
+
+.yescore-popup-body input[type="text"] {
+   background-color : transparent;
+}
+
+.yescore-popup-body input[type="password"] {
+	background-color : transparent;
+ }
+ 
+ .yescore-popup-body input[type="email"] {
+	background-color : transparent;
+ }
+
+.yescore-popup-body select {
+   background-color : transparent !important;
+}
+
+.ui-dialog-titlebar-close svg{
+	background-color: transparent;
+	color: rgba(255, 255, 255, 0.28);
+}
+
+.ui-dialog-titlebar-close:hover {
+	background-color: rgba(0,0,0,0) !important;
+    border: 1px solid #aaaaaa;
+    border-radius : 3px;
+}

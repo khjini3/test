@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.ip.IpMapper">
+	
+	<sql id="Column_List">
+		id,ipAddress,allowance,description
+	</sql>
+
+	<insert id="insertIp" parameterType="com.yescnc.core.entity.db.IpVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_ip
+		</selectKey>
+		
+		INSERT INTO davis_ip
+		(`id`,`ipAddress`,`allowance`,`description`)
+		VALUES
+		(#{max_id},#{ipAddress},#{allowance},#{description})
+	</insert>
+	
+	<update id="updateByIp" parameterType="com.yescnc.core.entity.db.IpVO">
+		UPDATE davis_ip
+		SET
+			`ipAddress` = #{ipAddress},
+			`allowance` = #{allowance},
+			`description` = #{description}
+		WHERE `id` = #{id}
+	</update>
+	
+	<select id="selectIp" parameterType="com.yescnc.core.entity.db.IpVO" 
+	resultType="com.yescnc.core.entity.db.IpVO">
+		select
+			<include refid="Column_List" />
+		from davis_ip
+		<if test="ipAddress != null">
+			where ipAddress = #{ipAddress}
+		</if>
+	</select>
+	
+	<select id="selectIpForlogin" parameterType="com.yescnc.core.entity.db.IpVO" 
+	resultType="com.yescnc.core.entity.db.IpVO">
+		select
+			<include refid="Column_List" />
+		from davis_ip
+		<if test="ipAddress != null">
+			where ipAddress = #{ipAddress}
+		</if>
+	</select>
+	
+	<select id="selectIpList" resultType="com.yescnc.core.entity.db.IpVO">
+		select
+			<include refid="Column_List" />
+		from davis_ip
+	</select>
+	
+	<delete id="deleteByIp" parameterType="com.yescnc.core.entity.db.IpVO">
+		delete from davis_ip
+		<if test="id != null">
+			where id = #{id}
+		</if>
+	</delete>
+	
+	<delete id="deleteIpMulti" parameterType="com.yescnc.core.entity.db.IpVO">
+		delete from davis_ip		
+		where `id` IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
+		
+	</delete>
+	
+	<select id="searchIpList" parameterType="com.yescnc.core.entity.db.IpVO" 
+	resultType="com.yescnc.core.entity.db.IpVO">
+		select
+			<include refid="Column_List" />
+		from davis_ip
+		<if test="ipAddress != null">
+			where ipAddress like CONCAT('%',#{ipAddress},'%')
+		</if>
+	</select>
+	
+	<select id="ipLimitList" parameterType="com.yescnc.core.entity.db.IpVO" 
+	resultType="com.yescnc.core.entity.db.IpVO">
+		select SQL_CALC_FOUND_ROWS
+			@ROWNUM := @ROWNUM + 1 recid, id,ipAddress,allowance,description
+		from davis_ip ,(SELECT @ROWNUM:=#{startRow} ROWNUM) recid
+		<choose>
+			<when test="ipAddress == null or ipAddress == ''">
+				order by id DESC limit #{startRow},#{endRow}
+			</when>
+			<when test="ipAddress != null">
+				where ipAddress like CONCAT('%',#{ipAddress},'%') order by id DESC limit #{startRow},#{endRow}
+			</when>
+		</choose>
+	</select>	
+	
+	<select id="ipListTotalRecord"  resultType="int">
+		select FOUND_ROWS();
+	</select>		
+</mapper>

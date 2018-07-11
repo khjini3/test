@@ -1,0 +1,206 @@
+
+@CHARSET "UTF-8";
+
+#kpi .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#kpi .contentsCls > div {
+	z-index: 98;
+}
+
+#kpi div#leftContents {
+	width:100%; height:100%;padding-left: 10px;
+}
+
+#kpi div#mainTop,
+#kpi div#leftTop {
+	height:35px;
+	text-align: right;
+	padding-top: 3px;
+}
+
+#kpi div#mainContents {
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#kpi div#mainBottom {
+	width: 100%;
+	height: calc(100vh - 230px);
+	/* height: calc(100% - 93px); */
+}
+
+
+/* SVG ICON */
+#kpi svg.icon.link:hover,
+svg.link.icon#sqlStart:hover {
+	opacity: 1;
+}
+
+#kpi svg.link.icon,
+svg.link.icon#sqlStart {
+	cursor: pointer;
+}
+
+#kpi svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+svg.link.icon#sqlStart {
+	color: white;
+	opacity: .5;
+}
+
+
+/* disabled svg icon */
+#kpi svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+svg.icon#sqlStart {
+	color: #8e8c8c;
+	opacity: .5;
+}
+
+#kpi svg.icon,
+svg.icon#sqlStart  {
+	cursor: default;
+}
+
+/* popup css */
+#kpiMgrPopupContents .svg-inline--fa {
+	width: 1.5em;
+	margin-top: 1px;
+}
+
+#kpiMgrPopupContents .w2ui-node-group {
+	background: linear-gradient(to bottom, rgb(54, 69, 101) , rgb(75, 88, 112));
+}
+
+#kpiMgrPopupContents .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-group :nth-child(2) {
+	float: left;
+}
+
+#kpiMgrPopupContents input:not([type=button]):not([type=submit]).w2ui-input, #kpiMgrPopupContents textarea.w2ui-input {
+    padding: 4px;
+    border: 1px solid #ffffff4f;
+    border-radius: 0px;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    line-height: normal;
+}
+#kpiMgrPopupContents .popupTop,
+#kpiMgrPopupContents .popupBottom {
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#kpiMgrPopupContents #kpiResult label,
+#kpiMgrPopupContents #kpiChartSet label {
+	color:#fff; 
+	float:left;
+    width: 14%;
+    padding-right: 9px;
+    margin-top: 8px;
+}
+
+#kpiMgrPopupContents #kpiResult #resultGrid {
+	height: 395px;
+	width: 86%;
+	float: left;
+	border: 1px solid #676d7c;
+	border-radius: 7px;
+	margin-top: 6px;
+}
+
+#kpiMgrPopupContents #kpiPopupField {
+    height: 48px;
+    overflow: auto;
+    padding: 0 0 0 0;
+    background-color: rgba(28, 37, 54, 0.85);
+    border: 1px solid;
+    border-color: rgb(169, 169, 169);
+}
+
+#kpiMgrPopupContents .kpiField {
+	padding: 1px 5px;
+	border-radius: 3px; 
+	color:#fff; 
+	background-color:#428bca; 
+	border-color:#357ebd; 
+	width: 125px; 
+	height: 20px;
+	margin: 2 3 2 3;
+	float: left;
+    text-align: left;
+    padding-top: 4px;
+}
+
+#kpiMgrPopupContents .kpi-droparea#valuesDrop {
+	width: 168px;
+    height: 228px;
+    overflow: auto;
+    padding: 0 0 0 0;
+    background-color: rgba(28, 37, 54, 0.85);
+    border: 1px solid;
+    border-color: rgb(169, 169, 169);
+}
+
+#kpiMgrPopupContents .kpi-droparea .drop-kpiBox {
+  	padding: 4px 5px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #6a77d5;
+    border-color: #6a77d5;
+    width: 160px;
+    height: 20px;
+    float: left;
+    margin: 2 3 2 3;
+}
+
+#kpiMgrPopupContents .kpi-droparea .drop-kpiBox .valueDrop-kpiData {
+    text-align: left;
+    width: 68px;
+    float: left;
+}
+
+#kpiMgrPopupContents .kpi-droparea .drop-kpiBox .kpiCloseBtn {
+    width: 13px;
+    float: right;
+}
+
+#kpiMgrPopupContents .kpi-pre-btn {
+	width: 22px;
+    height: 22px;
+    margin: 0;
+    padding: 0px 3px 3px 3px;
+}
+
+#kpiMgrPopupContents #kpiPreview {
+	height: calc(100% - 24px);
+    border: 1px solid;
+    background-color: rgba(28, 37, 54, 0.85) !important;
+    border-color: rgb(169, 169, 169);
+}
+
+#kpiMgrPopupContents #keysDrop {
+	height: 26px;
+    overflow: auto;
+    padding: 0 0 0 0;
+    background-color: rgba(28, 37, 54, 0.85);
+    border: 1px solid;
+    border-color: rgb(169, 169, 169);
+    margin-top: 5px;
+}
+
+#kpiMgrPopupContents .keyDrop-kpiData {
+	float: left;
+}

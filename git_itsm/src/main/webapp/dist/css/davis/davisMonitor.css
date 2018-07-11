@@ -1,0 +1,112 @@
+@CHARSET "UTF-8";
+
+.davisMonitor section.panel-type{
+	height : calc(100% - 272px); /* 35px */
+	padding : 5px;
+}
+
+.davisMonitor div.dashboard-panel{
+	height : 100%;
+}
+
+.davisMonitor div.tool-bar{
+	padding: 3px 5px;
+	float: right;
+}
+
+.davisMonitor div.yesMap{
+    height: calc(100% - 48px);
+}
+
+.davisMonitor div#eventBrower{
+	/* position: fixed;
+	bottom: -8px; */
+	height : 270px;
+	padding: 0 5px !important;
+}
+
+.davisMonitor div#severityDiv {
+    float: right;
+    margin-right: 0px;
+    padding: 7px;
+}
+
+.davisMonitor .severityBtnCls {
+    width: 76px;
+    height: 26px;
+    float: left;
+    margin-left: 10px;
+}
+
+.davisMonitor .severityBtn {
+    cursor: pointer;
+}
+
+.davisMonitor div.severityTxt {
+    width: 76px;
+    height: 26px;
+    color: white;
+    font-size: 12px;
+    position: relative;
+    top: -28px;
+    text-align: right;
+    padding: 5px 11px;
+    cursor: pointer;
+}
+
+/* Map Editor Detail Info Popup CSS*/
+#davisMoInfoPopupContents #mapSvgView {
+	width:150px; 
+	height:160px; 
+	border:1px solid rgba(76, 76, 76, 0.55);
+	border-radius:5px;
+	background: url(/dist/img/mapEditor/detail_info_bg.png) no-repeat center bottom 116%;
+}
+
+#davisMoInfoPopupContents #chartArea .chart-area-div {
+	width:100%;
+	height:79%;
+	border: 1px solid rgba(76, 76, 76, 0.55);
+    border-radius: 3px;
+}
+
+#davisMoInfoPopupContents div#severityDiv {
+    float: right;
+    margin-right: 0px;
+    padding: 7px;
+}
+
+#davisMoInfoPopupContents .severityBtnCls {
+	width: 76px;
+    height: 26px;
+    float: left;
+    margin-left: 10px;
+}
+
+#davisMoInfoPopupContents .severityByn {
+	cursor : pointer;
+}
+
+#davisMoInfoPopupContents div.severityTxt {
+	width: 76px;
+    height: 26px;
+    color: white;
+    font-size: 12px;
+    position: relative;
+    top: -26px !important;
+    text-align: right;
+    padding: 5px 11px;
+    cursor: pointer;
+}
+
+#davisMoInfoPopupContents div.severityTxt#allCntPop {
+	width: 76px;
+    height: 26px;
+    color: white;
+    font-size: 12px;
+    position: relative;
+    top: -24px !important;
+    text-align: right;
+    padding: 5px 11px;
+    cursor: pointer;
+}

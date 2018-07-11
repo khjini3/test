@@ -1,0 +1,379 @@
+@CHARSET "UTF-8";
+
+/*
+*:focus{outline: none;}
+
+.navbar {
+    margin-bottom: 0px;
+}
+*/
+
+.editor-3d table {
+	width: 100%; border-collapse: collapse; border-spacing: 0;
+}
+
+.editor-3d {
+	/*overflow: hidden;*/
+	background: rgba(0, 0, 0, 0.85);
+	color: #ccc;
+}
+
+
+/*
+ ******************************
+ * Plugin > jquery UI Layout CSS
+ ******************************
+ */
+/* 좌측 패널 배경색 */
+.editor-3d .ui-layout-west {
+	background-color: rgb(38, 38, 38);
+}
+
+/* 우측 패널 배경색 */
+.editor-3d .ui-layout-east {
+	background-color: rgb(38, 38, 38);
+}
+
+/* 중앙 패널 배경색 */
+.editor-3d .ui-layout-center {
+	background-color: rgb(38, 38, 38);
+}
+
+/* resizer 배경색 */
+.editor-3d .ui-layout-resizer {
+	background: black;
+}
+/* resizer south 배경색 */
+.editor-3d .ui-layout-resizer-south {
+	background: #8c8b8b;
+}
+
+/* resizer 토글버튼 배경색 */
+.editor-3d .ui-layout-toggler {
+	background: rgb(170, 170, 170);
+}
+
+/* resizer 토글버튼 hover시의 배경색 */
+.editor-3d .ui-layout-toggler:hover {
+	background: white;
+}
+
+
+/*
+ ******************************
+ * Plugin > dat.GUI CSS
+ ******************************
+ */
+/* 하단의 close 버튼 숨기기 */
+.editor-3d .close-button {
+	visibility: hidden;
+}
+
+/* X,Y,Z border-left 색상 */
+.editor-3d .folder .dg > ul > li:nth-child(2){ border-left: 3px solid #db2828 !important; }
+.editor-3d .folder .dg > ul > li:nth-child(3){ border-left: 3px solid #21ba45 !important; }
+.editor-3d .folder .dg > ul > li:nth-child(4){ border-left: 3px solid #2185d0 !important; }
+
+/* X,Y,Z 게이지바 색상 */
+.editor-3d .folder .dg > ul > li:nth-child(2) .slider-fg{ background: #db2828 !important; }
+.editor-3d .folder .dg > ul > li:nth-child(3) .slider-fg{ background: #21ba45 !important; }
+.editor-3d .folder .dg > ul > li:nth-child(4) .slider-fg{ background: #2185d0 !important; }
+
+/* bootstrap으로 인해 input text의 글자가 약간 아래로 내려오는 현상 보완 */
+.editor-3d .dg input { line-height: normal; }
+.editor-3d .dg .c input[type=text] { margin-top: 3px !important; }
+
+/* folder 타이틀바 배경색 */
+.editor-3d .dg li.title {
+	background: rgba(45, 62, 80, 1) url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
+	font-size: 12px;
+}
+
+
+/*
+ ******************************
+ * Plugin > W2UI CSS
+ ******************************
+ */
+.w2ui-confirm-msg, .w2ui-alert-msg {
+	color: white;
+}
+
+
+/*******************************
+* Sidebar module
+********************************
+*/
+.editor-3d .module-container {
+	/*padding: 0 10px 23px;*/
+	padding: 0;
+	/* margin: 0 -10px 13px; */
+	/* margin-bottom: 10px; */
+	/* border-bottom: 1px solid #dfdfdf; */
+	/* border-bottom: 1px solid rgba(255,255,255,0.1); */
+	/* border: 1px solid rgba(255,255,255,0.1); */
+	height: initial;
+}
+
+.editor-3d .module-heading {
+	height: 24px;
+	/*border-bottom: 2px solid #585858;*/
+	outline: 1px solid rgb(16,16,18);
+	background: linear-gradient(to bottom, rgb(64, 64, 69) , rgb(30, 30, 33));
+}
+
+.editor-3d .module-content {
+	/*padding: 10px 13px 15px 20px;*/
+	padding: 10px;
+}
+
+.editor-3d .module-heading>.title {
+	/* color: #2e2e2e; */
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 25px;
+	font-family: 'SIF';
+	/*margin-top: 6px;*/
+	margin-top: 1px;
+	margin-bottom: 3px;
+	padding-left: 16px;
+	border-left: 3px solid rgb(0, 182, 255);
+}
+
+
+/*
+ ******************************
+ * ICON
+ ******************************
+ */
+.editor-3d i.icon {
+	display: inline-block;
+	opacity: 1;
+	margin: 0;
+	/* width: 1.18em; */
+	/* height: 1em; */
+	/* font-family: Icons; */
+	/* font-style: normal; */
+	/* font-weight: 400; */
+	text-decoration: inherit;
+	text-align: center;
+	speak: none;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	
+	/*border: 1px solid rgb(91, 91, 92);*/
+	/*border-radius: 20px;*/
+	padding: 6px;
+	/*background: linear-gradient(to bottom, rgb(54, 54, 54) , rgb(38, 38, 38));*/
+	/*background: linear-gradient(to bottom, rgb(54, 58, 64) , rgb(38, 42, 48));*/
+	box-shadow: 0 2px 1px rgb(21, 24, 26);
+	color: white;
+	opacity: .5;
+}
+
+.editor-3d i.icon.active {
+	opacity: 1 !important;
+	background-color: rgba(111, 111, 111, 0.7);
+	/* outline: 1px dotted #a8a6ad; */
+	/* outline: 1px dashed #a8a6ad; */
+	/* outline: 1px solid #a8a6ad; */
+	/* outline: 1px groove #a8a6ad; */
+	outline: 1px inset #a8a6ad;
+    /* outline: 1px outset #a8a6ad; */
+}
+
+.editor-3d i.icon:hover {
+	opacity: 1 !important;
+}
+
+.editor-3d i.link.icon {
+	cursor: pointer;
+}
+
+.editor-3d .toolbar i.icon {
+	width: 30px;
+}
+
+/*
+ ******************************
+ * ETC
+ ******************************
+ */
+.editor-3d .field-list {
+	padding-top: 5px;
+}
+
+.editor-3d .field-item {
+	position: relative;
+	padding: 0 0 5px 0;
+	color: #ccc;
+}
+
+.editor-3d .field-item .field-label {
+	float: left;
+	width: 20%;
+	height: 24px;
+	line-height: 24px;
+	/*color: #555;*/
+	font-size: 12px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.editor-3d .field-item .field-form {
+	padding-left: 10px;
+	margin-left: 20%;
+}
+
+.editor-3d .field-item .field-form:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.editor-3d .field-item .field-form .half {
+	float: left;
+	width: 50%;
+}
+
+.editor-3d #renderCanvas {
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+.editor-3d .toolbar {
+	float: right;
+	/* position: absolute; */
+	/* right: 5px; */
+	/* top: 58px; */
+	margin-top: 1px;
+	margin-right: 8px;
+}
+
+.editor-3d .toolbar .split {
+	display: inline-block;
+    background-image: -webkit-linear-gradient(top,rgba(153,153,153,.1) 0,#999 40%,#999 60%,rgba(153,153,153,.1) 100%);
+    width: 1px!important;
+    height: 22px;
+    padding: 0;
+    margin: 0 6px;
+}
+
+.editor.button {
+	background-color: #1b1b1b;
+	color: rgba(255, 255, 255, 0.51);
+	width: 100%;
+	border: none;
+	padding: 8px;
+	/*font-weight: 700;*/
+	line-height: 1em;
+	text-align: left;
+	border-radius: .28571429rem;
+	box-shadow: rgba(255, 255, 255, 0.06) 0px 0px 0px 2px !important;
+	cursor: pointer;
+}
+
+.editor.button:hover {
+	background: rgba(255, 255, 255, 0.12);
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12) inset !important;
+	color: rgba(255, 255, 255, 1);
+}
+
+.editor-3d .field-item .field-form .field-inputtext {
+	width: 100%;
+	padding: 3;
+	font-size: 12px;
+	display: inline-block;
+	text-align: left;
+	height: 22px;
+	color: #2fa1d6;
+	background: rgba(255, 255, 255, 0.12);
+	border: none;
+}
+.editor-3d .field-item .field-form .field-inputtext:read-only {
+	background: rgba(255, 255, 255, 0.0);
+	border-bottom: 1px solid rgb(142, 142, 142);
+}
+
+.editor-3d .field-item .field-form input[type=range] {
+	-webkit-appearance: none;
+	width: 100%;
+	margin-top: 7px;
+}
+.editor-3d .field-item .field-form input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 8.4px;
+	cursor: pointer;
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	/* background: #0282c2; */
+	background: #d6e61f;
+	border-radius: 1.3px;
+	border: 0.2px solid #010101;
+}
+.editor-3d .field-item .field-form input[type=range]::-webkit-slider-thumb {
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	border: 1px solid #000000;
+	height: 20px;
+	width: 12px;
+	border-radius: 3px;
+	background: #fcffff;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -7px;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+  background: #0282c2;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 20px;
+  width: 12px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  height: 8.4px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #0282c2;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+}
+
+
+#fpsLabel {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	cursor: default;
+	z-index:10;
+	background-color: #535353;
+	color:white;
+	padding:5px;
+	border-radius: 3px;
+	font-family: 'Montserrat'
+}

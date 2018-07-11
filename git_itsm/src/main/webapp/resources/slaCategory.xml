@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sla>
+	
+	<category name="Database" value="1" display="off">
+	
+		<type name="Request Statistics" value="1001" parent="1" display="on">
+		
+			<pi name="Received Rate (bytes/second)" value="10001" parent="1001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100001" stat_column="p1" display="on"></pi>
+			
+			<pi name="Sent Rate(bytes)" value="10002" parent="1001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100002" stat_column="p1" display="on"></pi>
+			
+		</type>
+		
+		<type name="Connection Statistics" value="1002" parent="1" display="on">
+			
+			<pi name="Open Connections(counts)" value="10003" parent="1002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100003" stat_column="p1" display="on"></pi>
+			
+			<pi name="Aborted Connections(counts)" value="10004" parent="1002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p1" display="on"></pi>
+			
+			<pi name="Aborted Clients(counts)" value="10005" parent="1002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100005" stat_column="p1" display="on"></pi>
+			
+		</type>
+		
+		<type name="Thread Details" value="1003" parent="1" display="on">
+			
+			<pi name="Threads Used(counts)" value="10006" parent="1003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100006" stat_column="p1" display="on"></pi>
+			
+			<pi name="Threads in Cache(counts)" value="10007" parent="1003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100007" stat_column="p1" display="on"></pi>
+			
+			<pi name="Thread Cache Size(bytes)" value="10008" parent="1003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100008" stat_column="p1" display="on"></pi>
+		
+		</type>
+		
+		<type name="Table Lock Statistics" value="1004" parent="1" display="on">
+			
+			<pi name="Immediate Locks(counts)" value="10009" parent="1004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100009" stat_column="p1" display="on"></pi>
+			
+			<pi name="Locks Wait(counts)" value="10010" parent="1004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100010" stat_column="p1" display="on"></pi>
+		
+		</type>
+		
+		<type name="Key Efficiency" value="1005" parent="1" display="on">
+			
+			<pi name="Key Hitrate(%)" value="10011" parent="1005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100011" stat_column="p1" display="on"></pi>
+			
+			<pi name="Key Buffer Used(bytes)" value="10012" parent="1005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100012" stat_column="p1" display="on"></pi>
+			
+			<pi name="Key Buffer Size(bytes)" value="10013" parent="1005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100013" stat_column="p1" display="on"></pi>
+		
+		</type>
+		
+		<type name="Query Cache Hitrate" value="1006" parent="1" display="on">
+			
+			<pi name="Query Cache Hitrate(bytes)" value="10014" parent="1006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100014" stat_column="p1" display="on"></pi>
+			
+			<pi name="Query Cache Size(bytes)" value="10015" parent="1006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100015" stat_column="p1" display="on"></pi>
+			
+			<pi name="Query Cache Limit(bytes)" value="10016" parent="1006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100016" stat_column="p1" display="on"></pi>
+		
+		</type>						
+	
+	</category>
+	
+	<category name="Server" value="2" display="on">
+	
+		<type name="CPU" value="2001" parent="2" display="on">
+		
+			<pi name="User Time(%)" value="10017" parent="2001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100001" stat_column="p1" display="on"></pi>
+			
+			<pi name="System Time(%)" value="10018" parent="2001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100001" stat_column="p3" display="on"></pi>
+			
+			<pi name="I/O Wait TIme(%)" value="10019" parent="2001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100001" stat_column="p5" display="on"></pi>
+			
+			<pi name="Idle Time(%)" value="10020" parent="2001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100001" stat_column="p4" display="on"></pi>
+			
+			<pi name="CPU Utilzation(%)" value="10021" parent="2001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100001" stat_column="p8" display="on"></pi>			
+			
+		</type>
+		
+		<type name="Disk Utilization" value="2002" parent="2" display="on">
+			
+			<pi name="Used(%)" value="10022" parent="2002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100002" stat_column="p4" display="on"></pi>
+			
+			<pi name="Used(MB)" value="10023" parent="2002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100002" stat_column="p2" display="on"></pi>
+			
+			<pi name="Free(%)" value="10024" parent="2002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100002" stat_column="p5" display="on"></pi>
+			
+			<pi name="Free(MB)" value="10025" parent="2002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100002" stat_column="p3" display="on"></pi>	
+			
+		</type>
+		
+		<type name="Disk IO Statistics" value="2003" parent="2" display="off">
+			
+			<pi name="Transfers(sec)" value="10026" parent="2003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100026" stat_column="p1" display="on"></pi>
+			
+			<pi name="Write(sec)" value="10027" parent="2003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100027" stat_column="p1" display="on"></pi>
+			
+			<pi name="Read(sec)" value="10028" parent="2003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100028" stat_column="p1" display="on"></pi>
+			
+			<pi name="Busy Time(%)" value="10029" parent="2003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100029" stat_column="p1" display="on"></pi>
+			
+			<pi name="Average Queue Length(counts)" value="10030" parent="2003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100030" stat_column="p1" display="on"></pi>
+		
+		</type>
+		
+		<type name="Memory Information" value="2004" parent="2" display="on">
+		
+			<pi name="Total Physical Memory(MB)" value="10031" parent="2004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100003" stat_column="p4" display="on"></pi>
+			
+			<pi name="Total Swap Memory(MB)" value="10032" parent="2004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100003" stat_column="p8" display="on"></pi>
+			
+		</type>
+		
+		<type name="Processor Information" value="2005" parent="2" display="off">
+			
+			<pi name="Speen(MHz)" value="10033" parent="2005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100033" stat_column="p1" display="on"></pi>
+			
+			<pi name="Cache(KB)" value="10034" parent="2005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100034" stat_column="p1" display="on"></pi>
+			
+		</type>
+		
+		<type name="Network Interface" value="2006" parent="2" display="on">
+			
+			<pi name="RX(bytes)" value="10035" parent="2006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p1" display="on"></pi>
+			
+			<pi name="TX(bytes)" value="10036" parent="2006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p3" display="on"></pi>
+		
+			<pi name="RX(packets)" value="10037" parent="2006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p5" display="on"></pi>
+			
+			<pi name="TX(packets)" value="10038" parent="2006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p7" display="on"></pi>
+			
+			<pi name="RX Errors(counts)" value="10039" parent="2006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p9" display="on"></pi>
+			
+			<pi name="TX Errors(counts)" value="10040" parent="2006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100004" stat_column="p10" display="on"></pi>
+								
+		</type>		
+	
+	</category>
+	
+	<category name="Web Application Server" value="3" display="off">
+	
+		<type name="Overview" value="3001" parent="3" display="on">
+		
+			<pi name="Errors(counts)" value="10041" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100041" stat_column="p1" display="on"></pi>
+			
+			<pi name="Class Loaded(counts)" value="10042" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100042" stat_column="p1" display="on"></pi>
+		
+			<pi name="Class Unloaded(counts)" value="10043" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100043" stat_column="p1" display="on"></pi>
+			
+			<pi name="Total Class Loaded(counts)" value="10044" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100044" stat_column="p1" display="on"></pi>
+			
+			<pi name="Daemon Threads(counts)" value="10045" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100045" stat_column="p1" display="on"></pi>
+			
+			<pi name="Live Threads(counts)" value="10046" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100046" stat_column="p1" display="on"></pi>
+			
+			<pi name="Total Threads Started(counts)" value="10047" parent="3001" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100047" stat_column="p1" display="on"></pi>			
+			
+		</type>
+		
+		<type name="Memory" value="3002" parent="3" display="on">
+			
+			<pi name="Used Memory(MB)" value="10048" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100048" stat_column="p1" display="on"></pi>
+			
+			<pi name="Free Memory(MB)" value="10049" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100049" stat_column="p1" display="on"></pi>
+		
+			<pi name="Committed Memory(MB)" value="10050" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100050" stat_column="p1" display="on"></pi>
+			
+			<pi name="Maximum Memory(MB)" value="10051" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100051" stat_column="p1" display="on"></pi>
+			
+			<pi name="Used Memory(%)" value="10052" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100052" stat_column="p1" display="on"></pi>
+			
+			<pi name="Free Memory(%)" value="10053" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100053" stat_column="p1" display="on"></pi>
+			
+			<pi name="Collection Number(cnts/minute)" value="10054" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100054" stat_column="p1" display="on"></pi>
+			
+			<pi name="Collection Time(time/minute)" value="10055" parent="3002" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100055" stat_column="p1" display="on"></pi>			
+			
+		</type>
+		
+		<type name="Thread" value="3003" parent="3" display="on">
+			
+			<pi name="Busy Threads(counts)" value="10056" parent="3003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100056" stat_column="p1" display="on"></pi>
+			
+			<pi name="Current Threads(counts)" value="10057" parent="3003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100057" stat_column="p1" display="on"></pi>
+			
+			<pi name="Maximum Threads(counts)" value="10058" parent="3003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100058" stat_column="p1" display="on"></pi>
+			
+			<pi name="Used Threads(%)" value="10059" parent="3003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100059" stat_column="p1" display="on"></pi>
+			
+			<pi name="Free Threads(%)" value="10060" parent="3003" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100060" stat_column="p1" display="on"></pi>
+		
+		</type>
+		
+		<type name="JDBC" value="3004" parent="3" display="on">
+		
+			<pi name="Active Connections(counts)" value="10061" parent="3004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100061" stat_column="p1" display="on"></pi>
+			
+			<pi name="Idle Connections(counts)" value="10062" parent="3004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100062" stat_column="p1" display="on"></pi>
+			
+			<pi name="Active Connections(%)" value="10063" parent="3004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100063" stat_column="p1" display="on"></pi>
+			
+			<pi name="Idle Connections(%)" value="10064" parent="3004" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100064" stat_column="p1" display="on"></pi>
+			
+		</type>
+		
+		<type name="Web" value="3005" parent="3" display="on">
+			
+			<pi name="Request Count(counts)" value="10065" parent="3005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100065" stat_column="p1" display="on"></pi>
+			
+			<pi name="Error Count(counts)" value="10066" parent="3005" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100066" stat_column="p1" display="on"></pi>
+			
+		</type>
+		
+		<type name="Web Application" value="3006" parent="3" display="on">
+			
+			<pi name="successful Requests(counts)" value="10067" parent="3006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100067" stat_column="p1" display="on"></pi>
+			
+			<pi name="Fail Requests(counts)" value="10068" parent="3006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100068" stat_column="p1" display="on"></pi>
+			
+			<pi name="Open Sessions(counts)" value="10069" parent="3006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100069" stat_column="p1" display="on"></pi>
+			
+			<pi name="Expired Sessions(counts)" value="10070" parent="3006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100070" stat_column="p1" display="on"></pi>
+			
+			<pi name="Rejected Sessions(count)" value="10071" parent="3006" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100071" stat_column="p1" display="on"></pi>			
+		
+		</type>	
+		
+		<type name="Servlets" value="3007" parent="3" display="on">
+			
+			<pi name="Successful Requests(counts)" value="10072" parent="3007" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100072" stat_column="p1" display="on"></pi>
+			
+			<pi name="Fail Requests(counts)" value="10073" parent="3007" critical="0" major="0" minor="0" alarm_on_off="0" stat_id="100073" stat_column="p1" display="on"></pi>
+		
+		</type>				
+	
+	</category>
+
+</sla>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.core.db.session.SessionMapper">
+	
+	<sql id="Column_List">
+		id,loginId,privilegeId,ipAddress,loginTime
+	</sql>
+
+	<insert id="insertSession" parameterType="com.yescnc.core.entity.db.SessionVO">
+		<selectKey resultType="int" keyProperty="max_id" order="BEFORE">
+			select ifnull(max(id)+1, 1) from davis_session
+		</selectKey>
+		
+		INSERT INTO davis_session
+		(`id`,`loginId`,`privilegeId`,`ipAddress`,`loginTime`)
+		VALUES
+		(#{max_id},#{loginId},#{privilegeId},#{ipAddress},#{loginTime})
+	</insert>
+	
+	<update id="updateBySessionId" parameterType="com.yescnc.core.entity.db.SessionVO">
+		UPDATE davis_session
+		SET
+			`loginId` = #{loginId},
+			`privilegeId` = #{privilegeId},
+			`ipAddress` = #{ipAddress},
+			`loginTime` = #{loginTime}
+		WHERE `loginId` = #{loginId}
+	</update>
+	
+	<select id="selectSession" parameterType="com.yescnc.core.entity.db.SessionVO" 
+	resultType="com.yescnc.core.entity.db.SessionVO">
+		select
+			<include refid="Column_List" />
+		from davis_session
+		<if test="loginId != null">
+			where loginId = #{loginId}
+		</if>
+	</select>
+	
+	<select id="selectSessionForlogin" parameterType="com.yescnc.core.entity.db.SessionVO" 
+	resultType="com.yescnc.core.entity.db.SessionVO">
+		select
+			<include refid="Column_List" />
+		from davis_session
+		<if test="loginId != null">
+			where loginId = #{loginId}
+		</if>
+	</select>
+	
+	<select id="selectSessionList" resultType="com.yescnc.core.entity.db.SessionVO">
+		select
+			<include refid="Column_List" />
+		from davis_session
+	</select>
+	
+	<delete id="deleteBySessionId" parameterType="com.yescnc.core.entity.db.SessionVO">
+		delete from davis_session
+		<if test="id != null">
+			where id = #{id}
+		</if>
+	</delete>
+	
+	<select id="searchSessionList" parameterType="com.yescnc.core.entity.db.SessionVO" 
+	resultType="com.yescnc.core.entity.db.SessionVO">
+		select
+			<include refid="Column_List" />
+		from davis_session
+		<if test="loginId != null">
+			where loginId like CONCAT('%',#{loginId},'%')
+		</if>
+	</select>
+	
+	<select id="getNextSessionId" parameterType="map" resultType="com.yescnc.core.entity.db.SessionVO">
+		select ifnull(min(sessionId), -1) sessionId
+		from davis_session where state=0
+	</select>
+	 
+	<select id="getSessionCount"  resultType="java.lang.Integer">
+		select count(*) as count from davis_session
+   	</select> 
+	 
+	<update id="updSessionState" parameterType="com.yescnc.core.entity.db.SessionVO">
+		update davis_session set state = #{state}
+		where sessionId = #{sessionId}
+	</update>
+	
+	<update id="updAllSessionsIdle" parameterType="map">
+		update sm_t_sessions set state = 0
+	</update>
+	
+	<select id="isLogoutStatusOfSession"  parameterType="map" resultType="com.yescnc.core.entity.db.SessionVO">
+		select if(state=2,'true','false') logout_status 
+		from davis_session where sessionId = #{sessionId}
+   	</select> 	
+	
+</mapper>

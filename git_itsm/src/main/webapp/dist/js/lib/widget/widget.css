@@ -1,0 +1,54 @@
+/* 
+div.content-area .task-card-list .gridster li { width: 265px; height: 265px; border: 1px solid black; display: block !important;} 
+ */
+div.content-area .task-card-list li .widget-component {
+	width: 100%;
+	height: 100%;
+	border-radius: 3px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+} 
+article .header {
+    display: block;
+    height: 30px;
+    line-height: 27px;
+    padding: 2px 15px;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: rgba(55, 78, 124, 0.76);
+    color: #fff;
+}
+article .header .widget-title {
+    display: block;
+    font-size: 16px;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+article .header .button-group {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 5px;
+    background-size: 14px;
+    cursor: pointer;
+    float: right;
+    background: url(../../../img/menu/icon_set.png) no-repeat -394px -0px;
+}
+
+.chart .w2ui-grid-box {
+
+}
+
+.custom-widget .gs-resize-handle.gs-resize-handle-both {
+	display: none;
+}
+
+article { width: 100%; height: 100%; }
+article .header .widget-title { margin: 5 5 5 5; float: left}
+article .chart { width: 100%; height: calc(100% - 40px) }
+article .chart .widget-svg { width: 100%; height: 100%; }

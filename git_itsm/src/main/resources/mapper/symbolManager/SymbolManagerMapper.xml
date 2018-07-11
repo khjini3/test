@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     
+<mapper namespace="com.yescnc.jarvis.db.symbolManager.SymbolManagerMapper">
+	<insert id="addSymbol" parameterType="java.util.HashMap">
+		INSERT INTO davis_symbol (
+			symbol_name,
+			symbol_desc,
+			symbol_svg,
+			code_id
+		)
+		values(
+			#{symbol_name},
+			#{symbol_desc},
+			#{symbolSvg},
+			#{code_id}
+		)
+	</insert>
+	
+	<select id="getAssetList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		select @ROWNUM := @ROWNUM + 1 recid,
+				a.assetId,
+				a.assetName,
+				a.codeId,
+				a.modelId,
+				a.locId,
+				a.unitSize,
+				a.codeName,
+				a.locName,
+				a.modelName,
+				a.symbolSvg,
+				a.symbolSeqId
+				from(
+				      select @ROWNUM := 0 ROWNUM,
+				            asset.asset_id assetId,
+				            asset.asset_name assetName,
+				            asset.code_id codeId,
+				            asset.model_id modelId,
+				            asset.loc_id locId,
+				            asset.unit_size unitSize,
+				            symbol.symbol_svg symbolSvg,
+				            code.code_name codeName,
+				            loc.loc_name locName,
+				            model.model_name modelName,
+				            symbol.seq_id symbolSeqId
+				      from davis_asset asset 
+				      left join davis_symbol symbol on asset.symbol_seq_id = symbol.seq_id
+				      left join davis_code code on asset.code_id = code.code_id 
+				      left join davis_location loc on asset.loc_id = loc.loc_id 
+				      left join davis_model model ON model.model_id = asset.model_id
+				      where 1=1
+				      and code.code_id = #{id}) a
+				order by ISNULL(locName), locName;
+	</select>
+	
+	<select id="getSymbolList" parameterType="String" resultType="java.util.HashMap">
+		SELECT @ROWNUM := @ROWNUM + 1 recid,
+			seq_id,
+			symbol_name,
+			symbol_desc,
+			symbol_svg symbolSvg,
+			code_id
+		FROM davis_symbol, (SELECT @ROWNUM:=0) recid
+		WHERE code_id = #{id}
+		ORDER BY seq_id ASC
+	</select>
+	
+	<update id="updateSymbolList" parameterType="java.util.HashMap">
+		UPDATE davis_asset SET symbol_seq_id = (
+			SELECT seq_id
+			FROM davis_symbol
+			WHERE symbol_name = #{symbol_name}
+				AND code_id=#{code_id})
+		WHERE asset_id IN
+		<foreach item="item" index="index" collection="targetModels" open="(" separator="," close=")">
+				#{item.assetId}
+		</foreach>
+	</update>
+	
+	<select id="deleteSymbol" parameterType="java.util.HashMap">
+		DELETE FROM davis_symbol
+		WHERE code_id = #{code_id} AND 
+		symbol_name IN
+		<foreach item="item" collection="symbol_name" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="updateSymbolSvg" parameterType="java.util.HashMap">
+		UPDATE davis_asset SET symbol_seq_id = null 
+		WHERE code_id = #{code_id} 
+		AND symbol_seq_id = 
+			(SELECT seq_id 
+				FROM davis_symbol 
+				WHERE symbol_name IN
+					<foreach item="item" collection="symbol_name" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				AND code_id = #{code_id})
+	</select>
+	
+	<update id="modifySymbol" parameterType="java.util.HashMap">
+		UPDATE davis_symbol SET
+			symbol_name = #{symbol_name},
+			symbol_desc = #{symbol_desc},
+			symbol_svg = #{symbol_svg}
+		WHERE
+			seq_id = #{seq_id} AND
+			code_id = #{code_id}
+	</update>
+</mapper>

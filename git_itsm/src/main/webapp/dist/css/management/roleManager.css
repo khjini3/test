@@ -1,0 +1,224 @@
+@CHARSET "UTF-8";
+
+#roleManager .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#roleManager .contentsCls > div {
+	z-index: 98;
+}
+
+#roleManager div#mainTop,
+#roleManager div#leftTop,
+#roleManager div#rightTop {
+	height:35px;
+	text-align: right;
+	padding: 4px 0px 0px 10px;
+}
+
+#roleManager div#leftContents {
+	width:100%; 
+    height: calc(100vh - 83px);
+	padding-left: 10px;
+}
+
+#roleManager div#mainContents {
+	width:100%; 
+	height:100%;
+	padding-left: 10px;
+}
+
+#roleManager div#rightContents {
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+/* #roleManager div#leftBottom, */ #roleManager div#mainBottom, #roleManager div#rightBottom {
+	width : 100%;
+	height : calc(100vh - 173px);
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#roleManager div#leftGroup {
+	width: 100%;
+	height: calc(50vh - 152px);
+}
+
+#roleManager div#leftUser {
+	width: 100%;
+	height: calc(50vh - 100px);
+}
+
+#roleManager div#userGroupBtn {
+	float: right;
+}
+
+#roleManager #userGroupBtn svg.icon {
+    padding: 0px 5px 8px 5px;
+}
+div#userAllList {
+    width: 345px;
+    height: 345px;
+    margin-left: 168px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    padding: 0px;
+    margin-top: 11px;
+}
+
+#menuManager div#mainBottom {
+	width:100%;
+	height:-webkit-calc(100% - 92px);
+	padding: 5px 10px 5px 10px;
+}
+
+#roleManager div#mainBottom .w2ui-form-box{
+	width: 419px;
+    height: 809px;
+}
+
+#roleManager .w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#roleManager #mainBottom .w2ui-node-group {
+   display: none;
+}
+
+#roleManager div#menuDetailInfo {
+	height : calc(100vh - 173px);
+}
+
+#roleManager #menuDetailInfo.w2ui-reset input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]), 
+#roleManager .w2ui-reset select,
+#roleManager .w2ui-reset textarea{
+	width:100%!important;
+}
+
+#rightBottom .disableClass{
+	width:100%;
+	height:100%;
+	top: 0;
+    background-color: #fff0;
+    position: absolute;
+}
+
+/* SVG ICON */
+#roleManager svg.icon.link:hover {
+	opacity: 1;
+}
+
+#roleManager svg.link.icon {
+	cursor: pointer;
+}
+
+#roleManager svg.icon.link {
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+/* Disabled SVG ICON */
+#roleManager svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+}
+
+#roleManager svg.icon {
+	cursor: default;
+}
+
+#roleManager #menuMgrSaveBtn.svg-inline--fa.fa-w-14,
+#roleManager #menuDetailSaveBtn.svg-inline--fa.fa-w-14 {
+	width: 0.975em;
+	padding-top: 2px;
+}
+
+#roleManager .svg-inline--fa.fa-w-12 {
+	width: 0.85em;
+	padding-top: 2px;
+}
+
+#openCloseStatus > div > label {
+	width: 75px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#openCloseStatus > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+#roleManager #startPage > div > label {
+	width: 75px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#roleManager #startPage > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+#statusPopup > div > label {
+    width: 81px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+}
+
+#statusPopup > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+.readonlyEffect {
+	width: calc(100% - 8px) !important;
+    margin: 0px 0px 0px 4px !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    height: 21px !important;
+    right: 0px !important;
+    left: 0px !important;
+}
+
+/* Menu List Checkbox */
+#roleManager #mainBottom .menu-tree-checkbox {
+	float: left;
+	margin: 0px 4px 0px 0px;
+	pointer-events: none;
+}
+
+#roleManager #mainBottom .menu-tree-checkbox.check-x {
+	pointer-events: none;
+}
+
+#roleManager #mainBottom .menu-tree-checkbox {
+	pointer-events: auto;
+}
+
+#roleManager #mainBottom .w2ui-node-caption {
+	margin-left: 0px;
+}
+
+#roleManager #leftBottomContents .disableClass {
+    width: 96%;
+    height: 84%;
+    position: absolute;
+    bottom: 0px;
+}

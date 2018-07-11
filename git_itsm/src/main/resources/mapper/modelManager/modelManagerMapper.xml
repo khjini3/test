@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.modelManager.ModelManagerMapper">
+	<select id="getAssetTypeList" resultType="com.yescnc.jarvis.entity.db.IdcCodeVO">
+		SELECT CODE_ID id,
+				CODE_NAME name,
+				CODE_DESC codeDesc,
+				PARENT_CODE_ID parentId,
+				SORT_ORDER sortOrder
+		FROM DAVIS_CODE
+		WHERE 1=1
+	    AND CODE_ID IN ('985985a5-21a5-726a-e64c-d79203c6e656', '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca')
+	    OR PARENT_CODE_ID in ('985985a5-21a5-726a-e64c-d79203c6e656', '9e4236ad-b2d9-2ed6-d158-4b3d0c8307ca')
+		ORDER BY PARENT_CODE_ID, SORT_ORDER
+	</select>
+	
+	<select id="getModelList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		SELECT @ROWNUM := @ROWNUM + 1 recid, 
+           	   model.modelId,
+		       model.modelName, 
+		       model.modelDesc,
+		       'left' temp
+		FROM(SELECT  @ROWNUM := 0 ROWNUM,
+                     model_id modelId,
+		             model_name modelName,
+		             model_desc modelDesc,
+		             code_id codeId
+		      FROM davis_model) model
+		where 1=1
+		and model.codeId = #{id}
+	</select>
+	
+	<select id="getModelDbList" resultType="java.util.HashMap">
+		select model_name modelName
+		from davis_model
+	</select>
+	
+	<insert id="updateModelList" parameterType="java.util.HashMap">
+		insert into davis_model(model_id, model_name, code_id)
+		values
+		<foreach item="item" collection="leftData" separator="," >
+			(#{item.modelId}, #{item.modelName}, #{item.codeId})
+		</foreach>
+	</insert>
+	
+	<delete id="removeModelList" parameterType="java.util.HashMap">
+		delete from davis_model
+		where 1=1
+		and model_id in
+		<foreach item="item" collection="rightData" open="(" separator="," close=")">
+			#{item.modelId}
+		</foreach>
+	</delete>
+	
+</mapper>

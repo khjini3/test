@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yescnc.jarvis.db.idc.IdcMapper">
+    <select id="selectBuild" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcModelVO">
+    	SELECT loc.PARENT_LOC_ID parentId,
+		loc.LOC_ID assetId,
+		loc.LOC_NAME toolTipTxt,
+		loc.CODE_ID codeId,
+    	code.CODE_NAME modelType,
+		loc.MODEL_ID modelId,
+		model.MODEL_NAME modelName,
+		loc.POSITION_X positionX,
+		loc.POSITION_Y positionY,
+		loc.POSITION_Z positionZ,
+		loc.SCALE_X scaleX,
+		loc.SCALE_Y scaleY,
+		loc.SCALE_Z scaleZ,
+		loc.ROTATION_X rotationX,
+		loc.ROTATION_Y rotationY,
+		loc.ROTATION_Z rotationZ,
+		loc.camera camera,
+		IF(loc.IS_PICKABLE =1, 'Y','N') eventFlug,
+		IF(loc.IS_TOOLTIP=1,'Y','N') toolTipFlug,
+		IF(loc.LOC_ID=#{locId},'root','sub') partitionType
+		FROM idc_location loc left join idc_model model on loc.MODEL_ID = model.MODEL_ID 
+    	left join idc_code code ON code.CODE_ID = loc.CODE_ID
+		WHERE 1=1
+		AND loc.LOC_ID = #{locId}
+		OR loc.PARENT_LOC_ID = #{locId}
+	</select>
+	
+    <select id="selectFloor" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcModelVO">
+    	SELECT loc.PARENT_LOC_ID parentId,
+			    loc.LOC_ID assetId,
+				loc.LOC_NAME toolTipTxt,
+				loc.CODE_ID codeId,
+		    	code.CODE_NAME modelType,
+				loc.MODEL_ID modelId,
+				model.MODEL_NAME modelName,
+				loc.POSITION_X positionX,
+				loc.POSITION_Y positionY,
+				loc.POSITION_Z positionZ,
+				loc.SCALE_X scaleX,
+				loc.SCALE_Y scaleY,
+				loc.SCALE_Z scaleZ,
+				loc.ROTATION_X rotationX,
+				loc.ROTATION_Y rotationY,
+				loc.ROTATION_Z rotationZ,
+				IF(loc.IS_PICKABLE =1, 'Y','N') eventFlug,
+				IF(loc.IS_TOOLTIP=1,'Y','N') toolTipFlug
+		FROM idc_location loc left join idc_model model on loc.MODEL_ID = model.MODEL_ID 
+    	left join idc_code code ON code.CODE_ID = loc.CODE_ID
+		WHERE 1=1
+		AND loc.PARENT_LOC_ID = #{id}
+	</select>
+	
+    <select id="selectRoom" parameterType="String" resultType="com.yescnc.jarvis.entity.db.IdcModelVO">
+	      SELECT loc.LOC_ID compId,
+		       loc.LOC_NAME toolTipTxt,
+		       loc.LOC_ID assetId,
+		       loc.LOC_ID locId,
+		       loc.POSITION_X positionX,
+		       loc.POSITION_Y positionY,
+		       loc.POSITION_Z positionZ,
+		       loc.SCALE_X scaleX,
+		       loc.SCALE_Y scaleY,
+		       loc.SCALE_Z scaleZ,
+		       loc.ROTATION_X rotationX,
+		       loc.ROTATION_Y rotationY,
+		       loc.ROTATION_Z rotationZ,
+		       loc.camera,
+		       IF(loc.IS_PICKABLE =1, 'Y','N') eventFlug,
+		       IF(loc.IS_TOOLTIP=1,'Y','N') toolTipFlug,
+		       'root' partitionType,
+		       loc.CODE_ID codeId,
+		       code.CODE_NAME modelType,
+		       loc.MODEL_ID modelId,
+		       model.MODEL_NAME modelName
+		FROM idc_location loc left join idc_model model on loc.MODEL_ID = model.MODEL_ID 
+		    	left join idc_code code ON code.CODE_ID = loc.CODE_ID
+		WHERE 1=1
+		      AND loc.LOC_ID =  #{id}
+		UNION
+		SELECT COMP.COMP_ID compId,
+		       COMP.COMP_NAME toolTipTxt,
+		       COMP.ASSET_ID assetId,
+		       COMP.LOC_ID locId,
+		       COMP.POSITION_X positionX,
+		       COMP.POSITION_Y positionY,
+		       COMP.POSITION_Z positionZ,
+		       COMP.SCALE_X scaleX,
+		       COMP.SCALE_Y scaleY,
+		       COMP.SCALE_Z scaleZ,
+		       COMP.ROTATION_X rotationX,
+		       COMP.ROTATION_Y rotationY,
+		       COMP.ROTATION_Z rotationZ,
+		       '' camera,
+		       IF(COMP.IS_PICKABLE =1, 'Y','N') eventFlug,
+		       IF(COMP.IS_TOOLTIP=1,'Y','N') toolTipFlug,
+		       'sub' partitionType,
+		       CODE.CODE_ID codeId,
+		       CODE.CODE_NAME modelType,
+		       MODEL.MODEL_ID modelId,
+		       MODEL.MODEL_NAME modelName
+		FROM IDC_COMPONENT COMP LEFT JOIN IDC_ASSET ASSET ON COMP.ASSET_ID = ASSET.ASSET_ID 
+		      LEFT JOIN IDC_CODE CODE ON ASSET.CODE_ID = CODE.CODE_ID 
+		      LEFT JOIN IDC_MODEL MODEL ON ASSET.MODEL_ID = MODEL.MODEL_ID
+		WHERE 1=1
+		      AND COMP.LOC_ID =  #{id} AND COMP.ASSET_ID IS NOT NULL
+		UNION
+		SELECT COMP.COMP_ID compId,
+		       COMP.COMP_NAME toolTipTxt,
+		       COMP.COMP_ID assetId,
+		       COMP.LOC_ID locId,
+		       COMP.POSITION_X positionX,
+		       COMP.POSITION_Y positionY,
+		       COMP.POSITION_Z positionZ,
+		       COMP.SCALE_X scaleX,
+		       COMP.SCALE_Y scaleY,
+		       COMP.SCALE_Z scaleZ,
+		       COMP.ROTATION_X rotationX,
+		       COMP.ROTATION_Y rotationY,
+		       COMP.ROTATION_Z rotationZ,
+		       '' camera,
+		       IF(COMP.IS_PICKABLE =1, 'Y','N') eventFlug,
+		       IF(COMP.IS_TOOLTIP=1,'Y','N') toolTipFlug,
+		       'sub' partitionType,
+		       CODE.CODE_ID codeId,
+		       CODE.CODE_NAME modelType,
+		       MODEL.MODEL_ID modelId,
+		       MODEL.MODEL_NAME modelName
+		FROM IDC_COMPONENT COMP LEFT JOIN IDC_MODEL MODEL ON COMP.NA_MODEL_ID = MODEL.MODEL_ID
+		      LEFT JOIN IDC_CODE CODE ON MODEL.CODE_ID = CODE.CODE_ID
+		WHERE 1=1
+		      AND COMP.LOC_ID =  #{id} AND COMP.ASSET_ID IS NULL
+		      AND COMP.NA_MODEL_ID IS NOT NULL
+	</select>
+	
+	<select id="selectEventList" resultType="com.yescnc.jarvis.entity.db.EventListVO">
+		SELECT @ROWNUM := @ROWNUM + 1 AS recid,
+		       MSG_GRP msgGrp,
+		       NAME name,
+		       APPLICATION app,
+		       OBJECT obj,
+		       SEVERITY severity,
+		       UPDATE_TIME updateTime,
+		       DUPLICATION dupplication,
+		       IP
+		  FROM (SELECT @ROWNUM := 0 ROWNUM,
+		               MSG_GRP,
+		               NAME,
+		               APPLICATION,
+		               OBJECT,
+		               SEVERITY,
+		               UPDATE_TIME,
+		               DUPLICATION,
+		               IP
+		          FROM IDC_EVENT) a
+	</select>
+	
+	<select id="selectRackInfo" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		select asset.asset_id assetId,
+			   asset.asset_name assetName,
+			   asset.code_id codeId,
+			   asset.model_id modelId,
+			   asset.loc_id locId,
+			   asset.unit_size unitSize,
+	      	   model.model_name modelName    
+		from idc_asset asset left join idc_model model on asset.model_id = model.model_id
+		where asset.asset_id = #{rackId}
+	</select>
+	
+	<select id="selectRackInList" parameterType="String" resultType="com.yescnc.jarvis.entity.db.AssetInfoVO">
+		select @ROWNUM := @ROWNUM + 1 AS recid,
+		       assetId,
+		       assetName,
+			   unitIndex,
+			   startPosition,
+			   parentId,
+	           modelName,
+	           unitSize
+		from(select @ROWNUM := 0 ROWNUM,
+			        place.asset_id assetId,
+			        asset.asset_name assetName,
+			        place.uindex unitIndex,
+			        place.start_pos startPosition,
+			        place.parent_asset_id parentId,
+		            model.model_name modelName,
+		            asset.unit_size unitSize
+			from idc_rack_place place left join idc_asset asset on place.asset_id = asset.asset_id left join idc_model model on asset.model_id = model.model_id) a
+		where 1=1
+		and a.parentId = #{rackId}
+		order by startPosition desc
+	</select>
+	
+	<select id="getPOPUPEventData" parameterType="String"  resultType="com.yescnc.jarvis.entity.db.EventListVO">
+		SELECT @ROWNUM := @ROWNUM + 1 AS recid,
+		       MSG_GRP msgGrp,
+		       NAME name,
+		       PARENT_NAME parentName,
+		       APPLICATION app,
+		       OBJECT obj,
+		       SEVERITY severity,
+		       UPDATE_TIME updateTime,
+		       DUPLICATION dupplication,
+		       IP
+		  FROM (SELECT @ROWNUM := 0 ROWNUM,
+		               MSG_GRP,
+		               NAME,
+		               PARENT_NAME,
+		               APPLICATION,
+		               OBJECT,
+		               SEVERITY,
+		               UPDATE_TIME,
+		               DUPLICATION,
+		               IP
+		          FROM IDC_EVENT) a
+		          
+		  WHERE A.PARENT_NAME = #{rackId}
+	</select>
+	
+	<select id="getMainIconSeverityData" resultType="java.util.HashMap">
+		SELECT  ROUND( rand()*4+1, 0) server,
+				ROUND( rand()*4+1, 0) ups,
+				ROUND( rand()*4+1, 0) temperature,
+				ROUND( rand()*4+1, 0) waterLeak
+	</select>
+	
+	<select id="getTemperData" resultType="java.util.HashMap">
+		SELECT  ROUND( rand()*40+1, 0) t1,
+				ROUND( rand()*40+1, 0) t2,
+				ROUND( rand()*40+1, 0) t3,
+				ROUND( rand()*40+1, 0) t4
+	</select>
+	
+	<insert id="dumyEventDataInsert">
+		insert into idc_event(name, severity) values('A04', 5);	
+	</insert>
+	
+	<delete id="ackData" parameterType="java.util.HashMap">
+		delete from idc_event where 1=1
+		and name in
+		<foreach item="item" collection="dataAC" open="(" separator="," close=")">
+			#{item.name}
+		</foreach>
+	</delete>
+</mapper>

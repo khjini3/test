@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+.contentsCls{
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+.contentsCls > div {
+	z-index: 98;
+}
+
+#operationHistory div#leftContents{width:100%; height:100%;padding-left: 10px;}
+#operationHistory div#mainTop,
+#operationHistory div#leftTop{
+	height:35px;
+	text-align: right;
+	padding-top: 10px;
+}
+
+#operationHistory div#mainContents{
+	width:100%;
+	height:100%;
+	padding: 0px 10px;
+}
+
+#operationHistory div#mainSubBottom{
+	width: 100%;
+	height:calc(100vh - 230px);
+}
+
+#operationHistory div#leftBottom {
+	width:100%;
+	height:calc(100vh - 176px);
+	padding: 5px 10px 5px 10px;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+
+#operationHistory #userId{
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.1);
+}	
+
+#operationHistory #getUserList{
+	cursor: default;
+}
+
+#operationHistory .userId_list {
+	padding-right: 2px;
+	width: 25px;
+	position: relative;
+	top: -17px;
+	float: right;
+    color: white;
+}

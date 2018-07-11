@@ -1,0 +1,115 @@
+@CHARSET "UTF-8";
+
+#defect .contentsCls {
+	 width: 100%; height: 100%;
+	 float:left;
+}
+
+#defect .contentsCls > div {
+	z-index: 98;
+}
+
+#defect div#searchContents,
+#defect div#mainContents {
+	width : 100%;
+	padding : 4px 10px;
+}
+
+#defect div#searchBottom {
+	width : 100%;
+	height : calc(10vh - 8px);
+}
+
+#defect #searchBottom .search-options.border {
+	width: 435px; 
+	float: left; 
+	margin-left: 0px;
+    border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+#defect #searchBottom .search-options {
+	width: 435px; 
+	float: left; 
+	margin-left: 0px;
+}
+
+#defect div#mainTop {
+	width : 100%;
+	height : 35px;
+	padding: 4px 0px 0px 10px;
+}
+
+#defect div#mainTop .align-left-btn {
+	float : left;
+}
+
+#defect div#mainTop .align-right-btn {
+	float : right;
+}
+
+#defect div#mainTop .align-left-btn span {
+	position : relative;
+    bottom : 8px;
+}
+
+#defect div#mainBottom {
+	width : 100%;
+	height : calc(89vh - 173px);
+}
+
+#defect #manager {
+	cursor : pointer;
+	background-color : rgba(255, 255, 255, 0.1);
+}
+
+#defect .manager-list {
+	width : 25px !important;
+    position : relative;
+    top: 4px;
+    float : left;
+    color : white;
+}
+
+/* SVG ICON */
+#defect svg.icon.link:hover {
+	opacity: 1!important
+}
+
+#defect svg.link.icon {
+	cursor: pointer;
+}
+
+#defect svg.icon.link{
+	color: white;
+	opacity: .5;
+	/* padding-left: 8px; */
+}
+
+#defect .svg-inline--fa.fa-w-18 {
+	width:1.125em;
+	/* padding-top:2px; */
+}
+
+#defect #codeMgrSaveBtn.svg-inline--fa.fa-w-14 {
+	width:0.975em;
+	padding-top:2px;
+}
+
+#defect .svg-inline--fa.fa-w-12 {
+	width:0.85em;
+	padding-top:2px;
+}
+
+/* Disabled SVG ICON */
+#defect svg.icon{
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#defect svg.icon{
+	cursor: default;
+}
+
+

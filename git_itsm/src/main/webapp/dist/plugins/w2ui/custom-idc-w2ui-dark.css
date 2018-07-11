@@ -1,0 +1,435 @@
+@CHARSET "UTF-8";
+
+/*
+*******************************
+* W2UI Form CSS
+*******************************
+*/
+
+.w2ui-form .w2ui-form-header{
+	text-align: left;
+}
+
+ * .w2ui-field > label{
+	text-align: left;
+    color: #ffffff;
+    /* background-color: #111214; */
+    border-radius: 6px;
+    /* border: 2px solid rgba(97, 98, 100, 0.5); */
+    border: 2px solid rgba(97, 98, 100, 0);
+    padding: 5px 6px 6px 5px;
+	margin-top: 1px;
+	margin-bottom: 0px;
+	width: 115px;
+}
+
+.w2ui-field.w2ui-span6 > label {
+    width: 123px;
+}
+
+.w2ui-form {
+	background-color: rgba(1,1,1,0);
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.w2ui-form .w2ui-form-header {
+	background-image: -webkit-linear-gradient(#dae6f3, #c2d5ed); */
+    background-image: -moz-linear-gradient(#dae6f3, #c2d5ed);
+    background-image: -ms-linear-gradient(#dae6f3, #c2d5ed);
+    background-image: -o-linear-gradient(#dae6f3, #c2d5ed);
+    /* background-image: linear-gradient(#dae6f3, #c2d5ed); */
+    /* background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1)); */
+    /* background: linear-gradient(to bottom, rgb(81, 81, 88) , rgb(11, 11, 12)); */
+    background: linear-gradient(to bottom, rgb(62, 61, 61) , rgb(0, 0, 0));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff;
+}
+
+/********************************
+* W2UI POPUP CSS
+********************************/
+.w2ui-popup .w2ui-popup-close:hover {
+    background-color: rgba(0,0,0,0) !important;
+   /*  border: 1px solid #aaaaaa; */
+}
+
+/*******************************
+* 툴바 배경 
+*******************************/
+.w2ui-grid .w2ui-grid-toolbar {
+	background-color: rgba(234, 234, 234, 0)  !important;
+}
+
+/* 팝업 배경 */
+.w2ui-popup .w2ui-popup-body{
+	/* background-color: rgba(0,0,0,0.6) !important; */
+	background-color: rgba(2, 15, 39, 0.8) !important;
+	overflow: hidden !important;
+}
+
+.w2ui-popup-buttons{
+	    background-image: linear-gradient(rgba(2, 15, 39, 0.8), rgba(2, 15, 39, 0.8)) !important;
+	  
+}
+
+.w2ui-popup .w2ui-popup-buttons{
+	  background-color: rgba(0,0,0,0);
+	      border-top: 1px solid rgba(0,0,0,0);
+}
+
+.w2ui-popup {
+	background-color: rgba(0,0,0,0)  !important;
+}
+
+/* 팝업 기본 글씨 색상 */
+.w2ui-popup .w2ui-popup-body{
+	color : #ffffff;
+}
+
+/* 팝업 버튼 */
+button.w2ui-btn {
+	-webkit-transition-duration: 0.2s;
+    background: #314368; 
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0);
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 5px;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0);
+    min-width: 50px;
+    margin : -10px 10px 0px 0px;
+    cursor: pointer;
+}
+
+button.w2ui-btn:hover {
+	background: #5b7bbd;
+  	border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0);
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 5px;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0);
+    min-width: 50px;
+    margin : -10px 10px 0px 0px;
+}
+
+button.w2ui-btn:active,
+button.w2ui-btn.clicked {
+    background: #314368;
+  	border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0);
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 5px;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0);
+    min-width: 50px;
+    margin : -10px 10px 0px 0px;
+}
+button.w2ui-btn:disabled {
+  border: 1px solid rgba(0,0,0,0) !important;
+  background: #f7f7f7 !important;
+  color: #bdbcbc !important;
+  text-shadow: none !important;
+}
+
+button.w2ui-btn:focus:before {
+  content: "";
+  /* border: 1px dashed #aaa; */
+  border: 1px dashed rgba(0,0,0,0);
+  border-radius: 3px;
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  pointer-events: none;
+}
+
+.w2ui-popup .w2ui-popup-title {
+	background-image: -webkit-linear-gradient(rgba(55, 78, 124, 0.9), rgba(55, 78, 124, 0.9) );
+    background-image: -moz-linear-gradient(rgba(55, 78, 124, 0.9), rgba(55, 78, 124, 0.9) );
+    background-image: -ms-linear-gradient(rgba(55, 78, 124, 0.9), rgba(55, 78, 124, 0.9) );
+    background-image: -o-linear-gradient(rgba(55, 78, 124, 0.9), rgba(55, 78, 124, 0.9) );
+    background-image : linear-gradient(rgba(55, 78, 124, 0.9), rgba(55, 78, 124, 0.9) ) !important;
+    
+    border-bottom: 1px solid #bfbfbf !important;
+    color: #ffffff !important;
+    text-align: left !important;
+    padding: 6px 6px 6px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.w2ui-popup-title:before{
+	content : " ";
+}
+/********************************
+* W2UI Table CSS // Table 마다 다르게 적용 하고 싶으면 앞에 ID를 붙일 것
+* ex) #eventBottom.w2ui-grid .w2ui-grid-body table .w2ui-head 
+*******************************
+*/
+
+.w2ui-col-header {text-align: center;}
+
+/* 비활성화 테이블 배경 */
+.w2ui-lock {
+	    background-color: rgba(51, 51, 51, 0.2);
+}
+
+/* Event Brower CSS  */
+/* 테이블 홀수 배경 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd {
+    background-color: rgba(0,0,0,0) ;
+}
+
+/* 선택한 셀 배경 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd.w2ui-record-hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd.w2ui-record-hover{
+	background-color: rgba(182, 213, 255, 0.1) ;
+}
+
+/* 테이블 짝수 배경 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even {
+    /* background-color: rgba(0,0,0,0); !important */
+    background-color: rgba(0,0,0,0) ;
+}
+
+/* 선택한 셀 배경 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even:hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even.w2ui-record-hover, .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even.w2ui-record-hover{
+	background-color: rgba(182, 213, 255, 0.1) ;
+} 
+
+.w2ui-grid .w2ui-grid-body {background-color: rgba(255,255,255,0) !important;}
+
+/* 빈테이블  짝수*/
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd.w2ui-empty-record:hover,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd.w2ui-empty-record:hover {
+  background: transparent;
+}
+
+/* 빈테이블 홀수*/
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even.w2ui-empty-record:hover,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even.w2ui-empty-record:hover {
+  background: transparent;
+}
+
+/* Tabel Font 색상 */
+.w2ui-grid .w2ui-grid-body table {color:#ffffff;} 
+
+/* Table 우측 라인과 하단 라인*/
+.w2ui-grid .w2ui-grid-body table td {
+	border-right: 0px solid rgba(255, 255, 255, 0.1) !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Table 체크박스 우측 1px 작아서 넓힘 */
+.w2ui-grid .w2ui-grid-body table .w2ui-col-select{
+	width: 27px;
+}
+
+/* Table 체크박스 헤더의 그림자로 인해 떨어져 보이는 현상 */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-columns, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns{
+	    box-shadow: 0px 1px 0px #131313 !important;
+}
+
+
+/********************************
+ *Table Header
+ ******************************* 
+ */
+.w2ui-grid .w2ui-grid-body table .w2ui-head {
+	/* font-weight :  bold; */
+	color : #ffffff !important;
+	font-size: 11px !important;
+	background-image: -webkit-linear-gradient(rgba(89,100,122,1), rgba(67,79,103,1), rgba(47,59,83,1)) !important;
+    background-image: -moz-linear-gradient(rgba(89,100,122,1), rgba(67,79,103,1), rgba(47,59,83,1)) !important;
+    background-image: -ms-linear-gradient(rgba(89,100,122,1), rgba(67,79,103,1), rgba(47,59,83,1)) !important;
+    background-image: -o-linear-gradient(rgba(89,100,122,1), rgba(67,79,103,1), rgba(47,59,83,1)) !important;
+    background-image: linear-gradient(rgba(89,100,122,1), rgba(67,79,103,1), rgba(47,59,83,1) ) !important;
+    border-top: 1px solid rgba(79,79,79,1);
+/*     background-image: linear-gradient(rgba(255, 255, 255, 0), #707072, rgba(255, 255, 255, 0)) !important; */
+}
+
+.w2ui-reset table tr th, .w2ui-reset table tr td {
+    font-size: 12px;
+} 
+
+
+
+/*******************************
+ *테이블 외곽 및 기타 설정 
+ *******************************/
+.w2ui-grid {
+   /*  position: relative;
+    border: 1px solid #c0c0c0;
+    border-radius: 2px;
+    overflow: hidden !important; */
+	border: 1px solid rgba(255, 255, 255, 0);
+	border-radius: 3px;
+}
+
+/*******************************
+* 검색 결과 
+******************************
+*/
+.w2ui-marker {
+    color: #ffffff !important;
+    background-color: rgba(252, 244, 161, 0)!important;
+}
+
+/*******************************
+* DropDown List
+******************************
+*/
+.w2ui-overlay{
+	background-color: rgba(56, 56, 56, 0.8)!important;
+}
+
+/*******************************
+* W2UI Toolbar CSS
+******************************
+*/
+
+.w2ui-toolbar {
+	background-color : rgba(0,0,0,0);
+}
+
+/*******************************
+* W2UI SideBar
+********************************
+*/
+.w2ui-popup .w2ui-sidebar {
+	background-color: rgba(0,0,0,0);
+}
+
+.w2ui-sidebar .w2ui-sidebar-div {
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 3px;
+}
+
+/*******************************
+* font color
+********************************
+*/
+button, input, optgroup, select, textarea{
+	color: #000000;	
+}
+
+/* W2UI Form */
+.w2ui-column-container{
+	display: block!important;
+}
+
+.w2ui-select{
+  color: white !important;
+}
+
+.w2ui-form .w2ui-form-header {
+	background: linear-gradient(to bottom, rgb(81, 81, 88) , rgb(11, 11, 12));
+}
+
+
+/* Calendar CSS Start */
+.w2ui-calendar .w2ui-calendar-title{
+	 text-shadow: 1px 1px 1px rgba(1,1,1,0);
+	background-image: -webkit-linear-gradient(#2c3b5b, #2f3c59) !important;
+    background-image: -moz-linear-gradient(#2c3b5b, #2f3c59) !important;
+    background-image: -ms-linear-gradient(#2c3b5b, #2f3c59) !important;
+    background-image: -o-linear-gradient(#2c3b5b, #2f3c59) !important;
+    background-image: linear-gradient(#2c3b5b, #2f3c59) !important;
+}
+
+.w2ui-calendar table.w2ui-calendar-days tr.w2ui-day-title td{
+	border: 1px solid #445370 ;
+    background-color: #2e3d5a ;
+}
+
+.w2ui-calendar table.w2ui-calendar-days td.w2ui-day-empty {
+    border: 1px solid #445370 ;
+    background-color: #061128 ;
+}
+
+.w2ui-calendar table.w2ui-calendar-days td{
+	border: 1px solid #445370 ;
+    background-color: #2e3b57 ;
+}
+
+.w2ui-calendar table.w2ui-calendar-days td.w2ui-saturday, .w2ui-calendar table.w2ui-calendar-days td.w2ui-sunday{
+	border: 1px solid #445370 ;
+    background-color: #2e3b57 ;
+    color: #e36742 ;
+    
+}
+
+.w2ui-overlay > div{
+	border: 1px solid #989898 !important;
+	background-color: #131d30; /* carendar 때문에 추가 */
+}
+
+.w2ui-calendar table.w2ui-calendar-days td.w2ui-saturday:hover,
+.w2ui-calendar table.w2ui-calendar-days td.w2ui-sunday:hover {
+  border: 1px solid #c0c0c0;
+  color: #ffffff;
+  background-color: #768fc2;
+}
+
+.w2ui-calendar table.w2ui-calendar-days td:hover {
+    border: 1px solid #c0c0c0;
+    color: #ffffff;
+    background-color: #768fc2;
+}
+
+.w2ui-calendar table.w2ui-calendar-days td.w2ui-today {
+  background-color: #5b75a9;
+}
+
+.w2ui-calendar .w2ui-calendar-jump{
+	background-color: #2e436f;
+}
+
+.w2ui-calendar .w2ui-calendar-jump .w2ui-jump-month:hover,
+.w2ui-calendar .w2ui-calendar-jump .w2ui-jump-year:hover {
+  border: 1px solid #c0c0c0;
+  color: #ffffff;
+  background-color: #768fc2;
+}
+
+.w2ui-calendar .w2ui-calendar-jump .w2ui-jump-year{
+	width: 77%;
+}
+
+.w2ui-calendar .w2ui-calendar-previous:hover,
+.w2ui-calendar .w2ui-calendar-next:hover {
+  background-color: #768fc2;
+}
+
+.w2ui-calendar .w2ui-calendar-jump .w2ui-jump-month.selected, 
+.w2ui-calendar .w2ui-calendar-jump .w2ui-jump-year.selected {
+    background-color: #556484;
+}
+
+/* Calendar CSS End */
+
+/*
+가로 스크롤 Start
+*/
+
+.w2ui-grid .w2ui-grid-body .w2ui-grid-scroll1 {
+    border-top: none ;
+    border-right: none ;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+/*
+가로 스크롤 End
+*/

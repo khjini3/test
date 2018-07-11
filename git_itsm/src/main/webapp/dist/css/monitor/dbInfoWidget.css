@@ -1,0 +1,18 @@
+.dbInfo-chart {
+	width : 50%;
+	height : 100%;
+	float: left;
+}
+
+.dbInfo-chart-title {
+    position: absolute;
+    top: 15px;
+    padding: 5 5 5 5;
+}
+
+.dbInfo-chart-network,
+.dbInfo-chart-conn {
+	width : 100%;
+	height : 100%;
+	float: left;
+}

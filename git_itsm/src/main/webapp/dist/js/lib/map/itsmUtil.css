@@ -1,0 +1,101 @@
+@CHARSET "UTF-8";
+
+#emailSiteLeftContents .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-group{
+	display: none;
+}
+
+#emailSiteLeftContents{
+	width:35%;float:left;
+}
+
+#emailSiteRightContents{
+	width:64%;float:right;
+}
+
+.w2ui-tag{
+	   /*  z-index: 9999; */
+}
+
+#email_popup .w2ui-readonly {
+    background-color: #434343 !important;
+    color: #777 !important;
+}
+
+input#mailAttachfile{
+	height :50px;
+}
+
+#attachFileContents .w2ui-list {
+    text-align: left;
+    padding-left: 10px;
+    left: 67px;
+    border: 0px solid #777777;
+    width : 79% !important;
+    height : 35px !important;
+    overflow: auto !important;
+}
+
+input#attachFileBtn{
+	height : 35px !important; 
+}
+
+svg.itsm{
+	font-size: 21px;
+    padding-left: 5px;
+    opacity: 0.2;
+    color: #fff;
+}
+
+svg.itsm.link{
+	opacity: 0.5;
+}
+
+svg.itsm.link:hover{
+	opacity: 1;
+}
+div#iconGroup{
+	padding: 20px 5px 5px 0;
+    text-align: right;
+}
+
+svg .stepTxt{
+	text-anchor: middle;
+}
+
+svg .svgGroup{
+cursor:pointer;
+}
+
+svg .itsmSeverity{
+  	-moz-animation: itsmAny 1.2s ease infinite;
+    -webkit-animation: itsmAny 1.2s ease infinite;
+ }
+ 
+ @-webkit-keyframes itsmAny{
+ 	0% {
+ 		opacity: 1;
+ 	}
+ 	
+ 	50% {
+ 		opacity: 0.6;
+ 	}
+ 	
+ 	100% {
+ 		opacity: 1;
+ 	}
+ }
+ 
+ 
+  @-moz-keyframes itsmAny{
+ 	0% {
+ 		opacity: 1;
+ 	}
+ 	
+ 	50% {
+ 		opacity: 0.6;
+ 	}
+ 	
+ 	100% {
+ 		opacity: 1;
+ 	}
+ }

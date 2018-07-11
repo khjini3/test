@@ -1,0 +1,196 @@
+@CHARSET "UTF-8";
+
+#report .contentsCls{
+	 width: 100%; height: 100%; background-color: rgba(255,0,0,0);
+	 float:left;
+}
+
+#report div#leftContents{width:100%; height:100%;padding-left: 10px; padding-right: 5px;}
+#report div#rightContents{width:100%; height: calc(100vh - 137px);padding-left: 5px; padding-right: 10px;}
+
+#report .dashboard-contents {
+	margin-top: -28px;
+}
+    
+#report div#leftBottom{
+	width:100%;
+	height:calc(100% - 118px);
+}
+
+#report div#rightBottom{
+	width:100%;
+	height:calc(100% - 118px);
+}
+
+#report #leftTop {
+	text-align: right;
+    padding: 3px 5px;
+}
+
+#report #rightTop {
+	text-align: right;
+    padding: 3px 5px;
+}
+
+/* SVG ICON */
+#report svg.icon.link:hover {
+	opacity: 1;
+}
+
+#report svg.link.icon{
+	cursor: pointer;
+}
+
+#report svg.icon.link{
+	color: white;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#report .download-btn{
+	padding-right: 4px !important;
+}
+
+#report .preview-btn{
+	padding-right: 4px !important;
+}
+
+#report .report-running{
+	color: cyan !important;
+	opacity: .5;
+}
+
+/* Disabled SVG ICON */
+#report svg.icon {
+	color: #8e8c8c;
+	opacity: .5;
+	padding-right: 8px;
+	padding-bottom: 3px;
+}
+
+#report svg.icon {
+	cursor: default;
+}
+
+.radioCheck > div > label {
+	width: 80px;
+    padding-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+    padding-left: 0px;
+    border-left-width: 0px;
+    
+}
+
+label {
+	font-weight: 100 !important;
+}
+
+.radioChecking {
+	width: 100px !important;
+    padding-bottom: 0px !important;
+    border-bottom-width: 0px !important;
+    padding-top: 0px !important;
+    border-top-width: 0px !important;
+    margin-top: 0px !important;
+    padding-left: 0px !important;
+    border-left-width: 0px !important;
+}
+
+
+
+.radioCheck > div > label > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+.radioChecking > label {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+}
+
+#reportAllHistoryBtn {
+	font-size: 1.9em !important;
+    position: relative;
+    top: 3px;
+}
+#repeatWeeks > label {
+	padding-right: 0px;
+    border-right-width: 0px;
+    width: 58px;
+}
+/* #actionTypeStatus > div > label:nth-child(3) {
+	padding-right: 0px;
+    border-right-width: 0px;
+    width: 57px;
+} */
+.report-history-btn,.report-history-down-btn,.preview-btn{margin-left: calc(50% - 12px) !important;}
+.report-none{background: gray; }
+.report-hour{background: #ff6464; }
+.report-day{background: #87cefa;}
+.report-week{background: #6495ed;}
+.report-month{background: #40e0d0; }
+.report-scheduling-icon{
+	width : 50px; 
+	height : 17px; 
+	color:#fff;
+	font-weight : bold; 
+	border-radius:3px;
+}
+
+#leftComboList {
+    position: relative;
+    top: -5px;
+    margin-left: -4px;
+} 
+
+#rightDateBox {
+	position: relative;
+    top: -5px;
+    height : 55px !important;
+    margin-left: -4px;
+}
+
+#report .w2ui-layout > div .w2ui-resizer {
+	background-color: transparent !important;
+}
+
+#reportSearchBtn {
+	position: relative;
+    left: 5px;
+}
+
+#type {
+	background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+#startAtArea > div > span {
+	border: 0px solid #737478;
+	border-radius: 0px;
+}
+
+#repeatWeeks > div > label {
+	width : 58px !important;	
+}
+
+.repeatCls > div > label{
+    padding-top: 0px;
+    border-top-width: 0px;
+    margin-top: 0px;
+    border-right-width: 0px;
+}
+#reportAddPopupContents  {
+	height:500px !important;	
+}
+#reportEditPopupContents  {
+	height:500px !important;	
+}
+.contentsCls > div {
+	z-index: 98;
+}
